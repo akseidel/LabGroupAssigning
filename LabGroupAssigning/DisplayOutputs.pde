@@ -58,6 +58,7 @@ void printBestResultsMatrix(boolean atScreenOnly) {
   int checkSumCol = 0;
   int gw = (gsize*2)+(gsize-1);   // group text length
   int cospc = 4;                  // space between columns
+  printMatrixHeader(atScreenOnly);
   msg = "Group " + spc(5);
   for (int col = 0; col < groupQty; col ++ ) {
     String strHN = str((col+1));

@@ -15,7 +15,7 @@ void DoStartProcess() {
     }
     while (row < roundsQty) {
       if (beVerbose) {
-        print("Round ", str(row+1), colgap);
+        print("Round ", str(row+1), spc(3));
       }   
       while (col < groupQty) {
         MakeFreshTempGroups();
@@ -48,7 +48,7 @@ void DoStartProcess() {
         if (beVerbose) {
           msg = labGroupMatrix[row][col].showMembers();
           print(msg);
-          print(colgap);
+          print(spc(3));
         }
         col ++;
       } // next col
@@ -57,7 +57,7 @@ void DoStartProcess() {
       row ++;
       if (beVerbose) {
         print("  Remaining labgroups in pool: ", mstrPosGroups.pGroups.size());
-        println(colgap);
+        println(spc(3));
       }
     } // next row ie. round
 

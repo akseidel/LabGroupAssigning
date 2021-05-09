@@ -56,7 +56,7 @@ public void createGUI(){
   butStart.setText("Start");
   butStart.setLocalColorScheme(GCScheme.GREEN_SCHEME);
   butStart.addEventHandler(this, "butStart_click");
-  butStop = new GButton(this, 900, 46, 80, 30);
+  butStop = new GButton(this, 814, 10, 80, 30);
   butStop.setText("Stop");
   butStop.setLocalColorScheme(GCScheme.YELLOW_SCHEME);
   butStop.addEventHandler(this, "butStop_click");
@@ -102,7 +102,7 @@ public void createGUI(){
   textfieldRoundsQTY.setLocalColorScheme(GCScheme.CYAN_SCHEME);
   textfieldRoundsQTY.setOpaque(true);
   textfieldRoundsQTY.addEventHandler(this, "textfieldRoundsQty_change");
-  butQuit = new GButton(this, 900, 82, 80, 30);
+  butQuit = new GButton(this, 900, 46, 80, 30);
   butQuit.setText("Quit");
   butQuit.setLocalColorScheme(GCScheme.RED_SCHEME);
   butQuit.addEventHandler(this, "buttonQuit_click");
