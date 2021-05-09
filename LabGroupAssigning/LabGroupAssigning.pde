@@ -8,16 +8,16 @@
 // Processing screen only before the procrss starts and after the process is done.
 // Pressing the q key stops the process and outputs the current best solution.
 //
-int trialQty = 100000;         // Number of trial runs.
+int trialQty = 1000000;         // Number of trial runs.
 //boolean beVerbose = true;   // Display each trial in the console
 boolean beVerbose = false;    // Do not sisplay each trial in the console.
 boolean quitNow = false;      // used for quitting a long process with a q keypress.
 boolean thereIsANewBest = false;
 
 int classSize = 24;           // The number of students in the class
-int roundsQty = 12;            // Number of event time sessions
-int groupQty = 12;             // Number of groups during each event time session
-int gsize = 2;                // Number of students in each group
+int roundsQty = 8;            // Number of event time sessions
+int groupQty = 8;             // Number of groups during each event time session
+int gsize = 3;                // Number of students in each group
 int besttrialrun = 0;         // Trial number where best run first occurred.
 int bestunfilledQty = roundsQty * groupQty;
 int row ;
