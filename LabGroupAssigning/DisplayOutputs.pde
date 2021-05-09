@@ -5,6 +5,13 @@ void fontSetUp() {
   textAlign(LEFT);
   fill(0);
 }
+
+void initGUI() {
+  textfieldGSize.setText(str(gsize));
+  textfieldClassSize.setText(str(classSize));
+  textfieldRoundsQTY.setText(str(roundsQty));
+  textfieldGroupQty.setText(str(groupQty));
+}
 void showInitialHeader(boolean inConsoleOnly) {
   msg = "Class Size: " + classSize + "  # Groups: " + groupQty + "  # Rounds: " + roundsQty + "  Group Size: " + gsize;
   if (inConsoleOnly) {
@@ -21,6 +28,15 @@ void showInitialHeader(boolean inConsoleOnly) {
     text(msg, drawborder, nextlineY());
   }
 }
+
+void printFirstBest(boolean stopConsoleOutput) {
+  msg ="First best number of unfilled groups in "+ trialQty+ " runs. "+ bestunfilledQty+ " unfilled in Run #:"+ besttrialrun ;
+  nextlineY();
+  text(msg, drawborder, nextlineY());
+  if (! stopConsoleOutput){
+    println(msg);
+  }
+} 
 
 void printMatrixHeader(boolean atScreenOnly) {
   msg ="Lab Groups Matrix - Student may occur only once in any row and once in any column.";

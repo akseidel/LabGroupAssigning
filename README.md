@@ -7,7 +7,7 @@
   - Group Qty - The number of tasks. These are the output matrix columns.
   - Round Qty - The number of session rounds. These are the output matrix rows.
   - Group Size - The student grouping size. The matrix cells are the assigned student groups. The students are selected from the class, i.e. the selection pool. The integer numbers identify the students. For example the student group, "03,06,12", is a group consisting of student 03, student 06 and student 12.
-* The class Size should be equal to the Group Size * (larger of Group Qty and Round Qty). Student selection will not be a balanced participation when Group Qty and Round Qty are not equal. The same applies when the Class Size is larger than the required number. Chk value variation indicates unbalanced participation.
+* The class Size should be equal to the Group Size x (larger of Group Qty and Round Qty). Student selection will not be a balanced participation when Group Qty and Round Qty are not equal. The same applies when the Class Size is larger than the required number. Chk value variation indicates unbalanced participation.
 
 ## Example Console Output - Complete Run
 ![Example Console Run](./readme-images/LabGroupAssigning-ConsoleOutput-image.png)

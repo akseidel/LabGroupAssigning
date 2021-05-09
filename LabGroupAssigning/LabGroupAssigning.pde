@@ -1,4 +1,6 @@
-// LabGroupAssigning   5/2021 AKS //<>//
+import g4p_controls.*; //<>//
+
+// LabGroupAssigning   5/2021 AKS
 // Selects from a student class size student teams to be involved in lab tasks
 // during experiment rounds. Each student is involved once every session round
 // and once for each different tasks.
@@ -14,9 +16,15 @@ boolean beVerbose = false;    // Do not sisplay each trial in the console.
 boolean quitNow = false;      // used for quitting a long process with a q keypress.
 boolean thereIsANewBest = false;
 
+<<<<<<< HEAD
 int classSize = 24;           // The number of students in the class
 int roundsQty = 8;            // Number of event time sessions
 int groupQty = 8;             // Number of groups during each event time session
+=======
+int classSize = 18;           // The number of students in the class
+int roundsQty = 6;            // Number of event time sessions
+int groupQty = 6;             // Number of groups during each event time session
+>>>>>>> a363db72152adce2b22e758db82ec8a7d8c1caeb
 int gsize = 3;                // Number of students in each group
 int besttrialrun = 0;         // Trial number where best run first occurred.
 int bestunfilledQty = roundsQty * groupQty;
@@ -27,8 +35,9 @@ int unfilledQty;
 String colgap =  "   ";
 boolean isMsgFeedBack = false;
 boolean processIsDone = false;
+boolean stopConsoleOutput = false;
 
-LabGroup[][] bestlabGroupMatrix = new LabGroup[roundsQty][groupQty];
+LabGroup[][] bestlabGroupMatrix;
 LabGroup noSolLG = defNoSolLG(gsize);
 PossibleGroupsK tempPosGroups; // temporary possiblegroups pool copy
 ArrayList<LabGroup> priorItemsForThisRowCell; // Used for the trial comparisons.
@@ -50,7 +59,8 @@ void setup() {
   fontSetUp();
   background(200);
   showInitialHeader(true);
-  //noLoop();
+  createGUI();
+  initGUI();
   thread("DoStartProcess");
 }
 
@@ -61,20 +71,19 @@ void draw() {
   nextlineY();
   text(lastStatusMsg, drawborder, nextlineY());
 
-  if (processIsDone) {
-    noLoop();
-    msg ="First best number of unfilled groups in "+ trialQty+ " runs. "+ bestunfilledQty+ " unfilled in Run #:"+ besttrialrun ;
-    println(msg);
-    nextlineY();
-    text(msg, drawborder, nextlineY());
-    printMatrixHeader(false);
-    printBestResultsMatrix(false);
+  if (processIsDone || quitNow) {
+    // This section runs when process is done or quitted.
+    printFirstBest(stopConsoleOutput);
+    printMatrixHeader(stopConsoleOutput);
+    printBestResultsMatrix(stopConsoleOutput);
+    // Allows summary to print only once at the console.
+    stopConsoleOutput = true;
   } else {
-    printMatrixHeader(true);
-    printBestResultsMatrix(true);
+    // This section executes when the process thread is active.  
+      printMatrixHeader(true);
+      printBestResultsMatrix(true);
   }
 } // end draw
-
 
 void keyPressed() {   
   if (key == 'q' || key == 'Q') {     

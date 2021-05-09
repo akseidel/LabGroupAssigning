@@ -131,6 +131,7 @@ void recordBetterRunIfAny(int run) {
 }// end recordBetterRunIfAny
 
 void initializeBestlabGroupMatrix(){
+  bestlabGroupMatrix = new LabGroup[roundsQty][groupQty];
   for (int r = 0 ; r < roundsQty; r++){
     for(int c = 0 ; c < groupQty; c++){
       bestlabGroupMatrix[r][c] = noSolLG;
