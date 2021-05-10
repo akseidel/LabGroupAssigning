@@ -1,4 +1,4 @@
-
+ //<>//
 void fontSetUp() {
   f = createFont("Monospaced", fontsize, true);
   textFont(f);
@@ -7,13 +7,13 @@ void fontSetUp() {
 }
 
 void initGUI() {
-  textfieldGSize.setText(str(gsize));
+  textfieldGSize.setText(str(gSize));
   textfieldClassSize.setText(str(classSize));
   textfieldRoundsQTY.setText(str(roundsQty));
   textfieldGroupQty.setText(str(groupQty));
 }
 void showInitialHeader(boolean inConsoleOnly) {
-  msg = "Class Size: " + classSize + "  # Groups: " + groupQty + "  # Rounds: " + roundsQty + "  Group Size: " + gsize;
+  msg = "Class Size: " + classSize + "  # Groups: " + groupQty + "  # Rounds: " + roundsQty + "  Group Size: " + gSize + "  Pool Size " + poolSize;
   if (inConsoleOnly) {
     println(msg);
   }
@@ -33,11 +33,13 @@ void printFirstBest(boolean stopConsoleOutput) {
   msg ="First best number of unfilled groups in "+ trialQty+ " runs. "+ bestunfilledQty+ " unfilled in Run #:"+ besttrialrun ;
   nextlineY();
   text(msg, drawborder, nextlineY());
-  if (! stopConsoleOutput){
+  if (! stopConsoleOutput) {
     println(msg);
   }
 } 
 
+// Displays header to both screen and console. atScreenONly arg results in display
+// to screen only. Console display is supressed.
 void printMatrixHeader(boolean atScreenOnly) {
   msg ="Lab Groups Matrix - Student may occur only once in any row and once in any column.";
   if (! atScreenOnly) {
@@ -56,7 +58,7 @@ void printMatrixHeader(boolean atScreenOnly) {
 void printBestResultsMatrix(boolean atScreenOnly) {
   int checkSumRow = 0;
   int checkSumCol = 0;
-  int gw = (gsize*2)+(gsize-1);   // group text length
+  int gw = (gSize*2)+(gSize-1);   // group text length
   int cospc = 4;                  // space between columns
   printMatrixHeader(atScreenOnly);
   msg = "Group " + spc(5);

@@ -4,10 +4,11 @@ void doButtonStart() {
   classSize = int(textfieldClassSize.getText());
   roundsQty = int(textfieldRoundsQTY.getText());
   groupQty = int(textfieldGroupQty.getText());
-  gsize = int(textfieldGSize.getText());
+  gSize = int(textfieldGSize.getText());
   besttrialrun = 0;         
   bestunfilledQty = roundsQty * groupQty;
-  noSolLG = defNoSolLG(gsize);
+  noSolLG = defNoSolLG(gSize);
+  poolSize = numCombOfKinN(gSize, classSize);
   stopConsoleOutput = false;
   thread("DoStartProcess");
 }

@@ -1,17 +1,18 @@
-// A copy of the mstrPosGroups pool will be used for
+// A copy of the mstrPosGroups pool will be used for //<>// //<>// //<>// //<>// //<>// //<>// //<>//
 void DoStartProcess() {
+  setPoolSize();
   initializeBestlabGroupMatrix();
   // start multiple solution trials
-  for (int run = 0; run < trialQty; run ++) {
+  for (int run = 1; run < trialQty + 1; run ++) {
     feedbackStatus(run);
     labGroupMatrix = new LabGroup[roundsQty][groupQty];
-    mstrPosGroups = new PossibleGroupsK(classSize, gsize);
+    mstrPosGroups = new PossibleGroupsK(classSize, gSize);
     row = 0;
     col = 0;
     unfilledQty = 0;
     // start groups matrix build
     if (beVerbose) {
-      printMatrixHeader(true);
+      printMatrixHeader(beVerbose);
     }
     while (row < roundsQty) {
       if (beVerbose) {
@@ -26,7 +27,7 @@ void DoStartProcess() {
         // Any LabGroup remaining in the tempPosGroups pool at this point would be a
         // valid pick for this current rol cell. A random LabGroup will be selected.
         // An empty tempPosGroups pool means there is not a solution for this rol cell.
-        if (tempPosGroups.pGroups.size() > 0) {
+        if ( (tempPosGroups.pGroups.size() > 0) && (mstrPosGroups.pGroups.size() > 0) ) {
           // There is at least one remaining tempPosGroup.
           // Get index for this valid pick.
           index = int(random(tempPosGroups.pGroups.size()));
@@ -46,8 +47,7 @@ void DoStartProcess() {
           unfilledQty ++;
         }
         if (beVerbose) {
-          msg = labGroupMatrix[row][col].showMembers();
-          print(msg);
+          print(labGroupMatrix[row][col].showMembers());
           print(spc(3));
         }
         col ++;
@@ -57,7 +57,7 @@ void DoStartProcess() {
       row ++;
       if (beVerbose) {
         print("  Remaining labgroups in pool: ", mstrPosGroups.pGroups.size());
-        println(spc(3));
+        println();
       }
     } // next row ie. round
 
@@ -65,7 +65,7 @@ void DoStartProcess() {
       reportResults(unfilledQty);
     }
     // Record any better run.
-    recordBetterRunIfAny(run);
+    recordBetterRunIfAny(run); //<>//
 
     // Break if a perfect solution was found.
     if (bestunfilledQty < 1) { 
@@ -90,11 +90,11 @@ void DoStartProcess() {
 // from the pool copy. When a selection is valid it will be
 // removed from the true mstrPosGroups pool.
 void MakeFreshTempGroups() { 
-  tempPosGroups = new PossibleGroupsK(classSize, gsize);
+  tempPosGroups = new PossibleGroupsK(classSize, gSize);
 }// end MakeFreshTempGroups
 
 // Purge groupsPol of all LabGroups that are not unique to those in priorLabGroups 
-void PurgeTempPosPoolOfAllNonUniquePriors(ArrayList<LabGroup> priorLabGroups, PossibleGroupsK groupsPool) {
+void PurgeTempPosPoolOfAllNonUniquePriors(ArrayList<LabGroup> priorLabGroups, PossibleGroupsK groupsPool) { //<>//
   for (LabGroup aPriorLG : priorLabGroups) {        
     // Purge must be performed from end to start
     for (int i = groupsPool.pGroups.size()- 1; i >= 0; i--) {
@@ -108,7 +108,7 @@ void PurgeTempPosPoolOfAllNonUniquePriors(ArrayList<LabGroup> priorLabGroups, Po
 
 // Make a temporary ArrayList of this matrix rows's
 // and col's prior LabGroups solutions.
-void  MakeListOfPriorItemsForThisRowColCell() {
+void  MakeListOfPriorItemsForThisRowColCell() { //<>//
   priorItemsForThisRowCell = new ArrayList();
   // pCol is prior columns in this row.
   for (int pCol = 0; pCol < col; pCol = pCol+1) {
@@ -124,21 +124,21 @@ void recordBetterRunIfAny(int run) {
   if (unfilledQty < bestunfilledQty) {
     bestunfilledQty = unfilledQty;
     bestlabGroupMatrix = labGroupMatrix;
-    besttrialrun = run + 1;
+    besttrialrun = run;
     msg = "Current best " + bestunfilledQty + " in run # " + besttrialrun;
     println(msg);
   }
 }// end recordBetterRunIfAny
 
-void initializeBestlabGroupMatrix(){
+void initializeBestlabGroupMatrix() {
   bestlabGroupMatrix = new LabGroup[roundsQty][groupQty];
-  for (int r = 0 ; r < roundsQty; r++){
-    for(int c = 0 ; c < groupQty; c++){
+  for (int r = 0; r < roundsQty; r++) {
+    for (int c = 0; c < groupQty; c++) {
       bestlabGroupMatrix[r][c] = noSolLG;
     }
   }
 }// end initializeBestlabGroupMatrix
 
-void feedbackStatus(int run){
+void feedbackStatus(int run) {
   lastStatusMsg = "Least Unfilled: " + bestunfilledQty + " in Trial: " + besttrialrun + "  Current Trial: " + run;
 }// end feedbackStatus

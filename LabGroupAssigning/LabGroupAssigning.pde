@@ -16,11 +16,12 @@ boolean beVerbose = false;    // Do not sisplay each trial in the console.
 boolean quitNow = false;      // used for quitting a long process with a q keypress.
 boolean thereIsANewBest = false;
 
-int classSize = 18;           // The number of students in the class
-int roundsQty = 6;            // Number of event time sessions
-int groupQty = 6;             // Number of groups during each event time session
-int gsize = 3;                // Number of students in each group
-int besttrialrun = 0;         // Trial number where best run first occurred.
+int classSize = 16;           // The number of students in the class
+int gSize = 2;                // Number of students in each group
+int groupQty = 8;             // Number of groups during each event time session
+int roundsQty = 8;            // Number of event time sessions
+long poolSize;                // Number of gSize combinations in classSize 
+int besttrialrun = 1;         // Trial number where best run first occurred.
 int bestunfilledQty = roundsQty * groupQty;
 int row ;
 int col ;
@@ -31,7 +32,7 @@ boolean processIsDone = false;
 boolean stopConsoleOutput = false;
 
 LabGroup[][] bestlabGroupMatrix;
-LabGroup noSolLG = defNoSolLG(gsize);
+LabGroup noSolLG = defNoSolLG(gSize);
 PossibleGroupsK tempPosGroups; // temporary possiblegroups pool copy
 ArrayList<LabGroup> priorItemsForThisRowCell; // Used for the trial comparisons.
 LabGroup[][] labGroupMatrix ; // The result matrix
@@ -48,12 +49,13 @@ int drawborder = 16;
 int currentlineY = drawborder + fontsize;
 
 void setup() {
+  createGUI();
+  initGUI();
   size(1000, 600);
   fontSetUp();
   background(200);
+  setPoolSize();
   showInitialHeader(true);
-  createGUI();
-  initGUI();
   thread("DoStartProcess");
 }
 
