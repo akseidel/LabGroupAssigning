@@ -1,3 +1,5 @@
+// Functions related to the GUI
+
 void doButtonStart() {
   processIsDone = false;
   quitNow = false;

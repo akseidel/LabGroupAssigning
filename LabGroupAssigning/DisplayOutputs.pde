@@ -1,4 +1,5 @@
- //<>//
+// Display related functions //<>//
+
 void fontSetUp() {
   f = createFont("Monospaced", fontsize, true);
   textFont(f);
@@ -12,6 +13,7 @@ void initGUI() {
   textfieldRoundsQTY.setText(str(roundsQty));
   textfieldGroupQty.setText(str(groupQty));
 }
+
 void showInitialHeader(boolean inConsoleOnly) {
   msg = "Class Size: " + classSize + "  # Groups: " + groupQty + "  # Rounds: " + roundsQty + "  Group Size: " + gSize + "  Pool Size " + poolSize;
   if (inConsoleOnly) {

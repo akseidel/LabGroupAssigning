@@ -1,4 +1,4 @@
-import g4p_controls.*; //<>//
+import g4p_controls.*;  // Install this library. It provides the GUI controls. //<>//
 
 // LabGroupAssigning   5/2021 AKS
 // Selects from a student class size student teams to be involved in lab tasks
@@ -20,7 +20,7 @@ int classSize = 16;           // The number of students in the class
 int gSize = 2;                // Number of students in each group
 int groupQty = 8;             // Number of groups during each event time session
 int roundsQty = 8;            // Number of event time sessions
-long poolSize;                // Number of gSize combinations in classSize 
+int poolSize;                // Number of gSize combinations in classSize 
 int besttrialrun = 1;         // Trial number where best run first occurred.
 int bestunfilledQty = roundsQty * groupQty;
 int row ;

@@ -1,5 +1,6 @@
 // Meant to be a lab group of students working together //<>//
 // where students are string ids
+
 class LabGroup {
   StringList labglist;
   LabGroup( StringList glist) {
@@ -34,8 +35,7 @@ class LabGroup {
   }
 } // end LabGroup
 
-//LabGroup noSolLG = new LabGroup(new StringList("--", "--"));  // ie "--,--"
-
+// Assembles the no solution LabGroup
 LabGroup defNoSolLG(int gsize) {
   LabGroup LG = new LabGroup();
   while (LG.labglist.size() < gsize) {
