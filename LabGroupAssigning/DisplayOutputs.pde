@@ -2,7 +2,7 @@
 
 void surfaceSetup(){
   surface.setTitle("Lab Group Assiging");
-  surface.setResizable(true);
+  surface.setResizable(true);  
 }
 
 void fontSetUp() {

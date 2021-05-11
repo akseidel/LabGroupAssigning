@@ -49,10 +49,12 @@ int drawborder = 16;
 int currentlineY = drawborder + fontsize;
 
 void setup() {
-  size(1000, 600);
-  surfaceSetup();
+  size(980, 470);
+  lastWidth = width;
+  lastHeight = height;
   createGUI();
   initGUI();
+  surfaceSetup();
   fontSetUp();
   background(200);
   showInitialHeader(true);
@@ -76,6 +78,8 @@ void draw() {
     // This section executes when the process thread is active.  
     printBestResultsMatrix(true);
   }
+
+  checkOnWindowResize();
 } // end draw
 
 void keyPressed() {   
