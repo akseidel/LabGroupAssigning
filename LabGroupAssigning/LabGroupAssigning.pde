@@ -49,12 +49,12 @@ int drawborder = 16;
 int currentlineY = drawborder + fontsize;
 
 void setup() {
+  size(1000, 600);
+  surfaceSetup();
   createGUI();
   initGUI();
-  size(1000, 600);
   fontSetUp();
   background(200);
-  setPoolSize();
   showInitialHeader(true);
   thread("DoStartProcess");
 }

@@ -1,5 +1,10 @@
 // Display related functions //<>//
 
+void surfaceSetup(){
+  surface.setTitle("Lab Group Assiging");
+  surface.setResizable(true);
+}
+
 void fontSetUp() {
   f = createFont("Monospaced", fontsize, true);
   textFont(f);

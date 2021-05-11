@@ -10,7 +10,6 @@ void doButtonStart() {
   besttrialrun = 0;         
   bestunfilledQty = roundsQty * groupQty;
   noSolLG = defNoSolLG(gSize);
-  poolSize = numCombOfKinN(gSize, classSize);
   stopConsoleOutput = false;
   thread("DoStartProcess");
 }

@@ -1,12 +1,13 @@
-// A copy of the mstrPosGroups pool will be used for //<>// //<>// //<>// //<>// //<>// //<>// //<>//
+// A copy of the mstrPosGroups pool will be used for each //<>//
+// round.
 void DoStartProcess() {
-  setPoolSize();
   initializeBestlabGroupMatrix();
   // start multiple solution trials
   for (int run = 1; run < trialQty + 1; run ++) {
     feedbackStatus(run);
     labGroupMatrix = new LabGroup[roundsQty][groupQty];
     mstrPosGroups = new PossibleGroupsK(classSize, gSize);
+    poolSize = mstrPosGroups.pGroups.size();
     row = 0;
     col = 0;
     unfilledQty = 0;
