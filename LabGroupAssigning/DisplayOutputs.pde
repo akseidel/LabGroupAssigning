@@ -1,8 +1,8 @@
 // Display related functions //<>//
 
-void surfaceSetup(){
+void surfaceSetup() {
   surface.setTitle("Lab Group Assiging");
-  surface.setResizable(true);  
+  surface.setResizable(true);
 }
 
 void fontSetUp() {
@@ -104,6 +104,13 @@ void printBestResultsMatrix(boolean atScreenOnly) {
     println(msg);
   }
   text(msg, drawborder, nextlineY());
+
+  if (isWarning) {
+    int tempCurLineY = currentlineY;
+    currentlineY = height -  (drawborder + fontsize);
+    text(theWarning, drawborder, currentlineY);
+    currentlineY = tempCurLineY;
+  }
 }// end printBestResultsMatrix
 
 int nextlineY() {

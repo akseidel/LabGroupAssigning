@@ -67,15 +67,19 @@ void checkOnWindowResize() {
 void doButtonStart() {
   processIsDone = false;
   quitNow = false;
-  classSize = int(textfieldClassSize.getText());
-  roundsQty = int(textfieldRoundsQTY.getText());
-  groupQty = int(textfieldGroupQty.getText());
-  gSize = int(textfieldGSize.getText());
+  getGUITextFields();
   besttrialrun = 0;         
   bestunfilledQty = roundsQty * groupQty;
   noSolLG = defNoSolLG(gSize);
   stopConsoleOutput = false;
   thread("DoStartProcess");
+}
+
+void getGUITextFields() {
+  classSize = int(textfieldClassSize.getText());
+  roundsQty = int(textfieldRoundsQTY.getText());
+  groupQty = int(textfieldGroupQty.getText());
+  gSize = int(textfieldGSize.getText());
 }
 
 void doButtonStop() {

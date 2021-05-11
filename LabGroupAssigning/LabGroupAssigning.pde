@@ -30,6 +30,8 @@ int unfilledQty;
 boolean isMsgFeedBack = false;
 boolean processIsDone = false;
 boolean stopConsoleOutput = false;
+boolean isWarning = false;
+String theWarning = ""; 
 
 LabGroup[][] bestlabGroupMatrix;
 LabGroup noSolLG = defNoSolLG(gSize);
