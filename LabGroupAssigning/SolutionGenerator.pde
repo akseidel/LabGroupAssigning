@@ -85,6 +85,7 @@ void DoStartProcess() {
   }
   println();
   processIsDone = true;
+  setButtonRunState(false);
 }// end DoStartProcess
 
 // the trial selections. Each bad trial will be removed 

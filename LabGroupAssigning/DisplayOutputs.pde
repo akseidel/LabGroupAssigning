@@ -12,13 +12,6 @@ void fontSetUp() {
   fill(0);
 }
 
-void initGUI() {
-  textfieldGSize.setText(str(gSize));
-  textfieldClassSize.setText(str(classSize));
-  textfieldRoundsQTY.setText(str(roundsQty));
-  textfieldGroupQty.setText(str(groupQty));
-}
-
 void showInitialHeader(boolean inConsoleOnly) {
   msg = "Class Size: " + classSize + "  # Groups: " + groupQty + "  # Rounds: " + roundsQty + "  Group Size: " + gSize + "  Pool Size " + poolSize;
   if (inConsoleOnly) {

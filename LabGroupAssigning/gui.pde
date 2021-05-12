@@ -59,7 +59,7 @@ public void createGUI(){
   butStart = new GButton(this, 889, 10, 80, 30);
   butStart.setText("Start");
   butStart.setLocalColorScheme(GCScheme.GREEN_SCHEME);
-  butStart.addEventHandler(this, "butStart_click");
+  butStart.addEventHandler(this, "butStart_click");   
   butStop = new GButton(this, 804, 10, 80, 30);
   butStop.setText("Stop");
   butStop.setLocalColorScheme(GCScheme.YELLOW_SCHEME);

@@ -26,6 +26,22 @@ float labTaskQtyY = 64;
 float labRoundsQtyX =672;
 float labRoundsQtyY = 90;
 
+void initGUI() {
+  textfieldGSize.setText(str(gSize));
+  textfieldClassSize.setText(str(classSize));
+  textfieldRoundsQTY.setText(str(roundsQty));
+  textfieldGroupQty.setText(str(groupQty));
+  setButtonRunState(true); // App is running when started.
+}
+
+
+// setButtonRunState - Sets GUI button enabled state
+// as appropriet to current running state.
+void setButtonRunState(boolean isRunning) {
+  butStart.setEnabled(!isRunning);
+  butStop.setEnabled(isRunning);
+}
+
 // moves G4P controls as window is resized
 void checkOnWindowResize() {
   boolean resized = false;
@@ -72,6 +88,7 @@ void doButtonStart() {
   bestunfilledQty = roundsQty * groupQty;
   noSolLG = defNoSolLG(gSize);
   stopConsoleOutput = false;
+  setButtonRunState(true); 
   thread("DoStartProcess");
 }
 
@@ -83,9 +100,10 @@ void getGUITextFields() {
 }
 
 void doButtonStop() {
+  setButtonRunState(false);
   quitNow = true;
 }
 
-void doButtonQuit() {
+void doButtonQuit() {  
   exit();
 }
