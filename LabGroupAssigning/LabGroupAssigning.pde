@@ -20,9 +20,10 @@ int classSize = 16;           // The number of students in the class
 int gSize = 2;                // Number of students in each group
 int groupQty = 8;             // Number of groups during each event time session
 int roundsQty = 8;            // Number of event time sessions
-int poolSize;                // Number of gSize combinations in classSize 
+int poolSize;                 // Number of gSize combinations in classSize 
 int besttrialrun = 1;         // Trial number where best run first occurred.
 int bestunfilledQty = roundsQty * groupQty;
+int bestPossibleMin = 1;      // Best possible solution has remaining less than this value. 
 int row ;
 int col ;
 int index;                    // thislg index usually
@@ -30,8 +31,9 @@ int unfilledQty;
 boolean isMsgFeedBack = false;
 boolean processIsDone = false;
 boolean stopConsoleOutput = false;
-boolean isWarning = false;
-String theWarning = ""; 
+//boolean isWarning = false;
+String theWarning = "";
+StringList warningsList = new StringList();
 
 LabGroup[][] bestlabGroupMatrix;
 LabGroup noSolLG = defNoSolLG(gSize);

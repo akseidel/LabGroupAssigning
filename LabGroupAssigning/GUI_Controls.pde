@@ -13,7 +13,10 @@ void initGUI() {
 // setButtonRunState - Sets GUI button enabled state
 // as appropriet to current running state.
 void setButtonRunState(boolean isRunning) {
-  butStart.setEnabled(!isRunning);
+  int lclassSize = int(textfieldClassSize.getText());
+  if (lclassSize > 1) {
+    butStart.setEnabled(!isRunning);
+  }
   butStop.setEnabled(isRunning);
 }
 
@@ -28,23 +31,23 @@ void checkOnWindowResize() {
   }
   if (resized) {
     //println(width,height);     
-    reposControl(butStart,  wDelta);
-    reposControl(butQuit,  wDelta);
-    reposControl(butStop,  wDelta);
-    
-    reposControl(textfieldClassSize,  wDelta);
-    reposControl(textfieldGSize,  wDelta);
-    reposControl(textfieldGroupQty,  wDelta);
-    reposControl(textfieldRoundsQTY,  wDelta);
-    
-    reposControl(labClassSize,  wDelta);
-    reposControl(labGSize,  wDelta);
-    reposControl(labTaskQty,  wDelta);
-    reposControl(labRoundsQty,  wDelta);
+    reposControl(butStart, wDelta);
+    reposControl(butQuit, wDelta);
+    reposControl(butStop, wDelta);
+
+    reposControl(textfieldClassSize, wDelta);
+    reposControl(textfieldGSize, wDelta);
+    reposControl(textfieldGroupQty, wDelta);
+    reposControl(textfieldRoundsQTY, wDelta);
+
+    reposControl(labClassSize, wDelta);
+    reposControl(labGSize, wDelta);
+    reposControl(labTaskQty, wDelta);
+    reposControl(labRoundsQty, wDelta);
   }
 }
 
-void reposControl(GAbstractControl thisC, float wDelta){
+void reposControl(GAbstractControl thisC, float wDelta) {
   thisC.moveTo(thisC.getX()+ wDelta, thisC.getY());
 }
 

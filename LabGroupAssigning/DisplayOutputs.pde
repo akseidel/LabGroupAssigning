@@ -98,12 +98,25 @@ void printBestResultsMatrix(boolean atScreenOnly) {
   }
   text(msg, drawborder, nextlineY());
 
-  if (isWarning) {
+  //if (isWarning) {
+  //  int tempCurLineY = currentlineY;
+  //  currentlineY = height -  (drawborder + fontsize);
+  //  text(theWarning, drawborder, currentlineY);
+  //  currentlineY = tempCurLineY;
+  //}
+  
+  if (warningsList.size() > 0){
     int tempCurLineY = currentlineY;
-    currentlineY = height -  (drawborder + fontsize);
-    text(theWarning, drawborder, currentlineY);
+    int numWarnings = warningsList.size();
+    currentlineY = height -  (drawborder + fontsize) - (fontsize + vfontgap) * numWarnings ;
+    for (String warn : warningsList){
+      text(warn, drawborder, nextlineY());    
+    }
     currentlineY = tempCurLineY;
   }
+  
+  
+  
 }// end printBestResultsMatrix
 
 int nextlineY() {
