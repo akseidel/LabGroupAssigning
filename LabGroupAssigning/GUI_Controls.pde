@@ -3,7 +3,6 @@ int lastWidth;
 int lastHeight;
 ArrayList<GAbstractControl> g4pStuff = new ArrayList();
 
-
 void initGUI() {
   textfieldGSize.setText(str(gSize));
   textfieldClassSize.setText(str(classSize));

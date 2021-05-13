@@ -1,5 +1,6 @@
 // Misc. functions
-
+// Meant to forecast results and inhibit running the process with bad
+// conditions.
 void classSizeCheck() {
   theWarning = ""; 
   int lclassSize = int(textfieldClassSize.getText());
@@ -7,6 +8,7 @@ void classSizeCheck() {
   int lgroupQty = int(textfieldGroupQty.getText());
   int lgSize = int(textfieldGSize.getText());
 
+  // Exit when any fields are zero.
   if ( lclassSize*lroundsQty*lgroupQty*lgSize < 1 ) { 
     return;
   }
@@ -17,21 +19,30 @@ void classSizeCheck() {
 
   warningsList.clear();
 
-  if ( lbestUnfilledRowQty > 0) {
-    theWarning= "Warning: Selection pool (" + lpoolSize + ") is too small. At least " + lbestUnfilledRowQty + " slot" +pls(lbestUnfilledRowQty) + " per row will be unassigned.";
-    warningsList.append(theWarning);
-  }
-
-  if ( lbestUnfilledColQty > 0) {
-    theWarning= "Warning: Selection pool (" + lpoolSize + ") is too small. At least " + lbestUnfilledColQty + " slot" + pls(lbestUnfilledColQty) + " per column will be unassigned.";
-    warningsList.append(theWarning);
-  }
+  if (lgSize > 1) {
+    if ( lbestUnfilledRowQty > 0) {
+      theWarning= "Warning: Selection pool (" + lpoolSize + ") is too small. At least " + lbestUnfilledRowQty + " slot" +pls(lbestUnfilledRowQty) + " per row will be unassigned.";
+      warningsList.append(theWarning);
+    }
+    if ( lbestUnfilledColQty > 0) {
+      theWarning= "Warning: Selection pool (" + lpoolSize + ") is too small. At least " + lbestUnfilledColQty + " slot" + pls(lbestUnfilledColQty) + " per column will be unassigned.";
+      warningsList.append(theWarning);
+    }
+  } // fi (lgSize > 1)
 
   if ( lbestUnfilledRowQty > 0 || lbestUnfilledColQty > 0) {
-    int unFilled = max(lbestUnfilledRowQty*lroundsQty, lbestUnfilledColQty*lgroupQty);
+    int unFilled;
+    if (lgSize > 1) {
+      unFilled = max(lbestUnfilledRowQty*lroundsQty, lbestUnfilledColQty*lgroupQty);
+    } else {
+      // special case
+      unFilled = lroundsQty*lgroupQty - lpoolSize;
+    }
+    if (unFilled > 0) {
+      theWarning= "Warning: There will be " + unFilled + " unfilled";
+      warningsList.append(theWarning);
+    }
     bestPossibleMin = unFilled ;
-    theWarning= "Warning: There will be " + unFilled + " unfilled";
-    warningsList.append(theWarning);
   }
 
   // Disable starting when the pool is zero
@@ -43,10 +54,11 @@ void classSizeCheck() {
 }
 
 int posFillsPerSlots(int classS, int gS, int slotQ) {
-  int comBos = (int)numCombOfKinN(gS, classS);
+  // gS = 1 is special case that is indeterminate.
   if (gS < 2) { 
-    return comBos;
+    return slotQ;
   }
+  int comBos = (int)numCombOfKinN(gS, classS);
   int result = 0;
   while (comBos > 0) {
     result ++;

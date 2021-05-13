@@ -69,7 +69,8 @@ void DoStartProcess() {
     recordBetterRunIfAny(run); //<>//
 
     // Break if a perfect solution was found.
-    if (bestunfilledQty < bestPossibleMin) { 
+    //if (bestunfilledQty < 1) { 
+    if (bestunfilledQty < bestPossibleMin+1) { 
       break;
     }
     // Break if a q key was pressed.

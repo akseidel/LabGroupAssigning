@@ -98,13 +98,6 @@ void printBestResultsMatrix(boolean atScreenOnly) {
   }
   text(msg, drawborder, nextlineY());
 
-  //if (isWarning) {
-  //  int tempCurLineY = currentlineY;
-  //  currentlineY = height -  (drawborder + fontsize);
-  //  text(theWarning, drawborder, currentlineY);
-  //  currentlineY = tempCurLineY;
-  //}
-  
   if (warningsList.size() > 0){
     int tempCurLineY = currentlineY;
     int numWarnings = warningsList.size();
@@ -114,7 +107,6 @@ void printBestResultsMatrix(boolean atScreenOnly) {
     }
     currentlineY = tempCurLineY;
   }
-  
   
   
 }// end printBestResultsMatrix
