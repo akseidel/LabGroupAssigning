@@ -1,6 +1,8 @@
 // Functions related to the GUI
 int lastWidth;
 int lastHeight;
+ArrayList<GAbstractControl> g4pStuff = new ArrayList();
+
 
 void initGUI() {
   textfieldGSize.setText(str(gSize));
@@ -8,6 +10,18 @@ void initGUI() {
   textfieldRoundsQTY.setText(str(roundsQty));
   textfieldGroupQty.setText(str(groupQty));
   setButtonRunState(true); // App is running when started.
+  // g4pStuff is for iterating when window is resized
+  g4pStuff.add(butStart);
+  g4pStuff.add(butQuit);
+  g4pStuff.add(butStop);
+  g4pStuff.add(textfieldClassSize);
+  g4pStuff.add(textfieldGSize);
+  g4pStuff.add(textfieldGroupQty);
+  g4pStuff.add(textfieldRoundsQTY);
+  g4pStuff.add(labClassSize);
+  g4pStuff.add(labGSize);
+  g4pStuff.add(labTaskQty);
+  g4pStuff.add(labRoundsQty);
 }
 
 // setButtonRunState - Sets GUI button enabled state
@@ -30,20 +44,11 @@ void checkOnWindowResize() {
     resized = true;
   }
   if (resized) {
-    //println(width,height);     
-    reposControl(butStart, wDelta);
-    reposControl(butQuit, wDelta);
-    reposControl(butStop, wDelta);
-
-    reposControl(textfieldClassSize, wDelta);
-    reposControl(textfieldGSize, wDelta);
-    reposControl(textfieldGroupQty, wDelta);
-    reposControl(textfieldRoundsQTY, wDelta);
-
-    reposControl(labClassSize, wDelta);
-    reposControl(labGSize, wDelta);
-    reposControl(labTaskQty, wDelta);
-    reposControl(labRoundsQty, wDelta);
+    //println(width,height);  
+    for(int i=0; i < g4pStuff.size(); i++){
+      GAbstractControl cntl = g4pStuff.get(i);
+      reposControl(cntl, wDelta);
+    }
   }
 }
 
