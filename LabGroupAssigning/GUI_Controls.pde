@@ -43,7 +43,6 @@ void checkOnWindowResize() {
     resized = true;
   }
   if (resized) {
-    //println(width,height);  
     for(int i=0; i < g4pStuff.size(); i++){
       GAbstractControl cntl = g4pStuff.get(i);
       reposControl(cntl, wDelta);

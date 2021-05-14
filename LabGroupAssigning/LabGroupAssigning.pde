@@ -1,16 +1,18 @@
-import g4p_controls.*;  // Install this library. It provides the GUI controls. //<>//
+import g4p_controls.*;  // Install this library. It provides the GUI controls.
 
 // LabGroupAssigning   5/2021 AKS
 // Selects from a student class size student teams to be involved in lab tasks
 // during experiment rounds. Each student is involved once every session round
-// and once for each different tasks.
+// and once for each different tasks. No one student lab grouping is involved
+// more than once.
 //
 // Output goes to both the console and the Processing application screen but the
-// process is blocking to the Processing screen and therefore output shows to the
-// Processing screen only before the procrss starts and after the process is done.
+// process is blocking to the Processing screen. Therefore the process is run in 
+// a thread, which signals when there are updates for the screen draw to display.
+// 
 // Pressing the q key stops the process and outputs the current best solution.
 //
-int trialQty = 1000000;         // Number of trial runs.
+int trialQty = 100000000;         // Number of trial runs.
 //boolean beVerbose = true;   // Display each trial in the console
 boolean beVerbose = false;    // Do not sisplay each trial in the console.
 boolean quitNow = false;      // used for quitting a long process with a q keypress.
@@ -56,7 +58,8 @@ void setup() {
   background(200);
   createGUI();
   initGUI();
-  initDisplays();;  thread("DoStartProcess");
+  initDisplays();
+  thread("DoStartProcess");
 }
 
 void draw() {
