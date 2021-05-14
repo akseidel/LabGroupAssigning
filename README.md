@@ -1,4 +1,5 @@
 # Lab Group Assigning
+
 * A tool for teachers to assign students to lab groups written in Processing's java code [Processing](processing.org) .
 * This tool selects groups of student teams from a student class population to be involved in lab tasks during experiment rounds. Each student is involved once every session round and once for each different tasks. 
 * Each lab group, i.e. a combination of students as a team, like a student pair for example, is assigned no more than once. The number of possible lab groups, referred to as Pool Size, is the number of group sized student combinations chosen from the class size.
@@ -16,11 +17,12 @@
 
 ## Example Screen Output - Keypress Terminated Run
 
-![Example Screen Run](./readme-images/LabGroupsAssigning-screen.png)
+![Example Screen Run](./readme-images/LabGroupsAssigning-screen-terminated.png)
 
 ## Notes
 
 * The Chk: values are checksum values that are the sum of the assigned student id numbers. Properly assigned row and columns will have the same checksum.
 * Matrix values like --,--,-- indicate there was no valid lab group solution determined for the trial run.
 * This program makes random lab group selections for each matrix value from an ever decreasing pool of remaining possible lab group candidates. It records the most filled assignment matrix. Selection attempts stop when the matrix is totally filled or after the number of solution trials is expired.
+* The time required to complete the assignment matrix is a function of the selection pool size. The selection pool size depends on the class size and the group size.
 * Pressing the q key stops the process and outputs the current best solution.
