@@ -11,9 +11,9 @@
   * Group Size - The student grouping size. The matrix cells are the assigned student groups. The students are selected from the class, i.e. the selection pool. The integer numbers identify the students. For example the student group, "03,06,12", is a group consisting of student 03, student 06 and student 12.
 * The class Size should be equal to the Group Size x (larger of Group Qty and Round Qty). Student selection will not be a balanced participation when Group Qty and Round Qty are not equal. The same applies when the Class Size is larger than the required number. Chk value variation indicates unbalanced participation.
 
-## Example Screen While Running
+## Example Screen - Solution Found
 
-![Example Screen While Running](./readme-images/LabGroupsAssigning-screen-running.png)
+![Example Screen While Running](./readme-images/LabGroupsAssigning-screen-solution.png)
 
 ## Example Screen Output - Keypress Terminated Run
 
@@ -23,6 +23,7 @@
 
 * The Chk: values are checksum values that are the sum of the assigned student id numbers. Properly assigned row and columns will have the same checksum.
 * Matrix values like --,--,-- indicate there was no valid lab group solution determined for the trial run.
-* This program makes random lab group selections for each matrix value from an ever decreasing pool of remaining possible lab group candidates. It records the most filled assignment matrix. Selection attempts stop when the matrix is totally filled or after the number of solution trials is expired.
-* The time required to complete the assignment matrix is a function of the selection pool size. The selection pool size depends on the class size and the group size.
-* Pressing the q key stops the process and outputs the current best solution.
+* This program makes random lab group selections for each matrix value from an ever decreasing pool of remaining possible lab group candidates. It records the most filled assignment matrix. Selection trials stops when the matrix is totally filled or after the number of solution trials is expired.
+* The time required to complete the assignment matrix is a function of the selection pool size. The selection pool size depends on the class size (**n**) and the group size (**k**) as **n!/k!\*(n-k)!** . The number of possible assignment matrices of size **gr** (group qty x rounds qty) that can be selected from the pool size **p** is **p!/gr!\*(p-gr)!** . That number can be enormous. The Example Screen - Solution Found image shows a solution determined at the 59,736,453 trial.
+* The number of valid solution matrices within the pool of possible assignment matrices is not known to this author but the number appears to be large enough to soon find a valid solution at random from a pool of 3 billion possible for a 5x5 matrix using a 2 group size.
+* Pressing the **q** key stops the process and outputs the current best solution.
