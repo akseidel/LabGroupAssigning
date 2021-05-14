@@ -15,6 +15,14 @@ class PossibleGroupsK {
       pGroups.add(grouping);
     }
   }
+  
+  // Used for making a copy of another PossibleGroupsK
+  PossibleGroupsK(ArrayList<LabGroup> otherpGroups){
+    pGroups.clear();
+    for (LabGroup lg : otherpGroups){
+      pGroups.add(lg);
+    }
+  }
 
   // It is assumed thisLG is in the PossibleGroupsK
   int getIndexOf(LabGroup thisLG) {
