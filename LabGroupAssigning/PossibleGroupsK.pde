@@ -1,4 +1,4 @@
-
+ //<>// //<>//
 class PossibleGroupsK {
   ArrayList<LabGroup> pGroups = new ArrayList();
 
@@ -15,16 +15,26 @@ class PossibleGroupsK {
       pGroups.add(grouping);
     }
   }
-  
+
+  // It is assumed thisLG is in the PossibleGroupsK
   int getIndexOf(LabGroup thisLG) {
-    int i;
-    for (i = 0; i < pGroups.size(); i++) { 
-      if (pGroups.get(i) == thisLG) {
-        return i;
+    int c = 0;
+    int n = thisLG.labglist.size();
+    for (int i = 0; i < pGroups.size(); i++) { 
+    //  LabGroup lg = pGroups.get(i);
+      for (int j = 0; j < n; j++) {
+        if (pGroups.get(i).labglist.get(j).equals(thisLG.labglist.get(j))) {
+          c++;
+        }
+        if ( c == n) {
+          return i;
+        }
       }
     }
     return 0;
   }
+  
+  
 } // end class PossibleGroupsK
 
 private ArrayList<int[]> generateK(int n, int r) {

@@ -16,10 +16,17 @@ boolean beVerbose = false;    // Do not sisplay each trial in the console.
 boolean quitNow = false;      // used for quitting a long process with a q keypress.
 boolean thereIsANewBest = false;
 
-int classSize = 16;           // The number of students in the class
-int gSize = 2;                // Number of students in each group
-int groupQty = 8;             // Number of groups during each event time session
-int roundsQty = 8;            // Number of event time sessions
+
+int classSize = 5;           // The number of students in the class
+int gSize = 1;                // Number of students in each group
+int groupQty = 4;             // Number of groups during each event time session
+int roundsQty = 4;            // Number of event time sessions
+
+
+//int classSize = 16;           // The number of students in the class
+//int gSize = 2;                // Number of students in each group
+//int groupQty = 8;             // Number of groups during each event time session
+//int roundsQty = 8;            // Number of event time sessions
 int poolSize;                 // Number of gSize combinations in classSize 
 int besttrialrun = 1;         // Trial number where best run first occurred.
 int bestunfilledQty = roundsQty * groupQty;
@@ -53,15 +60,10 @@ int currentlineY = drawborder + fontsize;
 
 void setup() {
   size(980, 470);
-  lastWidth = width;
-  lastHeight = height;
+  background(200);
   createGUI();
   initGUI();
-  surfaceSetup();
-  fontSetUp();
-  background(200);
-  showInitialHeader(true);
-  thread("DoStartProcess");
+  initDisplays();;  thread("DoStartProcess");
 }
 
 void draw() {

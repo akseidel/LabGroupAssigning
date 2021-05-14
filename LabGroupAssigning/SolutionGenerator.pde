@@ -1,4 +1,4 @@
-// A copy of the mstrPosGroups pool will be used for each //<>//
+// A copy of the mstrPosGroups pool will be used for each //<>// //<>// //<>// //<>// //<>// //<>//
 // round.
 void DoStartProcess() {
   initializeBestlabGroupMatrix();
@@ -36,7 +36,7 @@ void DoStartProcess() {
           // Add the valid labgroup to the matrix
           labGroupMatrix[row][col] = thislg;
           // Get index of the valid LabGroup so it may be removed from the master
-          // mstrPosGroups pool.
+          // mstrPosGroups pool≥≥≥≥≥.
           index = mstrPosGroups.getIndexOf(thislg);
           // Remove the labgroup from the pool
           mstrPosGroups.pGroups.remove(index);
@@ -66,7 +66,7 @@ void DoStartProcess() {
       reportResults(unfilledQty);
     }
     // Record any better run.
-    recordBetterRunIfAny(run); //<>//
+    recordBetterRunIfAny(run);
 
     // Break if a perfect solution was found.
     //if (bestunfilledQty < 1) { 
@@ -97,31 +97,60 @@ void MakeFreshTempGroups() {
 }// end MakeFreshTempGroups
 
 // Purge groupsPol of all LabGroups that are not unique to those in priorLabGroups 
-void PurgeTempPosPoolOfAllNonUniquePriors(ArrayList<LabGroup> priorLabGroups, PossibleGroupsK groupsPool) { //<>//
-  for (LabGroup aPriorLG : priorLabGroups) {        
+void PurgeTempPosPoolOfAllNonUniquePriors(ArrayList<LabGroup> priorLabGroups, PossibleGroupsK tempGroupsPool) {
+  println(row, col);
+  for (LabGroup aPriorLG : priorLabGroups) { 
+    println(row, col, " A prior ", aPriorLG.showMembers());
     // Purge must be performed from end to start
-    for (int i = groupsPool.pGroups.size()- 1; i >= 0; i--) {
-      LabGroup poolLG = groupsPool.pGroups.get(i);
+    for (int i = tempGroupsPool.pGroups.size()- 1; i >= 0; i--) {
+      LabGroup poolLG = tempGroupsPool.pGroups.get(i);
       if (aPriorLG.hasSomeCommon(poolLG)) {
-        groupsPool.pGroups.remove(i);
+        tempGroupsPool.pGroups.remove(i);
       }
     }
   }
 }// end PurgeTempPosPoolOfAllNonUniquePriors
 
-// Make a temporary ArrayList of this matrix rows's
-// and col's prior LabGroups solutions.
-void  MakeListOfPriorItemsForThisRowColCell() { //<>//
+//// Make a temporary ArrayList of this matrix rows's
+//// and col's prior LabGroups solutions.
+//void  MakeListOfPriorItemsForThisRowColCell() {
+//  priorItemsForThisRowCell = new ArrayList();
+//  LabGroup pI;
+//  // pCol is prior columns in this row.
+//  for (int pCol = 0; pCol < col; pCol = pCol+1) {
+//    pI = labGroupMatrix[row][pCol];
+//    if (pI != noSolLG) {
+//      priorItemsForThisRowCell.add(labGroupMatrix[row][pCol] );
+//    }
+//  }
+//  // pRow is prior rows in this column.
+//  for (int pRow = 0; pRow < row; pRow = pRow+1) {
+//    pI = labGroupMatrix[pRow][col];
+//    if (pI != noSolLG) {
+//      priorItemsForThisRowCell.add(labGroupMatrix[pRow][col] );
+//    }
+//  }
+//}// end MakeListOfPriorItemsForThisRowColCell
+
+// Work in progress - tmep patch
+// Make a temporary ArrayList of all
+// prior LabGroups solutions.
+void  MakeListOfPriorItemsForThisRowColCell() {
   priorItemsForThisRowCell = new ArrayList();
-  // pCol is prior columns in this row.
-  for (int pCol = 0; pCol < col; pCol = pCol+1) {
-    priorItemsForThisRowCell.add(labGroupMatrix[row][pCol] );
-  }
-  // pRow is prior rows in this column.
+  LabGroup pI;
+  // pCol is prior columns 
+  // pRow is prior rows 
   for (int pRow = 0; pRow < row; pRow = pRow+1) {
-    priorItemsForThisRowCell.add(labGroupMatrix[pRow][col] );
+    for (int pCol = 0; pCol < col; pCol = pCol+1) {
+      pI = labGroupMatrix[pRow][pCol];
+      if (pI != noSolLG) {
+        priorItemsForThisRowCell.add(labGroupMatrix[pRow][pCol] );
+      }
+    }
   }
 }// end MakeListOfPriorItemsForThisRowColCell
+
+
 
 void recordBetterRunIfAny(int run) {
   if (unfilledQty < bestunfilledQty) {

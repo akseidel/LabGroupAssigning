@@ -1,4 +1,13 @@
 // Display related functions //<>//
+void initDisplays(){
+  
+  surfaceSetup();
+  lastWidth = width;
+  lastHeight = height;
+  fontSetUp();
+  classSizeCheck();
+  showInitialHeader(true); 
+}
 
 void surfaceSetup() {
   surface.setTitle("Lab Group Assiging");
