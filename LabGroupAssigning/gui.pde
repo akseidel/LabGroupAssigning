@@ -24,22 +24,22 @@ public void butStop_click(GButton source, GEvent event) { //_CODE_:butStop:44541
 
 public void textfieldClassSizez(GTextField source, GEvent event) { //_CODE_:textfieldClassSize:634606:
   //println("textfieldClassSize - GTextField >> GEvent." + event + " @ " + millis());
-  classSizeCheck();
+  classSizeCheck(source);
 } //_CODE_:textfieldClassSize:634606:
 
 public void textfieldGSize_change(GTextField source, GEvent event) { //_CODE_:textfieldGSize:638248:
   //println("textfieldGSize - GTextField >> GEvent." + event + " @ " + millis());
-  classSizeCheck();
+  classSizeCheck(source);
 } //_CODE_:textfieldGSize:638248:
 
 public void textfieldGroupQty_change(GTextField source, GEvent event) { //_CODE_:textfieldGroupQty:614562:
   //println("textfieldGroupQty - GTextField >> GEvent." + event + " @ " + millis());
-  classSizeCheck();
+  classSizeCheck(source);
 } //_CODE_:textfieldGroupQty:614562:
 
 public void textfieldRoundsQty_change(GTextField source, GEvent event) { //_CODE_:textfieldRoundsQTY:785325:
   //println("textfieldRoundsQTY - GTextField >> GEvent." + event + " @ " + millis());
-  classSizeCheck();
+  classSizeCheck(source);
 } //_CODE_:textfieldRoundsQTY:785325:
 
 public void buttonQuit_click(GButton source, GEvent event) { //_CODE_:butQuit:798976:

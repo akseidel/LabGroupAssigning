@@ -1,12 +1,11 @@
 // Display related functions //<>//
-void initDisplays(){
-  
+void initDisplays() {
   surfaceSetup();
   lastWidth = width;
   lastHeight = height;
   fontSetUp();
-  classSizeCheck();
-  showInitialHeader(true); 
+//  classSizeCheck();
+  showInitialHeader(true);
 }
 
 void surfaceSetup() {
@@ -34,14 +33,14 @@ void showInitialHeader(boolean inConsoleOnly) {
     println(msg);
   }
   if (!inConsoleOnly) {
-    text(msg, drawborder, nextlineY());
+    text(msg, drawborder, nextLineY());
   }
 }
 
 void printFirstBest(boolean stopConsoleOutput) {
   msg ="First best number of unfilled groups in "+ trialQty+ " runs. "+ bestunfilledQty+ " unfilled in Run #:"+ besttrialrun ;
-  nextlineY();
-  text(msg, drawborder, nextlineY());
+  nextLineY();
+  text(msg, drawborder, nextLineY());
   if (! stopConsoleOutput) {
     println(msg);
   }
@@ -55,13 +54,13 @@ void printMatrixHeader(boolean atScreenOnly) {
     println();
     println(msg);
   }
-  nextlineY();
-  text(msg, drawborder, nextlineY());
+  nextLineY();
+  text(msg, drawborder, nextLineY());
   msg ="Student Class Size: " + classSize;
   if (! atScreenOnly) {
     println(msg);
   }
-  text(msg, drawborder, nextlineY());
+  text(msg, drawborder, nextLineY());
 }// end printMatrixHeader
 
 void printBestResultsMatrix(boolean atScreenOnly) {
@@ -69,6 +68,7 @@ void printBestResultsMatrix(boolean atScreenOnly) {
   int checkSumCol = 0;
   int gw = (gSize*2)+(gSize-1);   // group text length
   int cospc = 4;                  // space between columns
+
   printMatrixHeader(atScreenOnly);
   msg = "Group " + spc(5);
   for (int col = 0; col < groupQty; col ++ ) {
@@ -79,7 +79,7 @@ void printBestResultsMatrix(boolean atScreenOnly) {
   if (! atScreenOnly) {
     println(msg);
   }
-  text(msg, drawborder, nextlineY());
+  text(msg, drawborder, nextLineY());
   for (int row =0; row < roundsQty; row ++) {
     msg = "Round " + nf((row+1), 2) + spc(3);
     for (int col = 0; col < groupQty; col ++ ) {
@@ -90,7 +90,7 @@ void printBestResultsMatrix(boolean atScreenOnly) {
     if (! atScreenOnly) {
       println(msg);
     }
-    text(msg, drawborder, nextlineY());
+    text(msg, drawborder, nextLineY());
     checkSumRow = 0;
   }
   msg = "Chk:" + spc(7);
@@ -105,22 +105,18 @@ void printBestResultsMatrix(boolean atScreenOnly) {
   if (! atScreenOnly) {
     println(msg);
   }
-  text(msg, drawborder, nextlineY());
-
-  if (warningsList.size() > 0){
-    int tempCurLineY = currentlineY;
-    int numWarnings = warningsList.size();
-    currentlineY = height -  (drawborder + fontsize) - (fontsize + vfontgap) * numWarnings ;
-    for (String warn : warningsList){
-      text(warn, drawborder, nextlineY());    
-    }
-    currentlineY = tempCurLineY;
-  }
-  
-  
+  text(msg, drawborder, nextLineY());
 }// end printBestResultsMatrix
 
-int nextlineY() {
+void outputWarnings() {
+  for (String warn : warningsList) {
+    text(warn, drawborder, currentlineY);
+    nextLineY();
+  }
+  nextLineY();
+}
+
+int nextLineY() {
   currentlineY = currentlineY + fontsize + vfontgap;
   return currentlineY;
 }// end nextline

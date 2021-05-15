@@ -1,14 +1,16 @@
-// A copy of the mstrPosGroups pool will be used for each //<>// //<>// //<>// //<>// //<>// //<>//
+// A copy of the mstrPosGroups pool will be used for each //<>//
 // round.
 void DoStartProcess() {
   initializeBestlabGroupMatrix();
+  bestunfilledQty = roundsQty * groupQty;
+  bestPossibleMin = propBestPossibleMin + 1;
   // start multiple solution trials
   for (int run = 1; run < trialQty + 1; run ++) {
     feedbackStatus(run);
     labGroupMatrix = new LabGroup[roundsQty][groupQty];
     mstrPosGroups = new PossibleGroupsK(classSize, gSize);
     poolSize = mstrPosGroups.pGroups.size();
-    row = 0;
+    row = 0; //<>//
     col = 0;
     unfilledQty = 0;
     // start groups matrix build
@@ -74,8 +76,7 @@ void DoStartProcess() {
     recordBetterRunIfAny(run);
 
     // Break if a perfect solution was found.
-    if (bestunfilledQty < 1) { 
-    //if (bestunfilledQty < bestPossibleMin+1) { 
+    if (bestunfilledQty < bestPossibleMin) { 
       break;
     }
     // Break if a q key was pressed.

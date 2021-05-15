@@ -1,8 +1,16 @@
 // Misc. functions
 // Meant to forecast results and inhibit running the process with bad
 // conditions.
-void classSizeCheck() {
+void classSizeCheck(GTextField source) {
   theWarning = ""; 
+  if (source.getText().equals(" ") ) {
+    warningsList.clear();
+    theWarning= "Check the proposed input fields. At least one is empty.";
+    warningsList.append(theWarning);
+    butStart.setEnabled(false);
+    return;
+  }
+
   int lclassSize = int(textfieldClassSize.getText());
   int lroundsQty = int(textfieldRoundsQTY.getText());
   int lgroupQty = int(textfieldGroupQty.getText());
@@ -10,48 +18,59 @@ void classSizeCheck() {
 
   // Exit when any fields are zero.
   if ( lclassSize*lroundsQty*lgroupQty*lgSize < 1 ) { 
+    butStart.setEnabled(false);
     return;
+  } else {
+    // But do not enable start if currently in process.
+    if ( processIsDone ) {
+      butStart.setEnabled(true);
+    }
   }
-
+  
   int lpoolSize = (int)numCombOfKinN(lgSize, lclassSize);
   int lbestUnfilledRowQty = posFillsPerSlots(lclassSize, lgSize, lgroupQty);
   int lbestUnfilledColQty = posFillsPerSlots(lclassSize, lgSize, lroundsQty);
 
   warningsList.clear();
 
-  if (lgSize > 1) {
-    if ( lbestUnfilledRowQty > 0) {
-      theWarning= "Warning: Selection pool (" + lpoolSize + ") is too small. At least " + lbestUnfilledRowQty + " slot" +pls(lbestUnfilledRowQty) + " per row will be unassigned.";
-      warningsList.append(theWarning);
-    }
-    if ( lbestUnfilledColQty > 0) {
-      theWarning= "Warning: Selection pool (" + lpoolSize + ") is too small. At least " + lbestUnfilledColQty + " slot" + pls(lbestUnfilledColQty) + " per column will be unassigned.";
-      warningsList.append(theWarning);
-    }
-  } // fi (lgSize > 1)
-
   if ( lbestUnfilledRowQty > 0 || lbestUnfilledColQty > 0) {
     int unFilled;
+    if (lgSize > 1) {
+      if ( lbestUnfilledRowQty > 0) {
+        theWarning= "Proposed selection pool of " + lpoolSize + " is too small. At least " + lbestUnfilledRowQty + " slot" +pls(lbestUnfilledRowQty) + " in rows will be empty.";
+        warningsList.append(theWarning);
+      }
+      if ( lbestUnfilledColQty > 0) {
+        theWarning= "Proposed selection pool of " + lpoolSize + " is too small. At least " + lbestUnfilledColQty + " slot" + pls(lbestUnfilledColQty) + " in columns will be empty.";
+        warningsList.append(theWarning);
+      }
+    } // fi (lgSize > 1)
+
     if (lgSize > 1) {
       unFilled = max(lbestUnfilledRowQty*lroundsQty, lbestUnfilledColQty*lgroupQty);
     } else {
       // special case
-      unFilled = lroundsQty*lgroupQty - lpoolSize;
+      unFilled = max(lroundsQty*lgroupQty - lpoolSize,0);
     }
     if (unFilled > 0) {
-      theWarning= "Warning: There will be " + unFilled + " unfilled";
+      theWarning= "There will be roughly " + unFilled + " unfilled slots.";
       warningsList.append(theWarning);
     }
-    bestPossibleMin = unFilled ;
+    propBestPossibleMin = unFilled ;
   }
 
-  // Disable starting when the pool is zero
+  // Disable starting when the pool is zero, which happens during
+  // editing the textfield and could be left that way.
   if (lpoolSize < 1) {
     butStart.setEnabled(false);
   } else {
-    butStart.setEnabled(true);
+    // But do not enable start if currently in process.
+    if ( processIsDone ) {
+      butStart.setEnabled(true);
+    }
   }
 }
+
 
 int posFillsPerSlots(int classS, int gS, int slotQ) {
   // gS = 1 is special case that is indeterminate.

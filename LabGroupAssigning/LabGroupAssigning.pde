@@ -25,6 +25,7 @@ int roundsQty = 8;            // Number of event time sessions
 int poolSize;                 // Number of gSize combinations in classSize 
 int besttrialrun = 1;         // Trial number where best run first occurred.
 int bestunfilledQty = roundsQty * groupQty;
+int propBestPossibleMin = besttrialrun; 
 int bestPossibleMin = 1;      // Best possible solution has remaining less than this value. 
 int row ;
 int col ;
@@ -65,9 +66,12 @@ void setup() {
 void draw() {
   background(200);
   currentlineY = drawborder + fontsize;
+  if (warningsList.size() > 0) {
+    outputWarnings();
+  }
   showInitialHeader(false);
-  nextlineY();
-  text(lastStatusMsg, drawborder, nextlineY());
+  nextLineY();
+  text(lastStatusMsg, drawborder, nextLineY());
 
   if (processIsDone || quitNow) {
     // This section runs when process is done or quitted.
