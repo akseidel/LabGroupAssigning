@@ -1,4 +1,4 @@
-// Meant to be a lab group of students working together //<>//
+// Meant to be a lab group of students working together
 // where students are string ids
 
 class LabGroup {

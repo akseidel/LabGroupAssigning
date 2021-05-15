@@ -1,4 +1,4 @@
-// Display related functions //<>//
+// Display related functions
 void initDisplays() {
   surfaceSetup();
   lastWidth = width;

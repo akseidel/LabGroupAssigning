@@ -1,4 +1,4 @@
-// PossibleGroupsK //<>//
+// PossibleGroupsK
 class PossibleGroupsK {
   ArrayList<LabGroup> pGroups = new ArrayList();
 
@@ -26,10 +26,9 @@ class PossibleGroupsK {
 
   // It is assumed thisLG is in the PossibleGroupsK
   int getIndexOf(LabGroup thisLG) {
-    int c = 0;
     int n = thisLG.labglist.size();
     for (int i = 0; i < pGroups.size(); i++) { 
-    //  LabGroup lg = pGroups.get(i);
+      int c = 0;
       for (int j = 0; j < n; j++) {
         if (pGroups.get(i).labglist.get(j).equals(thisLG.labglist.get(j))) {
           c++;
