@@ -21,14 +21,14 @@ void fontSetUp() {
 }
 
 void showInitialHeader(boolean inConsoleOnly) {
-  msg = "Class Size: " + classSize + "  # Groups: " + groupQty + "  # Rounds: " + roundsQty + "  Group Size: " + gSize + "  Pool Size " + poolSize;
+  msg = "Class Size: " + classSize + "  # Groups: " + groupQty + "  # Rounds: " + roundsQty + "  Group Size: " + gSize + "  Pool Size " + nfc(poolSize);
   if (inConsoleOnly) {
     println(msg);
   }
   if (!inConsoleOnly) {
     text(msg, drawborder, currentlineY);
   }
-  msg = "Performing at most " + trialQty + " solution trials ... Press q at any time to terminate.";
+  msg = "Performing at most " + nfc(trialQty) + " solution trials ... Press q at any time to terminate.";
   if (inConsoleOnly) {
     println(msg);
   }
@@ -38,7 +38,7 @@ void showInitialHeader(boolean inConsoleOnly) {
 }
 
 void printFirstBest(boolean stopConsoleOutput) {
-  msg ="First best number of unfilled groups in "+ trialQty+ " runs. "+ bestunfilledQty+ " unfilled in Run #:"+ besttrialrun ;
+  msg ="First best number of unfilled groups in "+ nfc(trialQty) + " trials. "+ bestunfilledQty + " unfilled in trial: "+ nfc(besttrialrun) ;
   nextLineY();
   text(msg, drawborder, nextLineY());
   if (! stopConsoleOutput) {
@@ -122,7 +122,17 @@ int nextLineY() {
 }// end nextline
 
 void reportQuitNowMessage(int run) {
-  msg = "Process terminated by keypress after run # " + run + "." ;
+
+  float duration = (float)(milliEnd - milliStart)/1000; // in seconds
+  if (duration < 90) { // msg when under 90 second
+    msg = "Done in " + nf(duration, 0, 3) + " seconds. " ;
+  } else if ((duration < 3600) & (duration > 90)) { //msg when under hour but above 90 seconds
+    msg = "Done in " + nf(duration/60, 0, 3) + " minutes. ";
+  } else { // msg when above an hour
+    msg = "Done in " + nf(duration/3600, 0, 3) + " minutes. ";
+  }
+
+  msg = "Process terminated by keypress after trial " + nfc(run) + " at time " +timeElapsed(milliStart,milliEnd) ;
   isMsgFeedBack = true;
   println(msg);
   lastStatusMsg = msg;
@@ -138,6 +148,21 @@ String spc(int len) {
   return s;
 }
 
+String timeElapsed(int lmStart, int lmEnd) {
+  String result;
+  float duration = (float)(lmEnd - lmStart)/1000; // in seconds
+  if (duration < 90) { // msg when under 90 second
+    result = nf(duration, 0, 3) + " seconds. " ;
+  } else if ((duration < 3600) & (duration > 90)) { //msg when under hour but above 90 seconds
+    result = nf(duration/60, 0, 4) + " minutes. ";
+  } else { // msg when above an hour
+    result = nf(duration/3600, 0, 5) + " hours. ";
+  }
+  return result;
+}
+
+
+// Retain this. It is used in a beVerbose function that is commented out
 void reportResults(int unfilledQty) {
   if (unfilledQty > 0) {
     println();

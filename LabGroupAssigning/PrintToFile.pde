@@ -24,9 +24,9 @@ void makeOutput() {
     theOutput.println(warn);
   }
   theOutput.println();
-  msg = "Class Size: " + classSize + "  # Groups: " + groupQty + "  # Rounds: " + roundsQty + "  Group Size: " + gSize + "  Pool Size " + poolSize;
+  msg = "Class Size: " + classSize + "  # Groups: " + groupQty + "  # Rounds: " + roundsQty + "  Group Size: " + gSize + "  Pool Size " + nfc(poolSize);
   theOutput.println(msg);
-  msg ="First best number of unfilled groups in "+ trialQty+ " runs. "+ bestunfilledQty+ " unfilled in Run #:"+ besttrialrun ;
+  msg ="First best number of unfilled groups in "+ nfc(trialQty) + " trials. "+ bestunfilledQty+ " unfilled in trial: "+ nfc(besttrialrun) + " at " + timeElapsed(milliStart,milliEnd);
   theOutput.println(msg);
   theOutput.println();
   msg ="Lab Groups Matrix";

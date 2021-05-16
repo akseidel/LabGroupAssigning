@@ -5,7 +5,7 @@ class LabGroup {
   StringList labglist;
   LabGroup( StringList glist) {
     labglist = glist;
-    labglist.sort();
+    //labglist.sort();
   }
   LabGroup( ) {
     labglist = new StringList();

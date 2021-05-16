@@ -43,7 +43,7 @@ void classSizeCheck(GTextField source) {
   // solution. Unbalanced overfilled results in filled matrix slots but not with equal student
   // participation.  
 
-  theWarning= "The proposed selection pool will be " + lpoolSize;
+  theWarning= "The proposed selection pool will be " + nfc(lpoolSize);
   warningsList.append(theWarning);
 
   if ((lgSize == 1) && (matrixSize > lpoolSize)) {

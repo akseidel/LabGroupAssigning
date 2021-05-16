@@ -31,6 +31,8 @@ int row ;
 int col ;
 int index;                    // thislg index usually
 int unfilledQty;
+int milliStart;
+int milliEnd;
 boolean isMsgFeedBack = false;
 boolean processIsDone = false;
 boolean stopConsoleOutput = false;

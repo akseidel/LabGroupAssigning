@@ -3,6 +3,7 @@
 
 // This function is called on a thread.
 void DoStartProcess() {
+  milliStart = millis();
   initializeBestlabGroupMatrix();
   bestunfilledQty = roundsQty * groupQty;
   bestPossibleMin = propBestPossibleMin;
@@ -16,11 +17,11 @@ void DoStartProcess() {
     col = 0;
     unfilledQty = 0;
     // start groups matrix build
-    
+
     //if (beVerbose) {
     //  printMatrixHeader(beVerbose);
     //}
-    
+
     // The start for each trial.
     // The mstrPosGroups is the master possible groups collection. This is a 
     // collection of all the possible selection combinations. During each trial
@@ -33,13 +34,13 @@ void DoStartProcess() {
     // called the tempPosGroups, is used as the selection pool for any one cell selection
     // after the appropriet student containing prior selections for that row and colum 
     // are first removed from the copy of the mstrPosGroups selection matrix.
-    
+
     while (row < roundsQty) {
-    
+
       //if (beVerbose) {
       //  print("Round ", str(row+1), spc(3));
       //}   
-      
+
       while (col < groupQty) {
         // Make a fresh copy of the current mstrPosGroups selection pool. This
         // copy is the tempPosGroups pool. The appropriet prior lab groups will
@@ -83,44 +84,45 @@ void DoStartProcess() {
           // Increment no solution counter.
           unfilledQty ++;
         }
-        
+
         //if (beVerbose) {
         //  print(labGroupMatrix[row][col].showMembers());
         //  print(spc(3));
         //}
-        
+
         col ++;
       } // next col
       //reset col index for next row
       col = 0;
       row ++;
-      
+
       //if (beVerbose) {
       //  print("  Remaining labgroups in pool: ", mstrPosGroups.pGroups.size());
       //  println();
       //}
-      
     } // next row ie. round
 
     //if (beVerbose) {
     //  reportResults(unfilledQty);
     //}
-    
+
     // Record any better run.
     recordBetterRunIfAny(run);
 
     // Break if a perfect solution was found.
     if (bestunfilledQty < bestPossibleMin + 1) { 
+      milliEnd = millis();
       break;
     }
     // Break if a q key was pressed.
     if (quitNow) {
+      milliEnd = millis();
       reportQuitNowMessage(run);
       break;
     }
   } // end run loop
   if (!quitNow) {
-    msg = "Done";
+    msg = "Done in " + timeElapsed(milliStart,milliEnd);
     println(msg);
     lastStatusMsg = msg;
   }
@@ -176,7 +178,7 @@ void recordBetterRunIfAny(int run) {
     bestunfilledQty = unfilledQty;
     bestlabGroupMatrix = labGroupMatrix;
     besttrialrun = run;
-    msg = "Current best " + bestunfilledQty + " in run # " + besttrialrun;
+    msg = "Current best " + bestunfilledQty + " in trial " + nfc(besttrialrun) + " at time " + timeElapsed(milliStart,millis());
     println(msg);
   }
 }// end recordBetterRunIfAny
@@ -191,5 +193,5 @@ void initializeBestlabGroupMatrix() {
 }// end initializeBestlabGroupMatrix
 
 void feedbackStatus(int run) {
-  lastStatusMsg = "Least Unfilled: " + bestunfilledQty + " in Trial: " + besttrialrun + "  Current Trial: " + run;
+  lastStatusMsg = "Least Unfilled: " + bestunfilledQty + " in Trial: " + nfc(besttrialrun) + "  Current Trial: " + nfc(run);
 }// end feedbackStatus
