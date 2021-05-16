@@ -47,6 +47,10 @@ public void buttonQuit_click(GButton source, GEvent event) { //_CODE_:butQuit:79
   doButtonQuit();
 } //_CODE_:butQuit:798976:
 
+public void butPrint_click(GButton source, GEvent event) { //_CODE_:butPrint:714479:
+  //println("butPrint - GButton >> GEvent." + event + " @ " + millis());
+} //_CODE_:butPrint:714479:
+
 
 
 // Create all the GUI controls. 
@@ -59,7 +63,7 @@ public void createGUI(){
   butStart = new GButton(this, 889, 10, 80, 30);
   butStart.setText("Start");
   butStart.setLocalColorScheme(GCScheme.GREEN_SCHEME);
-  butStart.addEventHandler(this, "butStart_click");   
+  butStart.addEventHandler(this, "butStart_click");
   butStop = new GButton(this, 804, 10, 80, 30);
   butStop.setText("Stop");
   butStop.setLocalColorScheme(GCScheme.YELLOW_SCHEME);
@@ -110,6 +114,10 @@ public void createGUI(){
   butQuit.setText("Quit");
   butQuit.setLocalColorScheme(GCScheme.RED_SCHEME);
   butQuit.addEventHandler(this, "buttonQuit_click");
+  butPrint = new GButton(this, 890, 83, 80, 30);
+  butPrint.setText("File");
+  butPrint.setLocalColorScheme(GCScheme.CYAN_SCHEME);
+  butPrint.addEventHandler(this, "butPrint_click");
 }
 
 // Variable declarations 
@@ -125,3 +133,4 @@ GTextField textfieldGroupQty;
 GLabel labRoundsQty; 
 GTextField textfieldRoundsQTY; 
 GButton butQuit; 
+GButton butPrint; 

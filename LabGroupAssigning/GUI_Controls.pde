@@ -13,6 +13,7 @@ void initGUI() {
   g4pStuff.add(butStart);
   g4pStuff.add(butQuit);
   g4pStuff.add(butStop);
+  g4pStuff.add(butPrint);
   g4pStuff.add(textfieldClassSize);
   g4pStuff.add(textfieldGSize);
   g4pStuff.add(textfieldGroupQty);
@@ -31,6 +32,7 @@ void setButtonRunState(boolean isRunning) {
     butStart.setEnabled(!isRunning);
   }
   butStop.setEnabled(isRunning);
+  butPrint.setEnabled(!isRunning);
 }
 
 // moves G4P controls as window is resized
