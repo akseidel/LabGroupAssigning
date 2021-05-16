@@ -70,7 +70,7 @@ void classSizeCheck(GTextField source) {
     int colUnder = 0;
     int colOver = 0;
     if (colBal ==0) {
-      theWarning= "Group Qty. balances with Rounds Qty. into the Class Size.";
+      theWarning= "Rounds Qty. balances with Group Size into the Class Size.";
     } else if (colBal > 0) {
       colUnder = - round(colBal);  
       theWarning= "Too few students for a group (column). At least " + abs(colUnder) + " matrix cell" + pls(abs(colUnder)) + " in group will be empty.";
