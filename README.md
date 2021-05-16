@@ -21,9 +21,11 @@
 
 ## Notes
 
+* The application window is resizable.
 * The Chk: values are checksum values that are the sum of the assigned student id numbers. Properly assigned row and columns will have the same checksum.
 * Matrix values like --,--,-- indicate there was no valid lab group solution determined for the trial run.
 * This program makes random lab group selections for each matrix value from an ever decreasing pool of remaining possible lab group candidates. It records the most filled assignment matrix. Selection trials stops when the matrix is totally filled or after the number of solution trials is expired.
-* The time required to complete the assignment matrix is a function of the selection pool size. The selection pool size depends on the class size (**n**) and the group size (**k**) as **n!/k!\*(n-k)!** . The number of possible assignment matrices of size **gr** (group qty x rounds qty) that can be selected from the pool size **p** is **p!/gr!\*(p-gr)!** . That number can be enormous. The Example Screen - Solution Found image shows a solution determined at the 59,736,453 trial.
-* The number of valid solution matrices within the pool of possible assignment matrices is not known to this author but the number appears to be large enough to soon find a valid solution at random from a pool of 3 billion possible for a 5x5 matrix using a 2 group size.
+* The time required to complete the assignment matrix is a function of the selection pool size. The selection pool size depends on the class size (**n**) and the group size (**k**) as **n!/k!\*(n-k)!** . The number of possible assignment matrices of size **gr** (group qty x rounds qty) that can be selected from the pool size **p** is **p!/gr!\*(p-gr)!** . That number can be enormous. 
+* The number of valid solution matrices within the pool of possible assignment matrices is not known to this author but the number appears to be large enough to quickly find a valid solution at random from a pool of 3 billion possible for a 5x5 matrix using a 2 group size.
 * Pressing the **q** key stops the process and outputs the current best solution.
+* The **File** button creates a text file of the current results within the folder that contains the application. The file name "LabGroupMatrix" with a time code indicating the time the file is created. For example such a file named LabGroupMatrix.2021-5-16_114944.txt was made at 11:49:44 pm on May 16, 2021.
