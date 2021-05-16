@@ -1,4 +1,5 @@
 // PossibleGroupsK
+// A collection of all the possible group selection combinations
 class PossibleGroupsK {
   ArrayList<LabGroup> pGroups = new ArrayList();
 
@@ -15,15 +16,16 @@ class PossibleGroupsK {
       pGroups.add(grouping);
     }
   }
-  
+
   // Used for making a copy of another PossibleGroupsK
-  PossibleGroupsK(ArrayList<LabGroup> otherpGroups){
+  PossibleGroupsK(ArrayList<LabGroup> otherpGroups) {
     pGroups.clear();
-    for (LabGroup lg : otherpGroups){
+    for (LabGroup lg : otherpGroups) {
       pGroups.add(lg);
     }
   }
 
+  // Returns the index of a labgroup in the possiblegroupsk
   // It is assumed thisLG is in the PossibleGroupsK
   int getIndexOf(LabGroup thisLG) {
     int n = thisLG.labglist.size();
@@ -40,8 +42,6 @@ class PossibleGroupsK {
     }
     return 0;
   }
-  
-  
 } // end class PossibleGroupsK
 
 private ArrayList<int[]> generateK(int n, int r) {

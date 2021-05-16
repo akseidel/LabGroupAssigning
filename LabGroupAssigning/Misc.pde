@@ -105,7 +105,8 @@ void classSizeCheck(GTextField source) {
   propBestPossibleMin = unFilled ;
 }
 
-
+// Returns number of possible filled positions for a row or column
+// given class size, group size & the column or row size.
 int posFillsPerSlots(int classS, int gS, int slotQ) {
   // gS = 1 is special case that is indeterminate.
   if (gS < 2) { 
@@ -121,7 +122,7 @@ int posFillsPerSlots(int classS, int gS, int slotQ) {
   return (slotQ - result);
 }
 
-// returns s for plural val
+// returns s for pluralizing words
 String pls(int val) {
   if (val > 1) {
     return "s";

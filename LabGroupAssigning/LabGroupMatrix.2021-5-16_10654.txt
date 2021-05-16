@@ -1,0 +1,19 @@
+Date: 2021-5-16_10654
+
+The proposed selection pool will be 91
+Group Qty. balances with Group Size into the Class Size.
+Rounds Qty. balances with Group Size into the Class Size.
+
+Class Size: 14  # Groups: 7  # Rounds: 7  Group Size: 2  Pool Size 91
+First best number of unfilled groups in 100000000 runs. 0 unfilled in Run #:300206
+
+Lab Groups Matrix
+Group      1        2        3        4        5        6        7        Chk:
+Round 01   06,09    01,04    02,13    03,12    10,11    08,14    05,07    105
+Round 02   10,12    06,13    01,08    04,05    03,07    02,11    09,14    105
+Round 03   04,14    03,05    07,11    06,08    12,13    09,10    01,02    105
+Round 04   02,05    10,14    03,06    01,09    04,08    07,13    11,12    105
+Round 05   07,08    02,12    04,09    11,13    05,14    01,03    06,10    105
+Round 06   03,11    07,09    05,10    02,14    01,06    04,12    08,13    105
+Round 07   01,13    08,11    12,14    07,10    02,09    05,06    03,04    105
+Chk:       105      105      105      105      105      105      105      

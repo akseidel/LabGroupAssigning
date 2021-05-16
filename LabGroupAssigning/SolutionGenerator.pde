@@ -1,5 +1,7 @@
 // SolutionGenerator //<>//
+// Note: The beVerbose sections have been commented out.
 
+// This function is called on a thread.
 void DoStartProcess() {
   initializeBestlabGroupMatrix();
   bestunfilledQty = roundsQty * groupQty;
@@ -14,13 +16,15 @@ void DoStartProcess() {
     col = 0;
     unfilledQty = 0;
     // start groups matrix build
-    if (beVerbose) {
-      printMatrixHeader(beVerbose);
-    }
+    
+    //if (beVerbose) {
+    //  printMatrixHeader(beVerbose);
+    //}
+    
     // The start for each trial.
     // The mstrPosGroups is the master possible groups collection. This is a 
     // collection of all the possible selection combinations. During each trial
-    // each selection determined to be valid at the time ia added to the assigning
+    // each selection determined to be valid at the time is added to the assigning
     // matrix and then removed from the mstrPosGroups. Thus that selection cannot
     // be selected again. But for each element selection the prior students selected
     // for any one element's row and column cannot be slected again because each row,
@@ -28,12 +32,14 @@ void DoStartProcess() {
     // have a single student occur more than once. A copy of the mstrPosGroups collection,
     // called the tempPosGroups, is used as the selection pool for any one cell selection
     // after the appropriet student containing prior selections for that row and colum 
-    // are firat removed from the copy of the mstrPosGroups selection matrix.
-    // a copy of the mstrPosGroups
+    // are first removed from the copy of the mstrPosGroups selection matrix.
+    
     while (row < roundsQty) {
-      if (beVerbose) {
-        print("Round ", str(row+1), spc(3));
-      }   
+    
+      //if (beVerbose) {
+      //  print("Round ", str(row+1), spc(3));
+      //}   
+      
       while (col < groupQty) {
         // Make a fresh copy of the current mstrPosGroups selection pool. This
         // copy is the tempPosGroups pool. The appropriet prior lab groups will
@@ -55,8 +61,9 @@ void DoStartProcess() {
         PurgeTempPosPoolOfAllNonUniquePriors(priorItemsForThisRowCell, tempPosGroups);      
 
         // Any LabGroup remaining in the tempPosGroups pool at this point would be a
-        // valid pick for this current rol cell. A random LabGroup will be selected.
-        // An empty tempPosGroups pool means there is not a solution for this rol cell.
+        // valid pick for this current row cell. A random LabGroup will be selected.
+        // An empty tempPosGroups pool means there is not a solution for this row cell.
+        // An empty mstrPosGroups pool means there no solutions anymore.
         if ( (tempPosGroups.pGroups.size() > 0) && (mstrPosGroups.pGroups.size() > 0) ) {
           // There is at least one remaining tempPosGroup.
           // Get index for this valid pick.
@@ -64,8 +71,8 @@ void DoStartProcess() {
           thislg = tempPosGroups.pGroups.get(index);
           // Add the valid labgroup to the matrix
           labGroupMatrix[row][col] = thislg;
-          // Get index of the valid LabGroup so it may be removed from the master
-          // mstrPosGroups pool
+          // Get index of the valid LabGroup so it may be removed from the master pool
+          // mstrPosGroups.
           index = mstrPosGroups.getIndexOf(thislg);
           // Remove the labgroup from the pool
           mstrPosGroups.pGroups.remove(index);
@@ -76,24 +83,29 @@ void DoStartProcess() {
           // Increment no solution counter.
           unfilledQty ++;
         }
-        if (beVerbose) {
-          print(labGroupMatrix[row][col].showMembers());
-          print(spc(3));
-        }
+        
+        //if (beVerbose) {
+        //  print(labGroupMatrix[row][col].showMembers());
+        //  print(spc(3));
+        //}
+        
         col ++;
       } // next col
       //reset col index for next row
       col = 0;
       row ++;
-      if (beVerbose) {
-        print("  Remaining labgroups in pool: ", mstrPosGroups.pGroups.size());
-        println();
-      }
+      
+      //if (beVerbose) {
+      //  print("  Remaining labgroups in pool: ", mstrPosGroups.pGroups.size());
+      //  println();
+      //}
+      
     } // next row ie. round
 
-    if (beVerbose) {
-      reportResults(unfilledQty);
-    }
+    //if (beVerbose) {
+    //  reportResults(unfilledQty);
+    //}
+    
     // Record any better run.
     recordBetterRunIfAny(run);
 
