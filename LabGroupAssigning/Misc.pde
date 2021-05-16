@@ -103,7 +103,6 @@ void classSizeCheck(GTextField source) {
   }
 
   propBestPossibleMin = unFilled ;
-  //println("Exiting with propBestPossibleMin = ", propBestPossibleMin );
 }
 
 

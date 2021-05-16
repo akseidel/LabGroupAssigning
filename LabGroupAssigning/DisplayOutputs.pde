@@ -4,7 +4,7 @@ void initDisplays() {
   lastWidth = width;
   lastHeight = height;
   fontSetUp();
-//  classSizeCheck();
+  classSizeCheck(textfieldClassSize);
   showInitialHeader(true);
 }
 

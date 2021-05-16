@@ -1,9 +1,9 @@
-// A copy of the mstrPosGroups pool will be used for each //<>// //<>// //<>//
-// round.
+// SolutionGenerator //<>//
+
 void DoStartProcess() {
   initializeBestlabGroupMatrix();
   bestunfilledQty = roundsQty * groupQty;
-  bestPossibleMin = propBestPossibleMin + 1;
+  bestPossibleMin = propBestPossibleMin;
   // start multiple solution trials
   for (int run = 1; run < trialQty + 1; run ++) {
     feedbackStatus(run);
@@ -17,21 +17,43 @@ void DoStartProcess() {
     if (beVerbose) {
       printMatrixHeader(beVerbose);
     }
-
+    // The start for each trial.
+    // The mstrPosGroups is the master possible groups collection. This is a 
+    // collection of all the possible selection combinations. During each trial
+    // each selection determined to be valid at the time ia added to the assigning
+    // matrix and then removed from the mstrPosGroups. Thus that selection cannot
+    // be selected again. But for each element selection the prior students selected
+    // for any one element's row and column cannot be slected again because each row,
+    // or round as it is called, and each column, or group as it is called, are not to
+    // have a single student occur more than once. A copy of the mstrPosGroups collection,
+    // called the tempPosGroups, is used as the selection pool for any one cell selection
+    // after the appropriet student containing prior selections for that row and colum 
+    // are firat removed from the copy of the mstrPosGroups selection matrix.
+    // a copy of the mstrPosGroups
     while (row < roundsQty) {
       if (beVerbose) {
         print("Round ", str(row+1), spc(3));
       }   
       while (col < groupQty) {
+        // Make a fresh copy of the current mstrPosGroups selection pool. This
+        // copy is the tempPosGroups pool. The appropriet prior lab groups will
+        // be removed from the tempPosGroups before a random selection is drawn
+        // from it.
+        MakeFreshTempGroups(); 
 
-        MakeFreshTempGroups(); // This needs to be a copy of mstrPosGroups
-
+        // Collect all the prior selections in the same row and same column as the
+        // current row, col. This collection is called priorItemsForThisRowCell.
+        // This collection will be used for removing all possible selections
+        // in the temporary pool that contain the students present in the prior
+        // items collection.
         MakeListOfPriorItemsForThisRowColCell(row, col);
 
         // Purge the tempPosGroups pool of all LabGroups that are not unique with
-        // the row and col priors for this row, cell
+        // the row and col priors for this row, cell. After this step any selection
+        // from the tempPosGroups pool will have students new to both the current
+        // round (row) and group (column) for this row/column matrix cell.
         PurgeTempPosPoolOfAllNonUniquePriors(priorItemsForThisRowCell, tempPosGroups);      
-        
+
         // Any LabGroup remaining in the tempPosGroups pool at this point would be a
         // valid pick for this current rol cell. A random LabGroup will be selected.
         // An empty tempPosGroups pool means there is not a solution for this rol cell.
@@ -76,7 +98,7 @@ void DoStartProcess() {
     recordBetterRunIfAny(run);
 
     // Break if a perfect solution was found.
-    if (bestunfilledQty < bestPossibleMin) { 
+    if (bestunfilledQty < bestPossibleMin + 1) { 
       break;
     }
     // Break if a q key was pressed.
@@ -121,35 +143,20 @@ void PurgeTempPosPoolOfAllNonUniquePriors(ArrayList<LabGroup> priorLabGroups, Po
 void  MakeListOfPriorItemsForThisRowColCell(int row, int col) {
   priorItemsForThisRowCell = new ArrayList();
   LabGroup pI;
-
-  for (int pRow = 0; pRow < row + 1; pRow++) {
-    for (int pCol = 0; pCol < col+1; pCol++) {
-      pI = labGroupMatrix[pRow][pCol];
-      if ((pI != noSolLG) & (pI != null)) {
-        priorItemsForThisRowCell.add(labGroupMatrix[pRow][pCol] );
-      }
+  // pCol is prior columns in this row.
+  for (int pCol = 0; pCol < col+1; pCol = pCol+1) {
+    pI = labGroupMatrix[row][pCol];
+    if ((pI != noSolLG) & (pI != null)) {
+      priorItemsForThisRowCell.add(labGroupMatrix[row][pCol] );
     }
   }
-
- // int a = 1;
- // a = a + 1;
-
-  //// pCol is prior columns in this row.
-  //for (int pCol = 0; pCol < col+1; pCol = pCol+1) {
-  //  pI = labGroupMatrix[row][pCol];
-  //  if ((pI != noSolLG) & (pI != null)) {
-  //    priorItemsForThisRowCell.add(labGroupMatrix[row][pCol] );
-  //  }
-  //}
-  //// pRow is prior rows in this column.
-  //for (int pRow = 0; pRow < row + 1; pRow = pRow+1) {
-  //  pI = labGroupMatrix[pRow][col];
-  //  if ((pI != noSolLG) & (pI != null)) {
-  //    priorItemsForThisRowCell.add(labGroupMatrix[pRow][col] );
-  //  }
-  //}
-  
-  
+  // pRow is prior rows in this column.
+  for (int pRow = 0; pRow < row + 1; pRow = pRow+1) {
+    pI = labGroupMatrix[pRow][col];
+    if ((pI != noSolLG) & (pI != null)) {
+      priorItemsForThisRowCell.add(labGroupMatrix[pRow][col] );
+    }
+  }
 }// end MakeListOfPriorItemsForThisRowColCell
 
 void recordBetterRunIfAny(int run) {
