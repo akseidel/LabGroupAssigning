@@ -49,6 +49,7 @@ public void buttonQuit_click(GButton source, GEvent event) { //_CODE_:butQuit:79
 
 public void butPrint_click(GButton source, GEvent event) { //_CODE_:butPrint:714479:
   //println("butPrint - GButton >> GEvent." + event + " @ " + millis());
+  filePrint();
 } //_CODE_:butPrint:714479:
 
 
