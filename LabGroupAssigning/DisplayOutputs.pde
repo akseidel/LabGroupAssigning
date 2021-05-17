@@ -107,7 +107,7 @@ void printBestResultsMatrix(boolean atScreenOnly) {
   }
   text(msg, drawborder, nextLineY());
   nextLineY();
-  for (String h : historyList){
+  for (String h : historyList) {
     text(h, drawborder, nextLineY());
   }
 }// end printBestResultsMatrix
@@ -135,11 +135,11 @@ void reportQuitNowMessage(int run) {
   } else { // msg when above an hour
     msg = "Done in " + nf(duration/3600, 0, 3) + " hours.";
   }
-  msg = "Process terminated by keypress after trial " + nfc(run) + " at time " +timeElapsed(milliStart,milliEnd) + ".";
+  msg = "Process terminated by keypress after trial " + nfc(run) + " at time " +timeElapsed(milliStart, milliEnd) + ".";
   isMsgFeedBack = true;
   println(msg);
   lastStatusMsg = msg;
-  historyList.append("Stopped, trial: " + nfc(run) + " , at " + timeElapsed(milliStart,millis()));
+  historyList.append("Stopped, trial: " + nfc(run) + " , at " + timeElapsed(milliStart, millis()));
 } // end reportQuitNowMessage
 
 // Function to return a string of len spaces.
@@ -165,6 +165,43 @@ String timeElapsed(int lmStart, int lmEnd) {
   return result;
 }
 
+
+// Report the unused LabGroups
+void reportLeftOverGroups(boolean atScreenOnly) {
+  PossibleGroupsK freshMstrPosGroups;
+  String rpt = new String();
+  int rm;
+  if (atScreenOnly) {
+    return;
+  }
+  freshMstrPosGroups = new PossibleGroupsK(classSize, gSize);
+  LabGroup pI;
+  for (int pRow = 0; pRow < roundsQty; pRow = pRow+1) {
+    for (int pCol = 0; pCol < groupQty; pCol = pCol+1) {
+      pI = bestlabGroupMatrix[pRow][pCol];
+      // Purge must be performed from end to start
+      for (int i = freshMstrPosGroups.pGroups.size()- 1; i >= 0; i--) {
+        LabGroup poolLG = freshMstrPosGroups.pGroups.get(i);
+        if (poolLG.showMembers().equals(pI.showMembers())) {
+          freshMstrPosGroups.pGroups.remove(i);
+        }
+      }
+    }
+  } 
+  println();
+  rm = freshMstrPosGroups.pGroups.size();
+  println(rm + " Lab Groups remaining:"); 
+  for (LabGroup lg : freshMstrPosGroups.pGroups) {
+    if (rpt.length() < 80) {
+      rpt = rpt + lg.showMembers() + "  ";
+    } else {
+      println(rpt);
+      rpt = "";
+      rpt = rpt + lg.showMembers() + "  ";
+    }
+  }
+  println(rpt);
+} //end reportLeftOverGroups
 
 // Retain this. It is used in a beVerbose function that is commented out
 void reportResults(int unfilledQty) {
