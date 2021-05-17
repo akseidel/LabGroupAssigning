@@ -38,6 +38,7 @@ boolean processIsDone = false;
 boolean stopConsoleOutput = false;
 String theWarning = "";
 StringList warningsList = new StringList();
+StringList historyList = new StringList();
 
 LabGroup[][] bestlabGroupMatrix;
 LabGroup noSolLG = defNoSolLG(gSize);
@@ -57,7 +58,7 @@ int drawborder = 16;
 int currentlineY = drawborder + fontsize;
 
 void setup() {
-  size(980, 470);
+  size(980, 600);
   background(200);
   createGUI();
   initGUI();

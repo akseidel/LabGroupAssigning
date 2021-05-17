@@ -60,6 +60,10 @@ void makeOutput() {
     checkSumCol = 0;
   }
   theOutput.println(msg);
+  theOutput.println();
+  for (String h : historyList){
+    theOutput.println(h);
+  }
   theOutput.flush();
   theOutput.close();
 }

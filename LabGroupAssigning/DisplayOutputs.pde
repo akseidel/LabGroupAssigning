@@ -106,8 +106,13 @@ void printBestResultsMatrix(boolean atScreenOnly) {
     println(msg);
   }
   text(msg, drawborder, nextLineY());
+  nextLineY();
+  for (String h : historyList){
+    text(h, drawborder, nextLineY());
+  }
 }// end printBestResultsMatrix
 
+// Display the warnings
 void outputWarnings() {
   for (String warn : warningsList) {
     text(warn, drawborder, currentlineY);
@@ -122,20 +127,19 @@ int nextLineY() {
 }// end nextline
 
 void reportQuitNowMessage(int run) {
-
   float duration = (float)(milliEnd - milliStart)/1000; // in seconds
   if (duration < 90) { // msg when under 90 second
-    msg = "Done in " + nf(duration, 0, 3) + " seconds. " ;
+    msg = "Done in " + nf(duration, 0, 3) + " seconds." ;
   } else if ((duration < 3600) & (duration > 90)) { //msg when under hour but above 90 seconds
-    msg = "Done in " + nf(duration/60, 0, 3) + " minutes. ";
+    msg = "Done in " + nf(duration/60, 0, 3) + " minutes.";
   } else { // msg when above an hour
-    msg = "Done in " + nf(duration/3600, 0, 3) + " minutes. ";
+    msg = "Done in " + nf(duration/3600, 0, 3) + " hours.";
   }
-
-  msg = "Process terminated by keypress after trial " + nfc(run) + " at time " +timeElapsed(milliStart,milliEnd) ;
+  msg = "Process terminated by keypress after trial " + nfc(run) + " at time " +timeElapsed(milliStart,milliEnd) + ".";
   isMsgFeedBack = true;
   println(msg);
   lastStatusMsg = msg;
+  historyList.append("Stopped, trial: " + nfc(run) + " , at " + timeElapsed(milliStart,millis()));
 } // end reportQuitNowMessage
 
 // Function to return a string of len spaces.
@@ -152,11 +156,11 @@ String timeElapsed(int lmStart, int lmEnd) {
   String result;
   float duration = (float)(lmEnd - lmStart)/1000; // in seconds
   if (duration < 90) { // msg when under 90 second
-    result = nf(duration, 0, 3) + " seconds. " ;
+    result = nf(duration, 0, 3) + " seconds" ;
   } else if ((duration < 3600) & (duration > 90)) { //msg when under hour but above 90 seconds
-    result = nf(duration/60, 0, 4) + " minutes. ";
+    result = nf(duration/60, 0, 4) + " minutes";
   } else { // msg when above an hour
-    result = nf(duration/3600, 0, 5) + " hours. ";
+    result = nf(duration/3600, 0, 5) + " hours";
   }
   return result;
 }

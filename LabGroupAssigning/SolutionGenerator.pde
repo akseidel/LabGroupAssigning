@@ -7,6 +7,7 @@ void DoStartProcess() {
   initializeBestlabGroupMatrix();
   bestunfilledQty = roundsQty * groupQty;
   bestPossibleMin = propBestPossibleMin;
+  historyList.clear();
   // start multiple solution trials
   for (int run = 1; run < trialQty + 1; run ++) {
     feedbackStatus(run);
@@ -179,6 +180,7 @@ void recordBetterRunIfAny(int run) {
     bestlabGroupMatrix = labGroupMatrix;
     besttrialrun = run;
     msg = "Current best " + bestunfilledQty + " in trial " + nfc(besttrialrun) + " at time " + timeElapsed(milliStart,millis());
+    historyList.append(bestunfilledQty + " remaining, trial: " + nfc(besttrialrun) + " , at " + timeElapsed(milliStart,millis()));
     println(msg);
   }
 }// end recordBetterRunIfAny
