@@ -2,7 +2,7 @@
 
 ![Example Screen While Running](./readme-images/6x6x4.png)
 
-* A tool for teachers to assign students to lab groups written in Processing's java code **[Processing](processing.org)**. It may be built for running on Apple OSX, Linux and Windows operating systems.
+* A tool for teachers to assign students to lab groups written in Processing's java code **[Processing](www.processing.org)**. It may be built for running on Apple OSX, Linux and Windows operating systems.
 * This tool selects groups of student teams from a student class population to be involved in lab tasks during experiment rounds. Each student is involved once every session round and once for each different tasks.
 * Each lab group, i.e. a combination of students as a team, like a student pair for example, is assigned no more than once. The number of possible lab groups, referred to as **Pool Size**, is the number of group sized student combinations chosen from the class size.
 * The output results go to both the console and the Processing application screen.
@@ -42,5 +42,5 @@
 
 ## Install and Running
 
-* Prebuilt application files for OSX, Linux and Windows are not provided in this repository at this time. That may be in the future. They are easily built from the **Processing IDE** with the files in this repository. **LabGroupsAssigning** can be executed from within the **Processing IDE**. Those familiar with **Processing** would need no instructions other than the knowledge that the **G4P** GUI controls library needs to be installed. Those not familiar with **Processing** need to start here: **[Processing](processing.org)**.
+* Prebuilt application files for OSX, Linux and Windows are not provided in this repository at this time. That may be in the future. They are easily built from the **Processing IDE** with the files in this repository. **LabGroupsAssigning** can be executed from within the **Processing IDE**. Those familiar with **Processing** would need no instructions other than the knowledge that the **G4P** GUI controls library needs to be installed. Those not familiar with **Processing** need to start here: **[Processing](www.processing.org)**.
 * A **Processing** application is a Java application. Therefore the Java runtime system is required to be installed or packaged within the application. As of this writing the option to package Java within the application is possible only with OSX systems.
