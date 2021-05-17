@@ -1,5 +1,5 @@
 # Lab Group Assigning
-
+![Example Screen While Running](./readme-images/6x6x4.png)
 * A tool for teachers to assign students to lab groups written in Processing's java code [Processing](processing.org) .
 * This tool selects groups of student teams from a student class population to be involved in lab tasks during experiment rounds. Each student is involved once every session round and once for each different tasks. 
 * Each lab group, i.e. a combination of students as a team, like a student pair for example, is assigned no more than once. The number of possible lab groups, referred to as Pool Size, is the number of group sized student combinations chosen from the class size.
