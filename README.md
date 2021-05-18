@@ -25,7 +25,7 @@
 
 ## Notes
 
-* The application window is resizable.
+* The application window is re-sizable.
 * Execution time is pure luck for the lengthy tasks. For example the solution for the 8 x 8 x 2 shown above occurred under 5 minutes. This same task could take hours.
 * The **Chk:** values are row and column checksum values that are the sum of the assigned student id numbers. Properly assigned row and columns will have the same checksum.
 * This program continuously makes random lab group selections for each matrix value from an ever decreasing pool of remaining possible lab group candidates. It records the most filled assignment matrix. The displayed matrix is the last best assignment matrix. Selection trials stop when the matrix is totally filled or after the number of solution trials is expired.
@@ -37,10 +37,11 @@
 ## File Button
 
 * The **File** button creates a text file of the current results within the folder that contains the application. The file name "LabGroupMatrix" with a time code indicating the time the file is created. For example such a file named LabGroupMatrix.2021-5-17_111583.txt was made at 11:15:03 am on May 17, 2021.
+* The **File** output reports the student group combinations that were not selected for the lab groups matrix. On Linux systems, where one runs the application from a **Terminal** window, this information outputs to the **Terminal** window whenever a trials session completes or one stops a running process.
   
 ![Example Saved File](./readme-images/SavedFileImage.png)
 
 ## Install and Running
 
 * Prebuilt application files for OSX, Linux and Windows are not provided in this repository at this time. That may be in the future. They are easily built from the **Processing IDE** with the files in this repository. **LabGroupsAssigning** can be executed from within the **Processing IDE**. Those familiar with **Processing** would need no instructions other than the knowledge that the **G4P** GUI controls library needs to be installed. Those not familiar with **Processing** need to start here: **[Processing](https://www.processing.org)**.
-* A **Processing** application is a Java application. Therefore the Java runtime system is required to be installed or packaged within the application. As of this writing the option to package Java within the application is possible only with OSX systems.
+* A **Processing** application is a Java application. Therefore the Java run-time system is required to be installed or packaged within the application. As of this writing the option to package Java within the application is possible only with OSX systems.

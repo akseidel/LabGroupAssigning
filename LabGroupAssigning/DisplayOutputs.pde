@@ -1,4 +1,5 @@
 // Display related functions
+String windowTitle = "Lab Group Assigning";
 void initDisplays() {
   surfaceSetup();
   lastWidth = width;
@@ -9,7 +10,7 @@ void initDisplays() {
 }
 
 void surfaceSetup() {
-  surface.setTitle("Lab Group Assiging");
+  surface.setTitle(windowTitle);
   surface.setResizable(true);
 }
 
@@ -165,9 +166,10 @@ String timeElapsed(int lmStart, int lmEnd) {
   return result;
 }
 
-
 // Report the unused LabGroups
-void reportLeftOverGroups(boolean atScreenOnly) {
+// int whereTo is a switch for where the report goes.
+// whereTo 0 = comnsole, whereTo 1 is file
+void reportLeftOverGroups(boolean atScreenOnly, int whereTo) {
   PossibleGroupsK freshMstrPosGroups;
   String rpt = new String();
   int rm;
@@ -188,20 +190,38 @@ void reportLeftOverGroups(boolean atScreenOnly) {
       }
     }
   } 
-  println();
   rm = freshMstrPosGroups.pGroups.size();
-  println(rm + " Lab Groups remaining:"); 
+  printlnWhereTo("", whereTo);  
+  printlnWhereTo(rm + " Lab Groups remaining:", whereTo);
   for (LabGroup lg : freshMstrPosGroups.pGroups) {
     if (rpt.length() < 80) {
       rpt = rpt + lg.showMembers() + "  ";
     } else {
-      println(rpt);
+      printlnWhereTo(rpt, 1);
       rpt = "";
       rpt = rpt + lg.showMembers() + "  ";
     }
   }
-  println(rpt);
+  printlnWhereTo(rpt, whereTo);
 } //end reportLeftOverGroups
+
+// Directed output according to int whereTo
+// 0 => console
+// 1 => File
+void printlnWhereTo(String msg, int whereTo) {
+  switch(whereTo) {
+    case(0):
+    println(msg);
+    break;
+    case(1):
+    if (theFileOutput != null) {
+      theFileOutput.println(msg);
+      break;
+    }
+  }
+}
+
+
 
 // Retain this. It is used in a beVerbose function that is commented out
 void reportResults(int unfilledQty) {

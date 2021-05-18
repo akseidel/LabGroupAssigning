@@ -80,7 +80,7 @@ void draw() {
     // This section runs when process is done or quitted.
     printFirstBest(stopConsoleOutput);
     printBestResultsMatrix(stopConsoleOutput);
-    reportLeftOverGroups(stopConsoleOutput);
+    reportLeftOverGroups(stopConsoleOutput,0);
     // Allows summary to print only once at the console.
     stopConsoleOutput = true;
   } else {

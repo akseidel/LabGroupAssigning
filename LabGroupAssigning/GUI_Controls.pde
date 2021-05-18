@@ -57,6 +57,7 @@ void reposControl(GAbstractControl thisC, float wDelta) {
 }
 
 void doButtonStart() {
+  surface.setTitle(windowTitle);
   processIsDone = false;
   quitNow = false;
   getGUITextFields();
@@ -76,6 +77,7 @@ void getGUITextFields() {
 }
 
 void doButtonStop() {
+  surface.setTitle(windowTitle);
   setButtonRunState(false);
   quitNow = true;
 }

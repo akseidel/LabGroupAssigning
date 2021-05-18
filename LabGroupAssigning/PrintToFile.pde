@@ -1,15 +1,18 @@
-PrintWriter theOutput;
+PrintWriter theFileOutput;
+String theFileOutputName;
 String timeCode;
 
 void filePrint(){
   setupPrintJob();
   makeOutput();
+  String msg = " | Results saved to file: " + theFileOutputName;
+  surface.setTitle(windowTitle + msg);
 }
 
 void setupPrintJob() {
   timeCode = year()+"-" +month()+"-"+day()+"_"+hour()+minute() + second();
-  String theOutputName = "LabGroupMatrix." + timeCode + ".txt";
-  theOutput = createWriter(theOutputName);
+  theFileOutputName = "LabGroupMatrix." + timeCode + ".txt";
+  theFileOutput = createWriter(theFileOutputName);
 }
 
 void makeOutput() {
@@ -18,19 +21,19 @@ void makeOutput() {
   int gw = (gSize*2)+(gSize-1);   // group text length
   int cospc = 4;                  // space between columns
 
-  theOutput.println("Date: "+ timeCode);
-  theOutput.println();
+  theFileOutput.println("Date: "+ timeCode);
+  theFileOutput.println();
   for (String warn : warningsList) {
-    theOutput.println(warn);
+    theFileOutput.println(warn);
   }
-  theOutput.println();
+  theFileOutput.println();
   msg = "Class Size: " + classSize + "  # Groups: " + groupQty + "  # Rounds: " + roundsQty + "  Group Size: " + gSize + "  Pool Size " + nfc(poolSize);
-  theOutput.println(msg);
+  theFileOutput.println(msg);
   msg ="First best number of unfilled groups in "+ nfc(trialQty) + " trials. "+ bestunfilledQty+ " unfilled in trial: "+ nfc(besttrialrun) + " at " + timeElapsed(milliStart,milliEnd);
-  theOutput.println(msg);
-  theOutput.println();
+  theFileOutput.println(msg);
+  theFileOutput.println();
   msg ="Lab Groups Matrix";
-  theOutput.println(msg);
+  theFileOutput.println(msg);
 
   msg = "Group " + spc(5);
   for (int col = 0; col < groupQty; col ++ ) {
@@ -38,7 +41,7 @@ void makeOutput() {
     msg = msg +  strHN  + spc(gw+cospc-strHN.length())  ;
   } 
   msg = msg + "Chk:"   ;
-  theOutput.println(msg);
+  theFileOutput.println(msg);
 
   for (int row =0; row < roundsQty; row ++) {
     msg = "Round " + nf((row+1), 2) + spc(3);
@@ -47,7 +50,7 @@ void makeOutput() {
       checkSumRow = checkSumRow + bestlabGroupMatrix[row][col].sumMembers();
     }
     msg = msg + checkSumRow;
-    theOutput.println(msg);
+    theFileOutput.println(msg);
     checkSumRow = 0;
   }
   msg = "Chk:" + spc(7);
@@ -59,11 +62,12 @@ void makeOutput() {
     msg = msg + strCSV + spc(gw+cospc-strCSV.length());
     checkSumCol = 0;
   }
-  theOutput.println(msg);
-  theOutput.println();
+  theFileOutput.println(msg);
+  theFileOutput.println();
   for (String h : historyList){
-    theOutput.println(h);
+    theFileOutput.println(h);
   }
-  theOutput.flush();
-  theOutput.close();
+  reportLeftOverGroups(false,1);
+  theFileOutput.flush();
+  theFileOutput.close();
 }
