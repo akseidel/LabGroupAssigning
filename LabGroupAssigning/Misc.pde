@@ -1,13 +1,28 @@
 // Misc. functions
-// Meant to forecast results and inhibit running the process with bad
-// conditions.
+
+// Predicting the best possible unfilled matrix slots.
+// The pool size must be larger than the matrix size. 
+// Lab group sizes of one student are a special case. Unfilled = matrix size - pool size when
+// pool size is less than matrix size when lab group size is one student. 
+// A row (round) or column (group) is called balanced when all the students are selected once
+// in a row and column. Unbalanced can be underfilled, ie not enough students, or overfilled,
+// ie too many students. Unbalanced underfilled results in empty matrix slots with no possible
+// solution. Unbalanced overfilled results in filled matrix slots but not with equal student
+// participation.
+// Meant to forecast results and inhibit running the process with bad conditions.
 void classSizeCheck(GTextField source) {
+  if (processIsDone) {
+    // zap the file message that might be in title
+    surface.setTitle(windowTitle);
+  }
+
   if (source.getText().equals(" ") ) {
     warningsList.clear();
     theWarning= "Check the proposed input fields. At least one is empty.";
     warningsList.append(theWarning);
-    butStart.setEnabled(false);
+    butStart.setEnabled(false);  
     return;
+    // Otherwise there will be null errors for anything beyond this.
   }
 
   int lclassSize = int(textfieldClassSize.getText());
@@ -17,6 +32,8 @@ void classSizeCheck(GTextField source) {
   int lpoolSize = (int)numCombOfKinN(lgSize, lclassSize);
   float rowBal = float(lgroupQty) - float(lclassSize)/float(lgSize);
   float colBal = float(lroundsQty) - float(lclassSize)/float(lgSize);
+  int rowOrphans = lclassSize - lgroupQty*lgSize;
+  int colOrphans = lclassSize - lroundsQty*lgSize;
   int matrixSize = lgroupQty * lroundsQty;
   int unFilled = 0;  // default to totally filled
 
@@ -32,17 +49,6 @@ void classSizeCheck(GTextField source) {
   }
 
   warningsList.clear();
-
-  // Predicting the best possible unfilled matrix slots.
-  // The pool size must be larger than the matrix size. 
-  // Lab group sizes of one student are a special case. Unfilled = matrix size - pool size when
-  // pool size is less than matrix size when lab group size is one student. 
-  // A row (round) or column (group) is called balanced when all the students are selected once
-  // in a row and column. Unbalanced can be underfilled, ie not enough students, or overfilled,
-  // ie too many students. Unbalanced underfilled results in empty matrix slots with no possible
-  // solution. Unbalanced overfilled results in filled matrix slots but not with equal student
-  // participation.  
-
   theWarning= "The proposed selection pool will be " + nfc(lpoolSize);
   warningsList.append(theWarning);
 
@@ -59,10 +65,10 @@ void classSizeCheck(GTextField source) {
       theWarning= "Group Qty. balances with Group Size into the Class Size.";
     } else if (rowBal > 0) {
       rowUnder = - round(rowBal);
-      theWarning= "Too few students for a round. At least " + abs(rowUnder) + " matrix cell" + pls(abs(rowUnder)) + " in round will be empty.";
+      theWarning= "Too few students for rounds. At least " + abs(rowUnder) + " matrix cell" + pls(abs(rowUnder)) + " in round will be empty.";
     } else { // rowBal < 0
-      rowOver = round(-rowBal);
-      theWarning= "Too many students for a round. At least " + abs(rowOver) + " student group" + pls(abs(rowOver)) + " in round will not participate.";
+      rowOver = round(abs(rowBal));
+      theWarning= "Too many students for rounds. At least " + rowOver + " student group" + pls(rowOver) + " ("+ rowOrphans + " std)" + " will not participate.";
     } // fi
     warningsList.append(theWarning);
 
@@ -73,10 +79,10 @@ void classSizeCheck(GTextField source) {
       theWarning= "Rounds Qty. balances with Group Size into the Class Size.";
     } else if (colBal > 0) {
       colUnder = - round(colBal);  
-      theWarning= "Too few students for a group (column). At least " + abs(colUnder) + " matrix cell" + pls(abs(colUnder)) + " in group will be empty.";
+      theWarning= "Too few students for groups (column). At least " + abs(colUnder) + " matrix cell" + pls(abs(colUnder)) + " in group will be empty.";
     } else { // colBal < 0
-      colOver =  round(-colBal); 
-      theWarning= "Too many students for a group. At least " + abs(colOver) + " student group" + pls(abs(colOver)) + " in group will not participate.";
+      colOver =  round(abs(colBal)); 
+      theWarning= "Too many students for groups. At least " + colOver + " student group" + pls(colOver) + " ("+ colOrphans + " std)" + " will not participate.";
     } // fi
     warningsList.append(theWarning);
 
@@ -103,7 +109,7 @@ void classSizeCheck(GTextField source) {
   }
 
   propBestPossibleMin = unFilled ;
-}
+}// end classSizeCheck(GTextField source)
 
 // Returns number of possible filled positions for a row or column
 // given class size, group size & the column or row size.

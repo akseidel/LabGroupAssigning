@@ -8,7 +8,7 @@ void initGUI() {
   textfieldClassSize.setText(str(classSize));
   textfieldRoundsQTY.setText(str(roundsQty));
   textfieldGroupQty.setText(str(groupQty));
-  setButtonRunState(true); // App is running when started.
+  setButtonRunEnableState(true); // App is running when started.
   // g4pStuff is for iterating when window is resized
   g4pStuff.add(butStart);
   g4pStuff.add(butQuit);
@@ -26,7 +26,7 @@ void initGUI() {
 
 // setButtonRunState - Sets GUI button enabled state
 // as appropriet to current running state.
-void setButtonRunState(boolean isRunning) {
+void setButtonRunEnableState(boolean isRunning) {
   int lclassSize = int(textfieldClassSize.getText());
   if (lclassSize > 1) {
     butStart.setEnabled(!isRunning);
@@ -65,7 +65,7 @@ void doButtonStart() {
   bestunfilledQty = roundsQty * groupQty;
   noSolLG = defNoSolLG(gSize);
   stopConsoleOutput = false;
-  setButtonRunState(true); 
+  setButtonRunEnableState(true);
   thread("DoStartProcess");
 }
 
@@ -78,7 +78,7 @@ void getGUITextFields() {
 
 void doButtonStop() {
   surface.setTitle(windowTitle);
-  setButtonRunState(false);
+  setButtonRunEnableState(false);
   quitNow = true;
 }
 

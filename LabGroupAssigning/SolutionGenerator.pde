@@ -3,6 +3,7 @@
 
 // This function is called on a thread.
 void DoStartProcess() {
+  surface.setTitle(windowTitle + " | Now Running");
   milliStart = millis();
   initializeBestlabGroupMatrix();
   bestunfilledQty = roundsQty * groupQty;
@@ -113,12 +114,14 @@ void DoStartProcess() {
     // Break if a perfect solution was found.
     if (bestunfilledQty < bestPossibleMin + 1) { 
       milliEnd = millis();
+      surface.setTitle(windowTitle + " | Done");
       break;
     }
     // Break if a q key was pressed.
     if (quitNow) {
       milliEnd = millis();
       reportQuitNowMessage(run);
+      surface.setTitle(windowTitle + " | Terminated");
       break;
     }
   } // end run loop
@@ -129,7 +132,7 @@ void DoStartProcess() {
   }
   println();
   processIsDone = true;
-  setButtonRunState(false);
+  setButtonRunEnableState(false);
 }// end DoStartProcess
 
 // The valid trial selections. Each bad trial will be removed 
