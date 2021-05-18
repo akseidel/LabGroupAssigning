@@ -42,6 +42,6 @@
 ![Example Saved File](./readme-images/SavedFileImage.png)
 
 ## Install and Running
-
-* Prebuilt application files for OSX, Linux and Windows are not provided in this repository at this time. That may be in the future. They are easily built from the **Processing IDE** with the files in this repository. **LabGroupsAssigning** can be executed from within the **Processing IDE**. Those familiar with **Processing** would need no instructions other than the knowledge that the **G4P** GUI controls library needs to be installed. Those not familiar with **Processing** need to start here: **[Processing](https://www.processing.org)**.
-* A **Processing** application is a Java application. Therefore the Java run-time system is required to be installed or packaged within the application. As of this writing the option to package Java within the application is possible only with OSX systems.
+* A Prebuilt application file for Apple OSX is provided in this repository at [/Releases/macosx](Releases/macosx/).
+* Prebuilt application files for Linux and Windows are not provided in this repository at this time. That may be in the future. They are easily built from the **Processing IDE** with the files in this repository. **LabGroupsAssigning** can be executed from within the **Processing IDE**. Those familiar with **Processing** would need no instructions other than the knowledge that the **G4P** GUI controls library needs to be installed. Those not familiar with **Processing** need to start here: **[Processing](https://www.processing.org)**.
+* A **Processing** application is a Java application. Therefore the Java run-time system is required to be installed or packaged within the application. As of this writing the option to package Java within the application is possible only with Apple OSX systems.

@@ -42,11 +42,11 @@ StringList historyList = new StringList();
 
 LabGroup[][] bestlabGroupMatrix;
 LabGroup noSolLG = defNoSolLG(gSize);
-PossibleGroupsK tempPosGroups; // temporary possiblegroups pool copy
+PossibleGroupsK tempPosGroups;                // temporary possiblegroups pool copy
 ArrayList<LabGroup> priorItemsForThisRowCell; // Used for the trial comparisons.
-LabGroup[][] labGroupMatrix ; // The result matrix
-PossibleGroupsK mstrPosGroups; // collection of all possible groups
-LabGroup thislg ;             // Labgroup selection under question
+LabGroup[][] labGroupMatrix ;                 // The result matrix
+PossibleGroupsK mstrPosGroups;                // collection of all possible groups
+LabGroup thislg ;                             // Labgroup selection under question
 
 // display related
 PFont f;
@@ -80,20 +80,18 @@ void draw() {
     // This section runs when process is done or quitted.
     printFirstBest(stopConsoleOutput);
     printBestResultsMatrix(stopConsoleOutput);
-    reportLeftOverGroups(stopConsoleOutput,0);
+    reportLeftOverGroups(stopConsoleOutput, 0);
     // Allows summary to print only once at the console.
     stopConsoleOutput = true;
   } else {
     // This section executes when the process thread is active.  
     printBestResultsMatrix(true);
   }
-
-  checkOnWindowResize();
+  checkForUserWindowResize();
 } // end draw
 
 void keyPressed() {   
   if (key == 'q' || key == 'Q') {     
     quitNow = true;
   }
-  
 }

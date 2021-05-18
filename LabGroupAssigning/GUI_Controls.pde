@@ -36,7 +36,7 @@ void setButtonRunEnableState(boolean isRunning) {
 }
 
 // moves G4P controls as window is resized
-void checkOnWindowResize() {
+void checkForUserWindowResize() {
   boolean resized = false;
   float wDelta = 0;
   if ( (lastWidth != width)  ) {
