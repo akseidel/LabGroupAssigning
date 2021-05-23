@@ -3,6 +3,7 @@
 
 // This function is called on a thread.
 void DoStartProcess() {
+  boolean doTerminate;
   surface.setTitle(windowTitle + " | Now Running");
   milliStart = millis();
   initializeBestlabGroupMatrix();
@@ -18,6 +19,7 @@ void DoStartProcess() {
     row = 0;
     col = 0;
     unfilledQty = 0;
+    doTerminate = false;
     // start groups matrix build
 
     //if (beVerbose) {
@@ -82,9 +84,16 @@ void DoStartProcess() {
         } else {
           // tempPosGroups pool is exhausted, there are no solutions
           // for this matrix position. Mark as no solution.
-          labGroupMatrix[row][col] = noSolLG;
+          labGroupMatrix[row][col] = noSolLG;     
           // Increment no solution counter.
           unfilledQty ++;
+          // Terminate check. There is no point to continue with this trial if the
+          // unfilledQty equals the current best.
+          if (bestunfilledQty <= unfilledQty) {
+            // set doTerminate flag
+            doTerminate = true;
+            break;
+          }
         }
 
         //if (beVerbose) {
@@ -94,6 +103,12 @@ void DoStartProcess() {
 
         col ++;
       } // next col
+
+      // Break out of this trial run if doTerminate flag is set.
+      if (doTerminate) {
+        break;
+      }
+
       //reset col index for next row
       col = 0;
       row ++;
@@ -103,6 +118,7 @@ void DoStartProcess() {
       //  println();
       //}
     } // next row ie. round
+    // The trial run is over at this point.
 
     //if (beVerbose) {
     //  reportResults(unfilledQty);
@@ -124,9 +140,9 @@ void DoStartProcess() {
       surface.setTitle(windowTitle + " | Terminated");
       break;
     }
-  } // end run loop
+  } // end for run loop
   if (!quitNow) {
-    msg = "Done in " + timeElapsed(milliStart,milliEnd);
+    msg = "Done in " + timeElapsed(milliStart, milliEnd);
     println(msg);
     lastStatusMsg = msg;
   }
@@ -179,12 +195,24 @@ void  MakeListOfPriorItemsForThisRowColCell(int row, int col) {
 
 void recordBetterRunIfAny(int run) {
   if (unfilledQty < bestunfilledQty) {
+    StringBuilder sbMsg = new StringBuilder();
+    StringBuilder sbMsg1 = new StringBuilder();
     bestunfilledQty = unfilledQty;
     bestlabGroupMatrix = labGroupMatrix;
     besttrialrun = run;
-    msg = "Current best " + bestunfilledQty + " in trial " + nfc(besttrialrun) + " at time " + timeElapsed(milliStart,millis());
-    historyList.append(bestunfilledQty + " remaining, trial: " + nfc(besttrialrun) + " , at " + timeElapsed(milliStart,millis()));
-    println(msg);
+    sbMsg.append("Current best ");
+    sbMsg.append( bestunfilledQty);
+    sbMsg.append(" in trial ");
+    sbMsg.append( nfc(besttrialrun));
+    sbMsg.append(" at time ");
+    sbMsg.append(timeElapsed(milliStart, millis()));
+    sbMsg1.append(bestunfilledQty);
+    sbMsg1.append(" remaining, trial: ");
+    sbMsg1.append(nfc(besttrialrun));
+    sbMsg1.append(" , at ");
+    sbMsg1.append(timeElapsed(milliStart, millis()));
+    historyList.append(sbMsg1.toString());
+    println(sbMsg.toString());
   }
 }// end recordBetterRunIfAny
 
@@ -198,5 +226,12 @@ void initializeBestlabGroupMatrix() {
 }// end initializeBestlabGroupMatrix
 
 void feedbackStatus(int run) {
-  lastStatusMsg = "Least Unfilled: " + bestunfilledQty + " in Trial: " + nfc(besttrialrun) + "  Current Trial: " + nfc(run);
+  StringBuilder sbMsg = new StringBuilder();
+  sbMsg.append("Least Unfilled: ");
+  sbMsg.append( bestunfilledQty);
+  sbMsg.append(" in trial ");
+  sbMsg.append( nfc(besttrialrun));
+  sbMsg.append("  Current Trial: ");
+  sbMsg.append(nfc(run));
+  lastStatusMsg = sbMsg.toString();
 }// end feedbackStatus

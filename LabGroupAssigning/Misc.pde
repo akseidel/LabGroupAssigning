@@ -11,6 +11,7 @@
 // participation.
 // Meant to forecast results and inhibit running the process with bad conditions.
 void classSizeCheck(GTextField source) {
+  StringBuilder sbTheWarning = new StringBuilder(); 
   if (processIsDone) {
     // zap the file message that might be in title
     surface.setTitle(windowTitle);
@@ -18,8 +19,8 @@ void classSizeCheck(GTextField source) {
 
   if (source.getText().equals(" ") ) {
     warningsList.clear();
-    theWarning= "Check the proposed input fields. At least one is empty.";
-    warningsList.append(theWarning);
+    sbTheWarning.append("Check the proposed input fields. At least one is empty.");
+    warningsList.append(sbTheWarning.toString());
     butStart.setEnabled(false);  
     return;
     // Otherwise there will be null errors for anything beyond this.
@@ -49,42 +50,73 @@ void classSizeCheck(GTextField source) {
   }
 
   warningsList.clear();
-  theWarning= "The proposed selection pool will be " + nfc(lpoolSize);
-  warningsList.append(theWarning);
+  sbTheWarning.setLength(0);
+  sbTheWarning.append("The proposed selection pool will be ");
+  sbTheWarning.append(nfc(lpoolSize));
+  warningsList.append(sbTheWarning.toString());
 
   if ((lgSize == 1) && (matrixSize > lpoolSize)) {
     unFilled = matrixSize - lpoolSize;
     theWarning= "The " + lpoolSize + " students cannot fill the " + matrixSize + " positions. " + unFilled + " will be unfilled.";
-    warningsList.append(theWarning);
+    sbTheWarning.setLength(0);
+    sbTheWarning.append("The ");
+    sbTheWarning.append(nfc(lpoolSize));
+    sbTheWarning.append( " students cannot fill the ");
+    sbTheWarning.append(matrixSize );
+    sbTheWarning.append(" positions. ");
+    sbTheWarning.append( unFilled);
+    sbTheWarning.append( " will be unfilled.");
+    warningsList.append(sbTheWarning.toString());
   } else {
 
     // examine row situation
     int rowUnder = 0;
     int rowOver = 0;
+    sbTheWarning.setLength(0);
     if (rowBal ==0) {
-      theWarning= "Group Qty. balances with Group Size into the Class Size.";
+      sbTheWarning.append( "Group Qty. balances with Group Size into the Class Size.");
     } else if (rowBal > 0) {
       rowUnder = - round(rowBal);
-      theWarning= "Too few students for rounds. At least " + abs(rowUnder) + " matrix cell" + pls(abs(rowUnder)) + " in round will be empty.";
+      sbTheWarning.append("Too few students for rounds. At least ");
+      sbTheWarning.append(abs(rowUnder));
+      sbTheWarning.append(" matrix cell");
+      sbTheWarning.append(pls(abs(rowUnder)));
+      sbTheWarning.append(" in round will be empty.");
     } else { // rowBal < 0
       rowOver = round(abs(rowBal));
-      theWarning= "Too many students for rounds. At least " + rowOver + " student group" + pls(rowOver) + " ("+ rowOrphans + " std)" + " will not participate.";
+      sbTheWarning.append("Too many students for rounds. At least ");
+      sbTheWarning.append(rowOver);
+      sbTheWarning.append(" student group");
+      sbTheWarning.append(pls(rowOver));
+      sbTheWarning.append(" (");
+      sbTheWarning.append(rowOrphans);
+      sbTheWarning.append(" std) will not participate.");
     } // fi
-    warningsList.append(theWarning);
-
+    warningsList.append(sbTheWarning.toString());
     // examine column situation
     int colUnder = 0;
     int colOver = 0;
+    sbTheWarning.setLength(0);
     if (colBal ==0) {
-      theWarning= "Rounds Qty. balances with Group Size into the Class Size.";
+      sbTheWarning.append("Rounds Qty. balances with Group Size into the Class Size.");
     } else if (colBal > 0) {
-      colUnder = - round(colBal);  
-      theWarning= "Too few students for groups (column). At least " + abs(colUnder) + " matrix cell" + pls(abs(colUnder)) + " in group will be empty.";
+      colUnder = - round(colBal);
+      sbTheWarning.append("Too few students for groups (column). At least ");
+      sbTheWarning.append(abs(colUnder));
+      sbTheWarning.append(" matrix cell");
+      sbTheWarning.append(pls(abs(colUnder)));
+      sbTheWarning.append(" in group will be empty.");
     } else { // colBal < 0
-      colOver =  round(abs(colBal)); 
-      theWarning= "Too many students for groups. At least " + colOver + " student group" + pls(colOver) + " ("+ colOrphans + " std)" + " will not participate.";
+      colOver =  round(abs(colBal));
+      sbTheWarning.append("Too many students for groups. At least ");
+      sbTheWarning.append(colOver);
+      sbTheWarning.append(" student group");
+      sbTheWarning.append(pls(colOver));
+      sbTheWarning.append(" (");
+      sbTheWarning.append(colOrphans);
+      sbTheWarning.append(" std) will not participate.");
     } // fi
-    warningsList.append(theWarning);
+    warningsList.append(sbTheWarning.toString());
 
     // Account for any unbalance
     if ( (rowUnder != 0) || (colUnder !=0) ) {
@@ -92,8 +124,11 @@ void classSizeCheck(GTextField source) {
     } // fi
 
     if (unFilled > 0) {
-      theWarning= "There will be roughly " + unFilled + " unfilled slots.";
-      warningsList.append(theWarning);
+      sbTheWarning.setLength(0);
+      sbTheWarning.append("There will be roughly ");
+      sbTheWarning.append(unFilled);
+      sbTheWarning.append(" unfilled slots.");
+      warningsList.append(sbTheWarning.toString());
     } // fi
   } // fi ((lgSize == 1) && (matrixSize > lpoolSize))
 

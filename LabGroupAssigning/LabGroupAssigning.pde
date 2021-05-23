@@ -36,7 +36,7 @@ int milliEnd;
 boolean isMsgFeedBack = false;
 boolean processIsDone = false;
 boolean stopConsoleOutput = false;
-String theWarning = "";
+String theWarning = new String();
 StringList warningsList = new StringList();
 StringList historyList = new StringList();
 

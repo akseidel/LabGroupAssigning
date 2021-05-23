@@ -22,28 +22,47 @@ void fontSetUp() {
 }
 
 void showInitialHeader(boolean inConsoleOnly) {
-  msg = "Class Size: " + classSize + "  # Groups: " + groupQty + "  # Rounds: " + roundsQty + "  Group Size: " + gSize + "  Pool Size " + nfc(poolSize);
+  StringBuilder sbMsg = new StringBuilder();
+  sbMsg.append("Class Size: ");
+  sbMsg.append(classSize);
+  sbMsg.append( "  # Groups: ");
+  sbMsg.append(groupQty);
+  sbMsg.append("  # Rounds: ");
+  sbMsg.append(roundsQty);
+  sbMsg.append( "  Group Size: ");
+  sbMsg.append( gSize);
+  sbMsg.append("  Pool Size ");
+  sbMsg.append(nfc(poolSize));
   if (inConsoleOnly) {
-    println(msg);
+    println(sbMsg.toString());
   }
   if (!inConsoleOnly) {
-    text(msg, drawborder, currentlineY);
+    text(sbMsg.toString(), drawborder, currentlineY);
   }
-  msg = "Performing at most " + nfc(trialQty) + " solution trials ... Press q at any time to terminate.";
+  StringBuilder sbMsg1 = new StringBuilder();
+  sbMsg1.append("Performing at most ");
+  sbMsg1.append(nfc(trialQty));
+  sbMsg1.append( " solution trials ... Press q at any time to terminate.");
   if (inConsoleOnly) {
-    println(msg);
+    println(sbMsg1.toString());
   }
   if (!inConsoleOnly) {
-    text(msg, drawborder, nextLineY());
+    text(sbMsg1.toString(), drawborder, nextLineY());
   }
 }
 
 void printFirstBest(boolean stopConsoleOutput) {
-  msg ="First best number of unfilled groups in "+ nfc(trialQty) + " trials. "+ bestunfilledQty + " unfilled in trial: "+ nfc(besttrialrun) ;
+  StringBuilder sbMsg = new StringBuilder();
+  sbMsg.append("First best number of unfilled groups in ");
+  sbMsg.append(nfc(trialQty));
+  sbMsg.append(" trials. ");
+  sbMsg.append(bestunfilledQty);
+  sbMsg.append(" unfilled in trial: ");
+  sbMsg.append(nfc(besttrialrun));
   nextLineY();
-  text(msg, drawborder, nextLineY());
+  text(sbMsg.toString(), drawborder, nextLineY());
   if (! stopConsoleOutput) {
-    println(msg);
+    println(sbMsg.toString());
   }
 } 
 
@@ -65,48 +84,59 @@ void printMatrixHeader(boolean atScreenOnly) {
 }// end printMatrixHeader
 
 void printBestResultsMatrix(boolean atScreenOnly) {
+  StringBuilder sbMsg = new StringBuilder();
   int checkSumRow = 0;
   int checkSumCol = 0;
   int gw = (gSize*2)+(gSize-1);   // group text length
   int cospc = 4;                  // space between columns
 
   printMatrixHeader(atScreenOnly);
-  msg = "Group " + spc(5);
+  sbMsg.append("Group ");
+  sbMsg.append(spc(5));
   for (int col = 0; col < groupQty; col ++ ) {
     String strHN = str((col+1));
-    msg = msg +  strHN  + spc(gw+cospc-strHN.length())  ;
+    sbMsg.append(strHN);
+    sbMsg.append(spc(gw+cospc-strHN.length()));
   } 
-  msg = msg + "Chk:"   ;
+  sbMsg.append("Chk:");
   if (! atScreenOnly) {
-    println(msg);
+    println(sbMsg.toString());
   }
-  text(msg, drawborder, nextLineY());
+  text(sbMsg.toString(), drawborder, nextLineY());
+
   for (int row =0; row < roundsQty; row ++) {
-    msg = "Round " + nf((row+1), 2) + spc(3);
+    StringBuilder sbMsg1 = new StringBuilder();
+    sbMsg1.append("Round ");
+    sbMsg1.append(nf((row+1), 2));
+    sbMsg1.append("   ");
     for (int col = 0; col < groupQty; col ++ ) {
-      msg = msg + bestlabGroupMatrix[row][col].showMembers() + spc(cospc);
+      sbMsg1.append(bestlabGroupMatrix[row][col].showMembers());
+      sbMsg1.append(spc(cospc));
       checkSumRow = checkSumRow + bestlabGroupMatrix[row][col].sumMembers();
     }
-    msg = msg + checkSumRow;
+    sbMsg1.append(checkSumRow);
     if (! atScreenOnly) {
-      println(msg);
+      println(sbMsg1.toString());
     }
-    text(msg, drawborder, nextLineY());
+    text(sbMsg1.toString(), drawborder, nextLineY());
     checkSumRow = 0;
   }
-  msg = "Chk:" + spc(7);
+  StringBuilder sbMsg2 = new StringBuilder();
+  sbMsg2.append("Chk:");
+  sbMsg2.append(spc(7));
   for (int col = 0; col < groupQty; col ++ ) {
     for (int row =0; row < roundsQty; row ++) {
       checkSumCol = checkSumCol + bestlabGroupMatrix[row][col].sumMembers();
     }
     String strCSV = str(checkSumCol);
-    msg = msg + strCSV + spc(gw+cospc-strCSV.length());
+    sbMsg2.append(strCSV);
+    sbMsg2.append(spc(gw+cospc-strCSV.length()));
     checkSumCol = 0;
   }
   if (! atScreenOnly) {
-    println(msg);
+    println(sbMsg2.toString());
   }
-  text(msg, drawborder, nextLineY());
+  text(sbMsg2.toString(), drawborder, nextLineY());
   nextLineY();
   for (String h : historyList) {
     text(h, drawborder, nextLineY());
@@ -145,12 +175,11 @@ void reportQuitNowMessage(int run) {
 
 // Function to return a string of len spaces.
 String spc(int len) {
-  String space =" ";
-  String s ="";
+  StringBuilder s = new StringBuilder();
   while (s.length() < len ) {
-    s = s + space;
+    s.append(" ");
   }
-  return s;
+  return s.toString();
 }
 
 String timeElapsed(int lmStart, int lmEnd) {
@@ -171,7 +200,7 @@ String timeElapsed(int lmStart, int lmEnd) {
 // whereTo 0 = comnsole, whereTo 1 is file
 void reportLeftOverGroups(boolean atScreenOnly, int whereTo) {
   PossibleGroupsK freshMstrPosGroups;
-  String rpt = new String();
+  StringBuilder sbRpt = new StringBuilder();
   int rm;
   if (atScreenOnly) {
     return;
@@ -194,15 +223,17 @@ void reportLeftOverGroups(boolean atScreenOnly, int whereTo) {
   printlnWhereTo("", whereTo);  
   printlnWhereTo(rm + " Lab Groups remaining:", whereTo);
   for (LabGroup lg : freshMstrPosGroups.pGroups) {
-    if (rpt.length() < 80) {
-      rpt = rpt + lg.showMembers() + "  ";
+    if (sbRpt.length() < 80) {
+      sbRpt.append(lg.showMembers());
+      sbRpt.append("  ");
     } else {
-      printlnWhereTo(rpt, 1);
-      rpt = "";
-      rpt = rpt + lg.showMembers() + "  ";
+      printlnWhereTo(sbRpt.toString(), 1);
+      sbRpt.setLength(0);
+      sbRpt.append(lg.showMembers());
+      sbRpt.append("  ");
     }
   }
-  printlnWhereTo(rpt, whereTo);
+  printlnWhereTo(sbRpt.toString(), whereTo);
 } //end reportLeftOverGroups
 
 // Directed output according to int whereTo
