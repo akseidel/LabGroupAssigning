@@ -1,17 +1,46 @@
 PrintWriter theFileOutput;
 String theFileOutputName;
-String timeCode;
+String runInfo;
+StringBuilder sbDC = new StringBuilder();
+StringBuilder sbFN = new StringBuilder();
 
-void filePrint(){
+void filePrint() {
   setupPrintJob();
   makeOutput();
-  String msg = " | Results saved to file: " + theFileOutputName;
-  surface.setTitle(windowTitle + msg);
+  if (doAutoFiling) {
+    surface.setTitle(windowTitle + " | Auto Save Result " + cATrial + " of " + autoFileQty + " as: "+ theFileOutputName);
+  } else {
+    surface.setTitle(windowTitle +" | Results saved to file: " + theFileOutputName);
+  }
 }
 
 void setupPrintJob() {
-  timeCode = year()+"-" +month()+"-"+day()+"_"+hour()+minute() + second();
-  theFileOutputName = "LabGroupMatrix." + timeCode + ".txt";
+  sbFN.setLength(0);
+  sbFN.append("LGM_");
+  sbFN.append(classSize);
+  sbFN.append("_");
+  sbFN.append(gSize);
+  sbFN.append("_");
+  sbFN.append(groupQty);
+  sbFN.append("x");
+  sbFN.append(roundsQty);
+  sbFN.append("_");
+  // date code
+  sbDC.setLength(0);
+  sbDC.append(year());
+  sbDC.append("-");
+  sbDC.append(month());
+  sbDC.append("-");
+  sbDC.append(day());
+  sbDC.append("_");
+  sbDC.append(hour());
+  sbDC.append(minute() );
+  sbDC.append(second());
+  sbDC.append("_");
+  sbDC.append(millis());
+  sbFN.append(sbDC.toString());
+  sbFN.append(".txt");
+  theFileOutputName = sbFN.toString();
   theFileOutput = createWriter(theFileOutputName);
 }
 
@@ -21,53 +50,84 @@ void makeOutput() {
   int gw = (gSize*2)+(gSize-1);   // group text length
   int cospc = 4;                  // space between columns
 
-  theFileOutput.println("Date: "+ timeCode);
+  theFileOutput.println("Date: "+ sbDC.toString());
   theFileOutput.println();
   for (String warn : warningsList) {
     theFileOutput.println(warn);
   }
   theFileOutput.println();
-  msg = "Class Size: " + classSize + "  # Groups: " + groupQty + "  # Rounds: " + roundsQty + "  Group Size: " + gSize + "  Pool Size " + nfc(poolSize);
-  theFileOutput.println(msg);
-  msg ="First best number of unfilled groups in "+ nfc(trialQty) + " trials. "+ bestunfilledQty+ " unfilled in trial: "+ nfc(besttrialrun) + " at " + timeElapsed(milliStart,milliEnd);
-  theFileOutput.println(msg);
+
+  StringBuilder sbHDR = new StringBuilder();
+  sbHDR.append("Class Size: ");
+  sbHDR.append(classSize);
+  sbHDR.append( "  # Groups: ");
+  sbHDR.append(groupQty);
+  sbHDR.append("  # Rounds: ");
+  sbHDR.append(roundsQty);
+  sbHDR.append( "  Group Size: ");
+  sbHDR.append( gSize);
+  sbHDR.append("  Pool Size ");
+  sbHDR.append(nfc(poolSize));
+  theFileOutput.println(sbHDR.toString());
+
+  StringBuilder sbFBH = new StringBuilder();
+  sbFBH.append("First best number of unfilled groups in ");
+  sbFBH.append(nfc(trialQty));
+  sbFBH.append(" trials. ");
+  sbFBH.append(bestunfilledQty);
+  sbFBH.append(" unfilled in trial: ");
+  sbFBH.append(nfc(besttrialrun));
+  theFileOutput.println(sbFBH.toString());
+
   theFileOutput.println();
   msg ="Lab Groups Matrix";
   theFileOutput.println(msg);
 
-  msg = "Group " + spc(5);
+  StringBuilder sbMTX = new StringBuilder();
+  sbMTX.append("Group ");
+  sbMTX.append(spc(5));
   for (int col = 0; col < groupQty; col ++ ) {
     String strHN = str((col+1));
-    msg = msg +  strHN  + spc(gw+cospc-strHN.length())  ;
+    sbMTX.append(strHN);
+    sbMTX.append(spc(gw+cospc-strHN.length()));
   } 
-  msg = msg + "Chk:"   ;
-  theFileOutput.println(msg);
+  sbMTX.append("Chk:");
+  theFileOutput.println(sbMTX.toString());
 
   for (int row =0; row < roundsQty; row ++) {
-    msg = "Round " + nf((row+1), 2) + spc(3);
+    sbMTX.setLength(0);
+    sbMTX.append("Round ");
+    sbMTX.append(nf((row+1), 2));
+    sbMTX.append("   ");
     for (int col = 0; col < groupQty; col ++ ) {
-      msg = msg + bestlabGroupMatrix[row][col].showMembers() + spc(cospc);
+      sbMTX.append(bestlabGroupMatrix[row][col].showMembers());
+      sbMTX.append(spc(cospc));
       checkSumRow = checkSumRow + bestlabGroupMatrix[row][col].sumMembers();
     }
-    msg = msg + checkSumRow;
-    theFileOutput.println(msg);
+    sbMTX.append(checkSumRow);
+    theFileOutput.println(sbMTX.toString());
     checkSumRow = 0;
   }
-  msg = "Chk:" + spc(7);
+
+  sbMTX.setLength(0);
+  sbMTX.append("Chk:");
+  sbMTX.append(spc(7));
   for (int col = 0; col < groupQty; col ++ ) {
     for (int row =0; row < roundsQty; row ++) {
       checkSumCol = checkSumCol + bestlabGroupMatrix[row][col].sumMembers();
     }
     String strCSV = str(checkSumCol);
-    msg = msg + strCSV + spc(gw+cospc-strCSV.length());
+    sbMTX.append(strCSV);
+    sbMTX.append(spc(gw+cospc-strCSV.length()));
     checkSumCol = 0;
   }
-  theFileOutput.println(msg);
+  theFileOutput.println(sbMTX.toString());
+
   theFileOutput.println();
-  for (String h : historyList){
+  for (String h : historyList) {
     theFileOutput.println(h);
   }
-  reportLeftOverGroups(false,1);
+  reportLeftOverGroups(false, 1);
   theFileOutput.flush();
   theFileOutput.close();
 }

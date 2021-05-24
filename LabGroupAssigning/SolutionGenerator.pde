@@ -1,154 +1,177 @@
 // SolutionGenerator //<>//
 // Note: The beVerbose sections have been commented out.
 
+int cATrial;
+
 // This function is called on a thread.
 void DoStartProcess() {
   boolean doTerminate;
-  surface.setTitle(windowTitle + " | Now Running");
-  milliStart = millis();
-  initializeBestlabGroupMatrix();
-  bestunfilledQty = roundsQty * groupQty;
-  bestPossibleMin = propBestPossibleMin;
-  historyList.clear();
-  // start multiple solution trials
-  for (int run = 1; run < trialQty + 1; run ++) {
-    feedbackStatus(run);
-    labGroupMatrix = new LabGroup[roundsQty][groupQty];
-    mstrPosGroups = new PossibleGroupsK(classSize, gSize);
-    poolSize = mstrPosGroups.pGroups.size();
-    row = 0;
-    col = 0;
-    unfilledQty = 0;
-    doTerminate = false;
-    // start groups matrix build
-
-    //if (beVerbose) {
-    //  printMatrixHeader(beVerbose);
-    //}
-
-    // The start for each trial.
-    // The mstrPosGroups is the master possible groups collection. This is a 
-    // collection of all the possible selection combinations. During each trial
-    // each selection determined to be valid at the time is added to the assigning
-    // matrix and then removed from the mstrPosGroups. Thus that selection cannot
-    // be selected again. But for each element selection the prior students selected
-    // for any one element's row and column cannot be slected again because each row,
-    // or round as it is called, and each column, or group as it is called, are not to
-    // have a single student occur more than once. A copy of the mstrPosGroups collection,
-    // called the tempPosGroups, is used as the selection pool for any one cell selection
-    // after the appropriet student containing prior selections for that row and colum 
-    // are first removed from the copy of the mstrPosGroups selection matrix.
-
-    while (row < roundsQty) {
+  for (cATrial = 1; cATrial <  autoFileQty + 1; cATrial++) {
+    if (doAutoFiling) {
+      surface.setTitle(windowTitle + " | Now Running | Auto Save " + cATrial + " of " + autoFileQty);
+    } else {
+      surface.setTitle(windowTitle + " | Now Running");
+    }    
+    milliStart = millis();
+    initializeBestlabGroupMatrix();
+    bestunfilledQty = roundsQty * groupQty;
+    bestPossibleMin = propBestPossibleMin;
+    historyList.clear();
+    // start multiple solution trials
+    for (int run = 1; run < trialQty + 1; run ++) {
+      feedbackStatus(run);
+      labGroupMatrix = new LabGroup[roundsQty][groupQty];
+      mstrPosGroups = new PossibleGroupsK(classSize, gSize);
+      poolSize = mstrPosGroups.pGroups.size();
+      row = 0;
+      col = 0;
+      unfilledQty = 0;
+      doTerminate = false;
+      // start groups matrix build
 
       //if (beVerbose) {
-      //  print("Round ", str(row+1), spc(3));
-      //}   
+      //  printMatrixHeader(beVerbose);
+      //}
 
-      while (col < groupQty) {
-        // Make a fresh copy of the current mstrPosGroups selection pool. This
-        // copy is the tempPosGroups pool. The appropriet prior lab groups will
-        // be removed from the tempPosGroups before a random selection is drawn
-        // from it.
-        MakeFreshTempGroups(); 
+      // The start for each trial.
+      // The mstrPosGroups is the master possible groups collection. This is a 
+      // collection of all the possible selection combinations. During each trial
+      // each selection determined to be valid at the time is added to the assigning
+      // matrix and then removed from the mstrPosGroups. Thus that selection cannot
+      // be selected again. But for each element selection the prior students selected
+      // for any one element's row and column cannot be slected again because each row,
+      // or round as it is called, and each column, or group as it is called, are not to
+      // have a single student occur more than once. A copy of the mstrPosGroups collection,
+      // called the tempPosGroups, is used as the selection pool for any one cell selection
+      // after the appropriet student containing prior selections for that row and colum 
+      // are first removed from the copy of the mstrPosGroups selection matrix.
 
-        // Collect all the prior selections in the same row and same column as the
-        // current row, col. This collection is called priorItemsForThisRowCell.
-        // This collection will be used for removing all possible selections
-        // in the temporary pool that contain the students present in the prior
-        // items collection.
-        MakeListOfPriorItemsForThisRowColCell(row, col);
-
-        // Purge the tempPosGroups pool of all LabGroups that are not unique with
-        // the row and col priors for this row, cell. After this step any selection
-        // from the tempPosGroups pool will have students new to both the current
-        // round (row) and group (column) for this row/column matrix cell.
-        PurgeTempPosPoolOfAllNonUniquePriors(priorItemsForThisRowCell, tempPosGroups);      
-
-        // Any LabGroup remaining in the tempPosGroups pool at this point would be a
-        // valid pick for this current row cell. A random LabGroup will be selected.
-        // An empty tempPosGroups pool means there is not a solution for this row cell.
-        // An empty mstrPosGroups pool means there no solutions anymore.
-        if ( (tempPosGroups.pGroups.size() > 0) && (mstrPosGroups.pGroups.size() > 0) ) {
-          // There is at least one remaining tempPosGroup.
-          // Get index for this valid pick.
-          index = int(random(tempPosGroups.pGroups.size()));
-          thislg = tempPosGroups.pGroups.get(index);
-          // Add the valid labgroup to the matrix
-          labGroupMatrix[row][col] = thislg;
-          // Get index of the valid LabGroup so it may be removed from the master pool
-          // mstrPosGroups.
-          index = mstrPosGroups.getIndexOf(thislg);
-          // Remove the labgroup from the pool
-          mstrPosGroups.pGroups.remove(index);
-        } else {
-          // tempPosGroups pool is exhausted, there are no solutions
-          // for this matrix position. Mark as no solution.
-          labGroupMatrix[row][col] = noSolLG;     
-          // Increment no solution counter.
-          unfilledQty ++;
-          // Terminate check. There is no point to continue with this trial if the
-          // unfilledQty equals the current best.
-          if (bestunfilledQty <= unfilledQty) {
-            // set doTerminate flag
-            doTerminate = true;
-            break;
-          }
-        }
+      while (row < roundsQty) {
 
         //if (beVerbose) {
-        //  print(labGroupMatrix[row][col].showMembers());
-        //  print(spc(3));
+        //  print("Round ", str(row+1), spc(3));
+        //}   
+
+        while (col < groupQty) {
+          // Make a fresh copy of the current mstrPosGroups selection pool. This
+          // copy is the tempPosGroups pool. The appropriet prior lab groups will
+          // be removed from the tempPosGroups before a random selection is drawn
+          // from it.
+          MakeFreshTempGroups(); 
+
+          // Collect all the prior selections in the same row and same column as the
+          // current row, col. This collection is called priorItemsForThisRowCell.
+          // This collection will be used for removing all possible selections
+          // in the temporary pool that contain the students present in the prior
+          // items collection.
+          MakeListOfPriorItemsForThisRowColCell(row, col);
+
+          // Purge the tempPosGroups pool of all LabGroups that are not unique with
+          // the row and col priors for this row, cell. After this step any selection
+          // from the tempPosGroups pool will have students new to both the current
+          // round (row) and group (column) for this row/column matrix cell.
+          PurgeTempPosPoolOfAllNonUniquePriors(priorItemsForThisRowCell, tempPosGroups);      
+
+          // Any LabGroup remaining in the tempPosGroups pool at this point would be a
+          // valid pick for this current row cell. A random LabGroup will be selected.
+          // An empty tempPosGroups pool means there is not a solution for this row cell.
+          // An empty mstrPosGroups pool means there no solutions anymore.
+          if ( (tempPosGroups.pGroups.size() > 0) && (mstrPosGroups.pGroups.size() > 0) ) {
+            // There is at least one remaining tempPosGroup.
+            // Get index for this valid pick.
+            index = int(random(tempPosGroups.pGroups.size()));
+            thislg = tempPosGroups.pGroups.get(index);
+            // Add the valid labgroup to the matrix
+            labGroupMatrix[row][col] = thislg;
+            // Get index of the valid LabGroup so it may be removed from the master pool
+            // mstrPosGroups.
+            index = mstrPosGroups.getIndexOf(thislg);
+            // Remove the labgroup from the pool
+            mstrPosGroups.pGroups.remove(index);
+          } else {
+            // tempPosGroups pool is exhausted, there are no solutions
+            // for this matrix position. Mark as no solution.
+            labGroupMatrix[row][col] = noSolLG;     
+            // Increment no solution counter.
+            unfilledQty ++;
+            // Terminate check. There is no point to continue with this trial if the
+            // unfilledQty equals the current best.
+            if (bestunfilledQty <= unfilledQty) {
+              // set doTerminate flag
+              doTerminate = true;
+              break;
+            }
+          }
+
+          //if (beVerbose) {
+          //  print(labGroupMatrix[row][col].showMembers());
+          //  print(spc(3));
+          //}
+
+          col ++;
+        } // next col
+
+        // Break out of this trial run if doTerminate flag is set.
+        if (doTerminate) {
+          break;
+        }
+
+        //reset col index for next row
+        col = 0;
+        row ++;
+
+        //if (beVerbose) {
+        //  print("  Remaining labgroups in pool: ", mstrPosGroups.pGroups.size());
+        //  println();
         //}
-
-        col ++;
-      } // next col
-
-      // Break out of this trial run if doTerminate flag is set.
-      if (doTerminate) {
-        break;
-      }
-
-      //reset col index for next row
-      col = 0;
-      row ++;
+      } // next row ie. round
+      // The trial run is over at this point.
 
       //if (beVerbose) {
-      //  print("  Remaining labgroups in pool: ", mstrPosGroups.pGroups.size());
-      //  println();
+      //  reportResults(unfilledQty);
       //}
-    } // next row ie. round
-    // The trial run is over at this point.
 
-    //if (beVerbose) {
-    //  reportResults(unfilledQty);
-    //}
+      // Record any better run.
+      recordBetterRunIfAny(run);
 
-    // Record any better run.
-    recordBetterRunIfAny(run);
-
-    // Break if a perfect solution was found.
-    if (bestunfilledQty < bestPossibleMin + 1) { 
-      milliEnd = millis();
-      surface.setTitle(windowTitle + " | Done");
-      break;
-    }
-    // Break if a q key was pressed.
+      // Break if a perfect solution was found.
+      if (bestunfilledQty < bestPossibleMin + 1) { 
+        milliEnd = millis();
+        if (doAutoFiling) {
+          surface.setTitle(windowTitle + " | Done Auto Save " + cATrial + " of " + autoFileQty);
+        } else {
+          surface.setTitle(windowTitle + " | Done");
+        }   
+        break;
+      }
+      // Break if a q key was pressed.
+      if (quitNow) {
+        milliEnd = millis();
+        reportQuitNowMessage(run);
+        if (doAutoFiling) {
+          surface.setTitle(windowTitle + " | Terminated Auto Save " + cATrial + " of " + autoFileQty);
+        } else {
+          surface.setTitle(windowTitle + " | Terminated");
+        }    
+        break;
+      }
+    } // end for run loop
     if (quitNow) {
-      milliEnd = millis();
-      reportQuitNowMessage(run);
-      surface.setTitle(windowTitle + " | Terminated");
-      break;
+        break;
+      }
+    if (!quitNow) {
+      msg = "Done in " + timeElapsed(milliStart, milliEnd);
+      println(msg);
+      lastStatusMsg = msg;
     }
-  } // end for run loop
-  if (!quitNow) {
-    msg = "Done in " + timeElapsed(milliStart, milliEnd);
-    println(msg);
-    lastStatusMsg = msg;
-  }
-  println();
-  processIsDone = true;
-  setButtonRunEnableState(false);
+    println();
+    processIsDone = true;
+    setButtonRunEnableState(false);
+    if (doAutoFiling) {
+      filePrint();
+    }
+  }// end for CATrial
+   
 }// end DoStartProcess
 
 // The valid trial selections. Each bad trial will be removed 
