@@ -11,6 +11,8 @@
   * **Group Qty** - The number of tasks. These are the output matrix columns.
   * **Rounds Qty** - The number of session rounds. These are the output matrix rows.
   * **Group Size** - The student grouping size. The matrix cells are the assigned student groups. The students are selected from the class, i.e. the selection pool. The integer numbers identify the students. For example the student group, "03,06,12", is a group consisting of student 03, student 06 and student 12.
+  *  **Auto Save Solutions** - A checkbox for running a series of solutions for the same conditions where each solution result is automatically saved to a text file.
+  *  **Auto Saved Solutions** - The number of solutions that will be run with the same conditions where each solution result is saved to text file.
 * The **Class Size** should be equal to the **Group Size** x (larger of **Group Qty** and **Rounds Qty**). Student selection will not be a balanced participation when **Group Qty** and **Rounds Qty** are not equal. The same applies when the **Class Size** is larger than the required number. **Chk** value variation indicates unbalanced participation.
 
 ## Example Screen - Solution Found
@@ -36,7 +38,8 @@
 
 ## File Button
 
-* The **File** button creates a text file of the current results within the folder that contains the application. The file name "LabGroupMatrix" with a time code indicating the time the file is created. For example such a file named LabGroupMatrix.2021-5-17_111583.txt was made at 11:15:03 am on May 17, 2021.
+* The **File** button creates a text file of the current results _**within the folder that contains the application**_. The file name "LGM_\<**Class Size**>\_\<**Group Size**>\_<**Group Qty**>x\<**Rounds Qty**>" with a time code indicating the time the file is created. For example such a file named **LGM_10_2_5x5_2021-5-24_111503_27068.txt** was made at 11:15:03 am and some milliseconds on May 17, 2021. The millisecond number provides for unique filenames when files happen to be made very quickly using the **Auto Save Solutions** option for conditions that solve very quickly.
+* Use the **Auto Save Solutions** checkbox and the **Auto Saved Solutions** quantity entry field to automatically save results,
 * The **File** output reports the student group combinations that were not selected for the lab groups matrix. On Linux systems, where one runs the application from a **Terminal** window, this information outputs to the **Terminal** window whenever a trials session completes or one stops a running process.
   
 ![Example Saved File](./readme-images/SavedFileImage.png)
