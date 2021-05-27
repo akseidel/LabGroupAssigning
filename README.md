@@ -11,8 +11,8 @@
   * **Group Qty** - The number of tasks. These are the output matrix columns.
   * **Rounds Qty** - The number of session rounds. These are the output matrix rows.
   * **Group Size** - The student grouping size. The matrix cells are the assigned student groups. The students are selected from the class, i.e. the selection pool. The integer numbers identify the students. For example the student group, "03,06,12", is a group consisting of student 03, student 06 and student 12.
-  *  **Auto Save Solutions** - A checkbox for running a series of solutions for the same conditions where each solution result is automatically saved to a text file.
-  *  **Auto Saved Solutions** - The number of solutions that will be run with the same conditions where each solution result is saved to text file.
+  * **Auto Save Solutions** - A checkbox for running a series of solutions for the same conditions where each solution result is automatically saved to a text file.
+  * **Auto Saved Solutions** - The number of solutions that will be run with the same conditions where each solution result is saved to text file.
 * The **Class Size** should be equal to the **Group Size** x (larger of **Group Qty** and **Rounds Qty**). Student selection will not be a balanced participation when **Group Qty** and **Rounds Qty** are not equal. The same applies when the **Class Size** is larger than the required number. **Chk** value variation indicates unbalanced participation.
 
 ## Example Screen - Solution Found
@@ -30,9 +30,9 @@
 * The application window is re-sizable.
 * Execution time is pure luck for the lengthy tasks. For example the solution for the 8 x 8 x 2 shown above occurred under 5 minutes. This same task could take hours.
 * The **Chk:** values are row and column checksum values that are the sum of the assigned student id numbers. Properly assigned row and columns will have the same checksum.
-* This program continuously makes random lab group selections for each matrix value from an ever decreasing pool of remaining possible lab group candidates. It records the most filled assignment matrix. The displayed matrix is the last best assignment matrix. Selection trials stop when the matrix is totally filled or after the number of solution trials is expired.
+* This program continuously makes random lab group selections for each matrix value chosen from an ever decreasing pool of remaining possible lab group candidates. It records the most filled assignment matrix and tracks the least unfilled number score. New matrix build attempts start when the current matrix build develops an equal unfilled score. The displayed matrix is the last best assignment matrix build. Selection trials stop when the matrix is totally filled or after the number of solution trials is expired.
 * Matrix values like --,--,-- indicate there was no valid lab group combination possible for that matrix position for the trial run.
-* The time required to complete the assignment matrix is a function of the selection pool size. The selection pool size depends on the class size (**n**) and the group size (**k**) as **n!/k!\*(n-k)!** . The number of possible assignment matrices of size **gr** (group qty x rounds qty) that can be selected from the pool size **p** is **p!/gr!\*(p-gr)!** . That number can be enormous. 
+* The time required to complete the assignment matrix is a function of the selection pool size. The selection pool size depends on the class size (**n**) and the group size (**k**) as **n!/k!\*(n-k)!** . The number of possible assignment matrices of size **gr** (group qty x rounds qty) that can be selected from the pool size **p** is **p!/gr!\*(p-gr)!** . That number can be enormous.
 * The number of valid solution matrices within the pool of possible assignment matrices is not known to this author but the number appears to be large enough to quickly find a valid solution at random from a pool of 3 billion possible for a 5x5 matrix using a 2 group size.
 * Pressing the **q** key stops the process and outputs the current best solution. The **Stop** button does the same but it may not be as responsive as the **q** key press.
 
