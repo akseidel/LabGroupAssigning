@@ -23,7 +23,7 @@ void DoStartProcess() {
       labGroupMatrix = new LabGroup[roundsQty][groupQty];
       mstrPosGroups = new PossibleGroupsK(classSize, gSize);
       poolSize = mstrPosGroups.pGroups.size();
-      row = 0;
+      row = 0; //<>//
       col = 0;
       unfilledQty = 0;
       doTerminate = false;

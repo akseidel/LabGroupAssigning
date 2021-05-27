@@ -93,7 +93,8 @@ void draw() {
 } // end draw
 
 void keyPressed() {   
-  if (key == 'q' || key == 'Q') {     
+  if (key == 'q' || key == 'Q') {
+    setButtonRunEnableState(false);
     quitNow = true;
   }
 }

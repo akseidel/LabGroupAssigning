@@ -30,7 +30,7 @@ void classSizeCheck(GTextField source) {
   int lroundsQty = int(textfieldRoundsQTY.getText());
   int lgroupQty = int(textfieldGroupQty.getText());
   int lgSize = int(textfieldGSize.getText());
-  int lpoolSize = (int)numCombOfKinN(lgSize, lclassSize);
+  int lpoolSize = round(numCombOfKinN(lgSize, lclassSize));
   float rowBal = float(lgroupQty) - float(lclassSize)/float(lgSize);
   float colBal = float(lroundsQty) - float(lclassSize)/float(lgSize);
   int rowOrphans = lclassSize - lgroupQty*lgSize;
@@ -175,16 +175,16 @@ String pls(int val) {
 // Returns number of combinations of k members that can be chosen
 // from a population of n members. Combinations with different order
 // are considered the same combination.
-public static double numCombOfKinN(int k, int n) {
+public static float numCombOfKinN(int k, int n) {
   if (k < 2) { 
-    return (double)n;
+    return (float)n;
   }
-  double result = factorial(n)/(factorial(k)*factorial(n-k));
+  float result = factorial(n)/(factorial(k)*factorial(n-k));
   return result;
 }
 
 // Returns the factorial of a number. This needs to be a float.
-public static double factorial(int number) {
+public static float factorial(int number) {
   if (number <= 1) { 
     return 1;
   } else {
