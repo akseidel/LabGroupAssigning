@@ -44,28 +44,23 @@ class PossibleGroupsK {
   }
 } // end class PossibleGroupsK
 
+// Found on web and changed to return 1 based results
+// instead of 0 based results.
 private ArrayList<int[]> generateK(int n, int r) {
   ArrayList<int[]> combinations = new ArrayList<int[]>();
   int[] combination = new int[r];
-  // initialize with lowest lexicographic combination
   for (int i = 0; i < r; i++) {
-    combination[i] = i;
+    combination[i] = i + 1;
   }
-  while (combination[r - 1] < n) {
+  while (combination[r - 1] < n + 1) {
     combinations.add(combination.clone());
-    // generate next combination in lexicographic order
     int t = r - 1;
-    while (t != 0 && combination[t] == n - r + t) {
+    while (t != 0 && combination[t] == 1 + n - r + t) {
       t--;
     }
     combination[t]++;
     for (int i = t + 1; i < r; i++) {
       combination[i] = combination[i - 1] + 1;
-    }
-  }
-  for (int[] comb : combinations) {
-    for (int m = 0; m < r; m++) {
-      comb[m]=comb[m]+1;
     }
   }
   return combinations;
