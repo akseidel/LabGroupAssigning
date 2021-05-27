@@ -11,7 +11,14 @@ class PossibleGroupsK {
     for (int[] comb : selectionsKofN) {
       LabGroup grouping = new LabGroup();
       for (int m = 0; m < R; m++) {
-        grouping.labglist.append(nf(comb[m], 2));
+        String id = nf(comb[m], 2);
+        // Why this? Because every now and then nf( ,2)
+        // returns a single digit number and that throws
+        // off the string matching.
+        if (id.length() < 2){
+         id = "0" + id; 
+        }
+        grouping.labglist.append(id);
       }
       pGroups.add(grouping);
     }

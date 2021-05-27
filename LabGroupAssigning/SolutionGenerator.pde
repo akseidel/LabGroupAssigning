@@ -1,4 +1,4 @@
-// SolutionGenerator //<>//
+// SolutionGenerator //<>// //<>//
 // Note: The beVerbose sections have been commented out.
 
 int cATrial;
@@ -22,8 +22,9 @@ void DoStartProcess() {
       feedbackStatus(run);
       labGroupMatrix = new LabGroup[roundsQty][groupQty];
       mstrPosGroups = new PossibleGroupsK(classSize, gSize);
+
       poolSize = mstrPosGroups.pGroups.size();
-      row = 0; //<>//
+      row = 0;
       col = 0;
       unfilledQty = 0;
       doTerminate = false;
@@ -157,8 +158,8 @@ void DoStartProcess() {
       }
     } // end for run loop
     if (quitNow) {
-        break;
-      }
+      break;
+    }
     if (!quitNow) {
       msg = "Done in " + timeElapsed(milliStart, milliEnd);
       println(msg);
@@ -171,7 +172,6 @@ void DoStartProcess() {
       filePrint();
     }
   }// end for CATrial
-   
 }// end DoStartProcess
 
 // The valid trial selections. Each bad trial will be removed 
