@@ -54,6 +54,7 @@ LabGroup thislg ;                             // Labgroup selection under questi
 PFont f;
 String msg;
 String lastStatusMsg = new String();
+String remGpSep = "|";
 int fontsize = 12;
 int vfontgap = 6;
 int drawborder = 16;

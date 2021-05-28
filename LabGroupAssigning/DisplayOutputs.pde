@@ -223,14 +223,14 @@ void reportLeftOverGroups(boolean atScreenOnly, int whereTo) {
   printlnWhereTo("", whereTo);  
   printlnWhereTo(rm + " Lab Groups remaining:", whereTo);
   for (LabGroup lg : freshMstrPosGroups.pGroups) {
-    if (sbRpt.length() < 80) {
+    if (sbRpt.length() < 120) {
       sbRpt.append(lg.showMembers());
-      sbRpt.append("  ");
+      sbRpt.append(remGpSep);
     } else {
       printlnWhereTo(sbRpt.toString(), whereTo);
       sbRpt.setLength(0);
       sbRpt.append(lg.showMembers());
-      sbRpt.append("  ");
+      sbRpt.append(remGpSep);
     }
   }
   printlnWhereTo(sbRpt.toString(), whereTo);

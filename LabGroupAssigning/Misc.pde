@@ -36,6 +36,7 @@ void classSizeCheck(GTextField source) {
   int rowOrphans = lclassSize - lgroupQty*lgSize;
   int colOrphans = lclassSize - lroundsQty*lgSize;
   int matrixSize = lgroupQty * lroundsQty;
+  float poolRatio = (float)lpoolSize/matrixSize;
   int unFilled = 0;  // default to totally filled
 
   // Exit when any fields are zero.
@@ -52,7 +53,10 @@ void classSizeCheck(GTextField source) {
   warningsList.clear();
   sbTheWarning.setLength(0);
   sbTheWarning.append("The proposed selection pool will be ");
-  sbTheWarning.append(nfc(lpoolSize));
+  sbTheWarning.append(nfc(lpoolSize)); 
+  sbTheWarning.append(" , Pool Ratio: ");
+  sbTheWarning.append(nfc(poolRatio,2));
+  sbTheWarning.append(":1");
   warningsList.append(sbTheWarning.toString());
 
   if ((lgSize == 1) && (matrixSize > lpoolSize)) {
