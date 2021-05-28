@@ -227,7 +227,7 @@ void reportLeftOverGroups(boolean atScreenOnly, int whereTo) {
       sbRpt.append(lg.showMembers());
       sbRpt.append("  ");
     } else {
-      printlnWhereTo(sbRpt.toString(), 1);
+      printlnWhereTo(sbRpt.toString(), whereTo);
       sbRpt.setLength(0);
       sbRpt.append(lg.showMembers());
       sbRpt.append("  ");

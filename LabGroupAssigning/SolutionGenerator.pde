@@ -231,7 +231,7 @@ void recordBetterRunIfAny(int run) {
     sbMsg.append(timeElapsed(milliStart, millis()));
     sbMsg1.append(bestunfilledQty);
     sbMsg1.append(" remaining, trial: ");
-    sbMsg1.append(nfc(besttrialrun));
+     sbMsg1.append(nfc(besttrialrun));
     sbMsg1.append(" , at ");
     sbMsg1.append(timeElapsed(milliStart, millis()));
     historyList.append(sbMsg1.toString());
