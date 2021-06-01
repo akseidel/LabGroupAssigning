@@ -55,7 +55,7 @@ void classSizeCheck(GTextField source) {
   sbTheWarning.append("The proposed selection pool will be ");
   sbTheWarning.append(nfc(lpoolSize)); 
   sbTheWarning.append(" , Pool Ratio: ");
-  sbTheWarning.append(nfc(poolRatio,2));
+  sbTheWarning.append(nfc(poolRatio, 2));
   sbTheWarning.append(":1");
   warningsList.append(sbTheWarning.toString());
 
@@ -193,5 +193,14 @@ public static float factorial(int number) {
     return 1;
   } else {
     return number * factorial(number - 1);
+  }
+}
+
+// Returns how many trials to run based on autosave settings
+int howManyTrialsToDo() {
+  if (doAutoFiling) {
+    return autoFileQty;
+  } else {
+    return 1;
   }
 }

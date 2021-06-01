@@ -6,12 +6,12 @@ int cATrial;
 // This function is called on a thread.
 void DoStartProcess() {
   boolean doTerminate;
-  for (cATrial = 1; cATrial <  autoFileQty + 1; cATrial++) {
+  for (cATrial = 1; cATrial <  howManyTrialsToDo() + 1; cATrial++) {
     if (doAutoFiling) {
-      surface.setTitle(windowTitle + " | Now Running | Auto Save " + cATrial + " of " + autoFileQty);
+      surface.setTitle(windowTitle + " | Now Auto Saving " + cATrial + " of " + autoFileQty);
     } else {
       surface.setTitle(windowTitle + " | Now Running");
-    }    
+    }
     milliStart = millis();
     initializeBestlabGroupMatrix();
     bestunfilledQty = roundsQty * groupQty;

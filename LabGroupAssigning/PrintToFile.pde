@@ -34,10 +34,12 @@ void setupPrintJob() {
   sbDC.append(day());
   sbDC.append("_");
   sbDC.append(hour());
-  sbDC.append(minute() );
+  sbDC.append(minute());
   sbDC.append(second());
   sbDC.append("_");
   sbDC.append(millis());
+  sbDC.append("+");
+  sbDC.append(int(random(100)));
   sbFN.append(sbDC.toString());
   sbFN.append(".txt");
   theFileOutputName = sbFN.toString();

@@ -38,7 +38,7 @@
 
 ## File Button
 
-* The **File** button creates a text file of the current results _**within the folder that contains the application**_. The files saved are named "LGM_\<**Class Size**>\_\<**Group Size**>\_<**Group Qty**>x\<**Rounds Qty**>" with a time code indicating the time the file is created. For example the file named **LGM_10_2_5x5_2021-5-24_111503_27068.txt** was made at 11:15:03 am and some milliseconds on May 24, 2021. The millisecond number provides for unique filenames when files happen to be made very quickly using the **Auto Save Solutions** option for conditions that solve very quickly.
+* The **File** button creates a text file of the current results _**within the folder that contains the application**_. The files saved are named "LGM_\<**Class Size**>\_\<**Group Size**>\_<**Group Qty**>x\<**Rounds Qty**>" with a time code indicating the time the file is created. For example the file named **LGM_10_2_5x5_2021-6-1_15447_269223+88.txt** was made at 15:44:07 and some milliseconds + a random number on June 1, 2021. The millisecond + random number provides for unique filenames when files happen to be made very quickly using the **Auto Save Solutions** option when thew solution conditions solve very quickly.
 * Use the **Auto Save Solutions** checkbox and the **Auto Saved Solutions** quantity entry field to automatically save results.
 * The **File** output reports the student group combinations that were not selected for the lab groups matrix. On Linux systems, where one runs the application from a **Terminal** window, this information outputs to the **Terminal** window whenever a trials session completes or one stops a running process.
   
