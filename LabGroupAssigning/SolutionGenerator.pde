@@ -8,9 +8,9 @@ void DoStartProcess() {
   boolean doTerminate;
   for (cATrial = 1; cATrial <  howManyTrialsToDo() + 1; cATrial++) {
     if (doAutoFiling) {
-      surface.setTitle(windowTitle + " | Now Auto Saving " + cATrial + " of " + autoFileQty);
+      surface.setTitle(windowTitle + " | Running ... Will auto-save this " + cATrial + " of " + autoFileQty);
     } else {
-      surface.setTitle(windowTitle + " | Now Running");
+      surface.setTitle(windowTitle + " | Running ...");
     }
     milliStart = millis();
     initializeBestlabGroupMatrix();
@@ -139,7 +139,7 @@ void DoStartProcess() {
       if (bestunfilledQty < bestPossibleMin + 1) { 
         milliEnd = millis();
         if (doAutoFiling) {
-          surface.setTitle(windowTitle + " | Done Auto Save " + cATrial + " of " + autoFileQty);
+          surface.setTitle(windowTitle + " | Done, auto-saved this " + cATrial + " of " + autoFileQty);
         } else {
           surface.setTitle(windowTitle + " | Done");
         }   
@@ -150,7 +150,7 @@ void DoStartProcess() {
         milliEnd = millis();
         reportQuitNowMessage(run);
         if (doAutoFiling) {
-          surface.setTitle(windowTitle + " | Terminated Auto Save " + cATrial + " of " + autoFileQty);
+          surface.setTitle(windowTitle + " | Terminated, this auto-save  " + cATrial + " of " + autoFileQty);
         } else {
           surface.setTitle(windowTitle + " | Terminated");
         }    

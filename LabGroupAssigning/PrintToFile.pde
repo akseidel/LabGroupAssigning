@@ -8,7 +8,7 @@ void filePrint() {
   setupPrintJob();
   makeOutput();
   if (doAutoFiling) {
-    surface.setTitle(windowTitle + " | Auto Save Result " + cATrial + " of " + autoFileQty + " as: "+ theFileOutputName);
+    surface.setTitle(windowTitle + " | Auto-save Result " + cATrial + " of " + autoFileQty + " as: "+ theFileOutputName);
   } else {
     surface.setTitle(windowTitle +" | Results saved to file: " + theFileOutputName);
   }
