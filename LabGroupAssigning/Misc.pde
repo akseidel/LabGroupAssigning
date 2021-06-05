@@ -12,11 +12,7 @@
 // Meant to forecast results and inhibit running the process with bad conditions.
 void classSizeCheck(GTextField source) {
   StringBuilder sbTheWarning = new StringBuilder(); 
-  if (processIsDone) {
-    // zap the file message that might be in title
-    surface.setTitle(windowTitle);
-  }
-
+  
   if (source.getText().equals(" ") ) {
     warningsList.clear();
     sbTheWarning.append("Check the proposed input fields. At least one is empty.");
@@ -45,7 +41,8 @@ void classSizeCheck(GTextField source) {
     return;
   } else {
     // But do not enable start if currently in process.
-    if ( processIsDone ) {
+    // ie. ok only when completed or quitted.
+    if ( processCompleted || processWasQuit ) {
       butStart.setEnabled(true);
     }
   }
@@ -142,7 +139,7 @@ void classSizeCheck(GTextField source) {
     butStart.setEnabled(false);
   } else {
     // But do not enable start if currently in process.
-    if ( processIsDone ) {
+    if ( processCompleted ) {
       butStart.setEnabled(true);
     }
   }

@@ -15,7 +15,7 @@ import g4p_controls.*;  // Install this library. It provides the GUI controls.
 int trialQty = 100000000;         // Number of trial runs.
 //boolean beVerbose = true;   // Display each trial in the console, sections are commented out.
 boolean beVerbose = false;    // Do not sisplay each trial in the console.
-boolean quitNow = false;      // used for quitting a long process with a q keypress.
+boolean processWasQuit = false;      // used for quitting a long process with a q keypress.
 boolean thereIsANewBest = false;
 boolean doAutoFiling = false;
 boolean doUnused = false;
@@ -37,7 +37,7 @@ int milliStart;
 int milliEnd;
 int autoFileQty = 1;
 boolean isMsgFeedBack = false;
-boolean processIsDone = false;
+boolean processCompleted = false;
 boolean stopConsoleOutput = false;
 String theWarning = new String();
 StringList warningsList = new StringList();
@@ -82,8 +82,8 @@ void draw() {
   nextLineY();
   text(lastStatusMsg, drawborder, nextLineY());
 
-  if (processIsDone || quitNow) {
-    // This section runs when process is done or quitted.
+  if (processCompleted || processWasQuit) {
+    // This section runs when process is completed or quitted.
     printFirstBest(stopConsoleOutput);
     printBestResultsMatrix(stopConsoleOutput);
     if (doUnused) {
@@ -101,6 +101,6 @@ void draw() {
 void keyPressed() {   
   if (key == 'q' || key == 'Q') {
     setButtonRunEnableState(false);
-    quitNow = true;
+    processWasQuit = true;
   }
 }

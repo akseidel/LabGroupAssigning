@@ -141,14 +141,14 @@ void DoStartProcess() {
       if (bestunfilledQty < bestPossibleMin + 1) { 
         milliEnd = millis();
         if (doAutoFiling) {
-          surface.setTitle(windowTitle + " | Done, auto-saved this " + cntSolution + " of " + autoFileQty);
+          surface.setTitle(windowTitle + " | Completed, auto-saved this " + cntSolution + " of " + autoFileQty);
         } else {
-          surface.setTitle(windowTitle + " | Done");
+          surface.setTitle(windowTitle + " | Completed");
         }   
         break;
       }
       // Break if a q key was pressed.
-      if (quitNow) {
+      if (processWasQuit) {
         milliEnd = millis();
         reportQuitNowMessage(run);
         if (doAutoFiling) {
@@ -160,16 +160,16 @@ void DoStartProcess() {
       }
     } // end for run loop
     timeSolEnd = getTimeNow(" - Time Ended: ");
-    if (quitNow) {
+    if (processWasQuit) {
       break;
     }
-    if (!quitNow) {
-      msg = "Done in " + timeElapsed(milliStart, milliEnd);
+    if (!processWasQuit) {
+      msg = "Completed in " + timeElapsed(milliStart, milliEnd);
       println(msg);
       lastStatusMsg = msg;
     }
     println();
-    processIsDone = true;
+    processCompleted = true;
     setButtonRunEnableState(false);
     if (doAutoFiling) {
       filePrint();

@@ -63,8 +63,8 @@ void reposControl(GAbstractControl thisC, float wDelta) {
 
 void doButtonStart() {
   surface.setTitle(windowTitle);
-  processIsDone = false;
-  quitNow = false;
+  processCompleted = false;
+  processWasQuit = false;
   getGUITextFields();
   besttrialrun = 0;         
   bestunfilledQty = roundsQty * groupQty;
@@ -84,7 +84,7 @@ void getGUITextFields() {
 void doButtonStop() {
   surface.setTitle(windowTitle);
   setButtonRunEnableState(false);
-  quitNow = true;
+  processWasQuit = true;
 }
 
 void doButtonQuit() {  
