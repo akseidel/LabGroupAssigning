@@ -26,6 +26,7 @@ void initGUI() {
   g4pStuff.add(labelAutoTrials);
   g4pStuff.add(textfieldAuto);
   g4pStuff.add(chkAutoFile);
+  g4pStuff.add(chkUnused);
 }
 
 // setButtonRunState - Sets GUI button enabled state
@@ -109,6 +110,17 @@ void  doChkAutoFileClicked( GEvent event) {
   }
   if (event ==GEvent.DESELECTED) {
     doAutoFiling = false;
+    return;
+  }
+}
+
+void  doChkSaveUnusedClicked( GEvent event) {
+  if (event ==GEvent.SELECTED) {
+    doUnused = true;
+    return;
+  }
+  if (event ==GEvent.DESELECTED) {
+    doUnused = false;
     return;
   }
 }

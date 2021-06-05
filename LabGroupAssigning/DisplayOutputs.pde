@@ -39,16 +39,26 @@ void showInitialHeader(boolean inConsoleOnly) {
   if (!inConsoleOnly) {
     text(sbMsg.toString(), drawborder, currentlineY);
   }
-  StringBuilder sbMsg1 = new StringBuilder();
-  sbMsg1.append("Performing at most ");
-  sbMsg1.append(nfc(trialQty));
-  sbMsg1.append( " solution trials ... Press q at any time to terminate.");
+  sbMsg.setLength(0);
+  sbMsg.append("Performing at most ");
+  sbMsg.append(nfc(trialQty));
+  sbMsg.append( " solution trials ... Press q at any time to terminate.");
   if (inConsoleOnly) {
-    println(sbMsg1.toString());
+    println(sbMsg.toString());
   }
   if (!inConsoleOnly) {
-    text(sbMsg1.toString(), drawborder, nextLineY());
+    text(sbMsg.toString(), drawborder, nextLineY());
   }
+  sbMsg.setLength(0);
+  sbMsg.append(timeSolStart);
+  sbMsg.append(timeSolEnd);
+  if (inConsoleOnly) {
+    println(sbMsg.toString());
+  }
+  if (!inConsoleOnly) {
+    text(sbMsg.toString(), drawborder, nextLineY());
+  }
+  
 }
 
 void printFirstBest(boolean stopConsoleOutput) {

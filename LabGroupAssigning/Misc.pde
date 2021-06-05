@@ -197,10 +197,28 @@ public static float factorial(int number) {
 }
 
 // Returns how many trials to run based on autosave settings
-int howManyTrialsToDo() {
+int howManySolutionsToDo() {
   if (doAutoFiling) {
     return autoFileQty;
   } else {
     return 1;
   }
+}
+
+
+String getTimeNow(String hd) {
+  StringBuilder sbTimeNow = new StringBuilder(); 
+  sbTimeNow.append(hd);
+  sbTimeNow.append(String.valueOf(year()));
+  sbTimeNow.append(".");
+  sbTimeNow.append(String.valueOf(nf(month(),2)));
+  sbTimeNow.append(".");
+  sbTimeNow.append(String.valueOf(nf(day(),2)));
+  sbTimeNow.append("|");
+  sbTimeNow.append(String.valueOf(nf(hour(),2)));
+  sbTimeNow.append(".");
+  sbTimeNow.append(String.valueOf(nf(minute(),2)));
+  sbTimeNow.append(".");
+  sbTimeNow.append(String.valueOf(nf(second(),2)));
+  return sbTimeNow.toString();
 }

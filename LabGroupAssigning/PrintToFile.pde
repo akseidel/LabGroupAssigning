@@ -8,7 +8,7 @@ void filePrint() {
   setupPrintJob();
   makeOutput();
   if (doAutoFiling) {
-    surface.setTitle(windowTitle + " | Auto-save Result " + cATrial + " of " + autoFileQty + " as: "+ theFileOutputName);
+    surface.setTitle(windowTitle + " | Auto-save Result " + cntSolution + " of " + autoFileQty + " as: "+ theFileOutputName);
   } else {
     surface.setTitle(windowTitle +" | Results saved to file: " + theFileOutputName);
   }
@@ -72,6 +72,11 @@ void makeOutput() {
   sbHDR.append(nfc(poolSize));
   theFileOutput.println(sbHDR.toString());
 
+  sbHDR.setLength(0);
+  sbHDR.append(timeSolStart);
+  sbHDR.append(timeSolEnd);
+  theFileOutput.println(sbHDR.toString());
+
   StringBuilder sbFBH = new StringBuilder();
   sbFBH.append("First best number of unfilled groups in ");
   sbFBH.append(nfc(trialQty));
@@ -129,7 +134,9 @@ void makeOutput() {
   for (String h : historyList) {
     theFileOutput.println(h);
   }
-  reportLeftOverGroups(false, 1);
+  if (doUnused) {
+    reportLeftOverGroups(false, 1);
+  }
   theFileOutput.flush();
   theFileOutput.close();
 }

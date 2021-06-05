@@ -1,17 +1,19 @@
 // SolutionGenerator //<>// //<>//
 // Note: The beVerbose sections have been commented out.
 
-int cATrial;
+int cntSolution;
 
 // This function is called on a thread.
 void DoStartProcess() {
   boolean doTerminate;
-  for (cATrial = 1; cATrial <  howManyTrialsToDo() + 1; cATrial++) {
+  for (cntSolution = 1; cntSolution <  howManySolutionsToDo() + 1; cntSolution++) {
     if (doAutoFiling) {
-      surface.setTitle(windowTitle + " | Running ... Will auto-save this " + cATrial + " of " + autoFileQty);
+      surface.setTitle(windowTitle + " | Running ... Will auto-save this " + cntSolution + " of " + autoFileQty);
     } else {
       surface.setTitle(windowTitle + " | Running ...");
     }
+    timeSolStart = getTimeNow("Time Started: ");
+    timeSolEnd = " - |"; 
     milliStart = millis();
     initializeBestlabGroupMatrix();
     bestunfilledQty = roundsQty * groupQty;
@@ -139,7 +141,7 @@ void DoStartProcess() {
       if (bestunfilledQty < bestPossibleMin + 1) { 
         milliEnd = millis();
         if (doAutoFiling) {
-          surface.setTitle(windowTitle + " | Done, auto-saved this " + cATrial + " of " + autoFileQty);
+          surface.setTitle(windowTitle + " | Done, auto-saved this " + cntSolution + " of " + autoFileQty);
         } else {
           surface.setTitle(windowTitle + " | Done");
         }   
@@ -150,13 +152,14 @@ void DoStartProcess() {
         milliEnd = millis();
         reportQuitNowMessage(run);
         if (doAutoFiling) {
-          surface.setTitle(windowTitle + " | Terminated, this auto-save  " + cATrial + " of " + autoFileQty);
+          surface.setTitle(windowTitle + " | Terminated, this auto-save  " + cntSolution + " of " + autoFileQty);
         } else {
           surface.setTitle(windowTitle + " | Terminated");
         }    
         break;
       }
     } // end for run loop
+    timeSolEnd = getTimeNow(" - Time Ended: ");
     if (quitNow) {
       break;
     }
@@ -171,7 +174,8 @@ void DoStartProcess() {
     if (doAutoFiling) {
       filePrint();
     }
-  }// end for CATrial
+  }// end for cntSolution
+  
 }// end DoStartProcess
 
 // The valid trial selections. Each bad trial will be removed 

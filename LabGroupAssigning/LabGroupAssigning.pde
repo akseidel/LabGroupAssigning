@@ -18,6 +18,7 @@ boolean beVerbose = false;    // Do not sisplay each trial in the console.
 boolean quitNow = false;      // used for quitting a long process with a q keypress.
 boolean thereIsANewBest = false;
 boolean doAutoFiling = false;
+boolean doUnused = false;
 
 int classSize = 18;         // The number of students in the class
 int gSize = 3;              // Number of students in each group
@@ -41,6 +42,8 @@ boolean stopConsoleOutput = false;
 String theWarning = new String();
 StringList warningsList = new StringList();
 StringList historyList = new StringList();
+String timeSolStart;
+String timeSolEnd;
 
 LabGroup[][] bestlabGroupMatrix;
 LabGroup noSolLG = defNoSolLG(gSize);
@@ -83,7 +86,9 @@ void draw() {
     // This section runs when process is done or quitted.
     printFirstBest(stopConsoleOutput);
     printBestResultsMatrix(stopConsoleOutput);
-    reportLeftOverGroups(stopConsoleOutput, 0);
+    if (doUnused) {
+      reportLeftOverGroups(stopConsoleOutput, 0);
+    }
     // Allows summary to print only once at the console.
     stopConsoleOutput = true;
   } else {
