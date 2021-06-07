@@ -12,7 +12,7 @@ import g4p_controls.*;  // Install this library. It provides the GUI controls.
 // 
 // Pressing the q key stops the process and outputs the current best solution.
 //
-int trialQty = 100000000;         // Number of trial runs.
+int trialQty = 1000000000;         // Number of trial runs.
 //boolean beVerbose = true;   // Display each trial in the console, sections are commented out.
 boolean beVerbose = false;    // Do not sisplay each trial in the console.
 boolean processWasQuit = false;      // used for quitting a long process with a q keypress.
