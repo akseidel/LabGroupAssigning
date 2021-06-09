@@ -74,17 +74,24 @@ void makeOutput() {
 
   sbHDR.setLength(0);
   sbHDR.append(timeSolStart);
-  sbHDR.append(timeSolEnd);
+  if (processCompleted || processWasQuit) {
+    sbHDR.append(timeSolEnd);
+  } else { // print is requested during process
+    sbHDR.append(" - Currently in process at trial: ");
+    sbHDR.append(nfc(run));
+  }
   theFileOutput.println(sbHDR.toString());
 
-  StringBuilder sbFBH = new StringBuilder();
-  sbFBH.append("First best number of unfilled groups in ");
-  sbFBH.append(nfc(trialQty));
-  sbFBH.append(" trials. ");
-  sbFBH.append(bestunfilledQty);
-  sbFBH.append(" unfilled in trial: ");
-  sbFBH.append(nfc(besttrialrun));
-  theFileOutput.println(sbFBH.toString());
+  if (processCompleted || processWasQuit) {
+    StringBuilder sbFBH = new StringBuilder();
+    sbFBH.append("First best number of unfilled groups in ");
+    sbFBH.append(nfc(trialQty));
+    sbFBH.append(" trials. ");
+    sbFBH.append(bestunfilledQty);
+    sbFBH.append(" unfilled in trial: ");
+    sbFBH.append(nfc(besttrialrun));
+    theFileOutput.println(sbFBH.toString());
+  }
 
   theFileOutput.println();
   msg ="Lab Groups Matrix";

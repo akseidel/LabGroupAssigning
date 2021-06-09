@@ -37,7 +37,6 @@ void setButtonRunEnableState(boolean isRunning) {
     butStart.setEnabled(!isRunning);
   }
   butStop.setEnabled(isRunning);
-  butPrint.setEnabled(!isRunning);
 }
 
 // moves G4P controls as window is resized

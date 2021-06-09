@@ -2,6 +2,7 @@
 // Note: The beVerbose sections have been commented out.
 
 int cntSolution;
+int run;
 
 // This function is called on a thread.
 void DoStartProcess() {
@@ -20,7 +21,7 @@ void DoStartProcess() {
     bestPossibleMin = propBestPossibleMin;
     historyList.clear();
     // start multiple solution trials
-    for (int run = 1; run < trialQty + 1; run ++) {
+    for (run = 1; run < trialQty + 1; run ++) {
       feedbackStatus(run);
       labGroupMatrix = new LabGroup[roundsQty][groupQty];
       mstrPosGroups = new PossibleGroupsK(classSize, gSize);
