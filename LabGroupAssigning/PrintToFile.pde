@@ -4,17 +4,31 @@ String runInfo;
 StringBuilder sbDC = new StringBuilder();
 StringBuilder sbFN = new StringBuilder();
 
-void filePrint() {
-  setupPrintJob();
-  makeOutput();
-  if (doAutoFiling) {
-    surface.setTitle(windowTitle + " | Auto-save Result " + cntSolution + " of " + autoFileQty + " as: "+ theFileOutputName);
-  } else {
-    surface.setTitle(windowTitle +" | Results saved to file: " + theFileOutputName);
+void filePrint(String why) {
+  setupPrintJobName();
+  StringBuilder sbTitle = new StringBuilder();
+  sbTitle.append(windowTitle);
+  sbTitle.append(" | ");
+  sbTitle.append(why);
+  if (processCompleted || processWasQuit) {
+    if (doAutoFiling) {
+      sbTitle.append(" result ");
+      sbTitle.append( cntSolution);
+      sbTitle.append(" of ");
+      sbTitle.append(autoFileQty);
+    } else {   
+      sbTitle.append(" result ");
+    }
+  } else { // print is requested during process
+    sbTitle.append(" during process ");
   }
+  sbTitle.append(" as: ");
+  sbTitle.append(theFileOutputName);
+  surface.setTitle(sbTitle.toString());
+  makeOutput(why);
 }
 
-void setupPrintJob() {
+void setupPrintJobName() {
   sbFN.setLength(0);
   sbFN.append("LGM_");
   sbFN.append(classSize);
@@ -46,13 +60,13 @@ void setupPrintJob() {
   theFileOutput = createWriter(theFileOutputName);
 }
 
-void makeOutput() {
+void makeOutput(String why) {
   int checkSumRow = 0;
   int checkSumCol = 0;
   int gw = (gSize*2)+(gSize-1);   // group text length
   int cospc = 4;                  // space between columns
 
-  theFileOutput.println("Date: "+ sbDC.toString());
+  theFileOutput.println("Date: "+ sbDC.toString() + " " + why);
   theFileOutput.println();
   for (String warn : warningsList) {
     theFileOutput.println(warn);

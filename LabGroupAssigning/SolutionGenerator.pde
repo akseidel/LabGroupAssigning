@@ -7,12 +7,19 @@ int run;
 // This function is called on a thread.
 void DoStartProcess() {
   boolean doTerminate;
+  StringBuilder sbTitle = new StringBuilder();
   for (cntSolution = 1; cntSolution <  howManySolutionsToDo() + 1; cntSolution++) {
+    sbTitle.setLength(0);
+    sbTitle.append(windowTitle);
     if (doAutoFiling) {
-      surface.setTitle(windowTitle + " | Running ... Will auto-save this " + cntSolution + " of " + autoFileQty);
+      sbTitle.append(" | Running ... Will auto-save this ");
+      sbTitle.append(cntSolution);
+      sbTitle.append(" of ");
+      sbTitle.append(autoFileQty);
     } else {
-      surface.setTitle(windowTitle + " | Running ...");
+      sbTitle.append(" | Running ...");
     }
+    surface.setTitle(sbTitle.toString());
     timeSolStart = getTimeNow("Time Started: ");
     timeSolEnd = " - |"; 
     milliStart = millis();
@@ -173,10 +180,9 @@ void DoStartProcess() {
     processCompleted = true;
     setButtonRunEnableState(false);
     if (doAutoFiling) {
-      filePrint();
+      filePrint("Auto-saved");
     }
   }// end for cntSolution
-  
 }// end DoStartProcess
 
 // The valid trial selections. Each bad trial will be removed 
@@ -236,7 +242,7 @@ void recordBetterRunIfAny(int run) {
     sbMsg.append(timeElapsed(milliStart, millis()));
     sbMsg1.append(bestunfilledQty);
     sbMsg1.append(" remaining, trial: ");
-     sbMsg1.append(nfc(besttrialrun));
+    sbMsg1.append(nfc(besttrialrun));
     sbMsg1.append(" , at ");
     sbMsg1.append(timeElapsed(milliStart, millis()));
     historyList.append(sbMsg1.toString());
