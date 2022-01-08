@@ -27,6 +27,7 @@ void initGUI() {
   g4pStuff.add(textfieldAuto);
   g4pStuff.add(chkAutoFile);
   g4pStuff.add(chkUnused);
+  g4pStuff.add(chkDoEstimate);
 }
 
 // setButtonRunState - Sets GUI button enabled state
@@ -35,8 +36,15 @@ void setButtonRunEnableState(boolean isRunning) {
   int lclassSize = int(textfieldClassSize.getText());
   if (lclassSize > 1) {
     butStart.setEnabled(!isRunning);
+    chkDoEstimate.setEnabled(!isRunning);
   }
   butStop.setEnabled(isRunning);
+  chkDoEstimate.setEnabled(!isRunning);
+  if (isRunning) {
+    chkDoEstimate.setLocalColorScheme(GCScheme.RED_SCHEME);
+  }else {
+    chkDoEstimate.setLocalColorScheme(GCScheme.CYAN_SCHEME);
+  }
 }
 
 // moves G4P controls as window is resized
@@ -68,6 +76,7 @@ void doButtonStart() {
   besttrialrun = 0;         
   bestunfilledQty = roundsQty * groupQty;
   noSolLG = defNoSolLG(gSize);
+  initEstPorp();
   stopConsoleOutput = false;
   setButtonRunEnableState(true);
   thread("DoStartProcess");
@@ -120,6 +129,17 @@ void  doChkSaveUnusedClicked( GEvent event) {
   }
   if (event ==GEvent.DESELECTED) {
     doUnused = false;
+    return;
+  }
+}
+
+void doChkDoEstimateClicked( GEvent event){
+  if (event ==GEvent.SELECTED) {
+    doEstimatePorp = true;
+    return;
+  }
+  if (event ==GEvent.DESELECTED) {
+    doEstimatePorp = false;
     return;
   }
 }

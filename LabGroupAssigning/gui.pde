@@ -71,6 +71,11 @@ public void chkUnused_clicked1(GCheckbox source, GEvent event) { //_CODE_:chkUnu
   doChkSaveUnusedClicked( event);
 } //_CODE_:chkUnused:542584:
 
+public void chkDoEstimate_clicked1(GCheckbox source, GEvent event) { 
+  //println("chkDoEstimate - GCheckbox >> GEvent." + event + " @ " + millis());
+  doChkDoEstimateClicked( event);
+}
+
 
 
 // Create all the GUI controls. 
@@ -138,27 +143,33 @@ public void createGUI(){
   butPrint.setText("File");
   butPrint.setLocalColorScheme(GCScheme.CYAN_SCHEME);
   butPrint.addEventHandler(this, "butPrint_click");
-  chkAutoFile = new GCheckbox(this, 832, 123, 137, 20);
-  chkAutoFile.setIconAlign(GAlign.LEFT, GAlign.MIDDLE);
-  chkAutoFile.setText("Auto-Save Solutions");
+  chkAutoFile = new GCheckbox(this, 762, 123, 206, 30);
+  chkAutoFile.setIconAlign(GAlign.LEFT, GAlign.CENTER);
+  chkAutoFile.setText(" Auto-Save Solutions");
   chkAutoFile.setLocalColorScheme(GCScheme.CYAN_SCHEME);
   chkAutoFile.setOpaque(false);
   chkAutoFile.addEventHandler(this, "chkAutoFile_clicked1");
-  textfieldAuto = new GTextField(this, 800, 147, 36, 25, G4P.SCROLLBARS_NONE);
+  textfieldAuto = new GTextField(this, 762, 150, 36, 20, G4P.SCROLLBARS_NONE);
   textfieldAuto.setLocalColorScheme(GCScheme.CYAN_SCHEME);
   textfieldAuto.setOpaque(true);
   textfieldAuto.addEventHandler(this, "textfieldAuto_change1");
-  labelAutoTrials = new GLabel(this, 840, 150, 124, 20);
-  labelAutoTrials.setTextAlign(GAlign.CENTER, GAlign.MIDDLE);
-  labelAutoTrials.setText("Auto-Saved Solutions");
+  labelAutoTrials = new GLabel(this, 804, 144, 200, 30);
+  labelAutoTrials.setTextAlign(GAlign.LEFT, GAlign.CENTER);
+  labelAutoTrials.setText("Auto-Saved Solutions Qty");
   labelAutoTrials.setLocalColorScheme(GCScheme.CYAN_SCHEME);
   labelAutoTrials.setOpaque(false);
-  chkUnused = new GCheckbox(this, 700, 120, 106, 30);
-  chkUnused.setIconAlign(GAlign.LEFT, GAlign.MIDDLE);
-  chkUnused.setText("Report Unused In File");
+  chkUnused = new GCheckbox(this, 762, 168, 206, 30);
+  chkUnused.setIconAlign(GAlign.LEFT, GAlign.CENTER);
+  chkUnused.setText(" Report Unused In File");
   chkUnused.setLocalColorScheme(GCScheme.CYAN_SCHEME);
   chkUnused.setOpaque(false);
   chkUnused.addEventHandler(this, "chkUnused_clicked1");
+  chkDoEstimate = new GCheckbox(this, 762, 200, 206, 30);
+  chkDoEstimate.setIconAlign(GAlign.LEFT, GAlign.CENTER);
+  chkDoEstimate.setText(" Do A Porportion Estimate");
+  chkDoEstimate.setLocalColorScheme(GCScheme.CYAN_SCHEME);
+  chkDoEstimate.setOpaque(false);
+  chkDoEstimate.addEventHandler(this, "chkDoEstimate_clicked1");
 }
 
 // Variable declarations 
@@ -178,4 +189,5 @@ GButton butPrint;
 GCheckbox chkAutoFile; 
 GTextField textfieldAuto; 
 GLabel labelAutoTrials; 
-GCheckbox chkUnused; 
+GCheckbox chkUnused;
+GCheckbox chkDoEstimate;

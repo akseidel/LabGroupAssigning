@@ -45,6 +45,17 @@ StringList historyList = new StringList();
 String timeSolStart;
 String timeSolEnd;
 
+// Porportion Estimate related
+boolean doEstimatePorp = false;   // Estimate the solutions proportion 
+int msfqty;                       // qty of matrices solutions found
+int smqty;                        // qty of sampled maatrices
+int msnqty;                       // qty of matrices not solutions found
+int minfsqty;                     // minimum number of soltions to find
+double p;                         // porportion being solution
+double p_lowerb;                  // lowerbound from porportion being solution
+double p_upperb;                  // upperbound from porportion being solution
+
+
 LabGroup[][] bestlabGroupMatrix;
 LabGroup noSolLG = defNoSolLG(gSize);
 PossibleGroupsK tempPosGroups;                // temporary possiblegroups pool copy

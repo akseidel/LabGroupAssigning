@@ -219,3 +219,15 @@ String getTimeNow(String hd) {
   sbTimeNow.append(String.valueOf(nf(second(),2)));
   return sbTimeNow.toString();
 }
+
+void initEstPorp(){
+  if (doEstimatePorp){
+    msfqty = 0;                     // qty of matrices solutions found
+    smqty = 0;                      // qty of sampled maatrices
+    msnqty = 0;                     // qty of matrices not solutions found
+    minfsqty = 5;                   // minimum number of soltions to find
+    p = 0;                       // porportion being solution
+    p_lowerb = 0;                // lowerbound from porportion being solution
+    p_upperb = 0;                // upperbound from porportion being solution
+  }
+}
