@@ -51,9 +51,10 @@ int msfqty;                       // qty of matrices solutions found
 int smqty;                        // qty of sampled maatrices
 int msnqty;                       // qty of matrices not solutions found
 int minfsqty;                     // minimum number of soltions to find
-double p;                         // porportion being solution
-double p_lowerb;                  // lowerbound from porportion being solution
-double p_upperb;                  // upperbound from porportion being solution
+float p;                         // porportion being solution
+float p_lowerb;                  // lowerbound from porportion being solution
+float p_upperb;                  // upperbound from porportion being solution
+int minsamp = 1;                 // minimum samples for porportion estimate (5)
 
 
 LabGroup[][] bestlabGroupMatrix;

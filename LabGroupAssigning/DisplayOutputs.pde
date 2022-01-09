@@ -148,6 +148,7 @@ void printBestResultsMatrix(boolean atScreenOnly) {
   }
   text(sbMsg2.toString(), drawborder, nextLineY());
   nextLineY();
+  // output the history list
   for (String h : historyList) {
     text(h, drawborder, nextLineY());
   }

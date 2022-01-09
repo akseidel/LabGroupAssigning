@@ -231,6 +231,7 @@ void recordBetterRunIfAny(int run) {
   if (unfilledQty < bestunfilledQty) {
     StringBuilder sbMsg = new StringBuilder();
     StringBuilder sbMsg1 = new StringBuilder();
+    StringBuilder sbMsg2 = new StringBuilder();
     bestunfilledQty = unfilledQty;
     bestlabGroupMatrix = labGroupMatrix;
     besttrialrun = run;
@@ -246,9 +247,39 @@ void recordBetterRunIfAny(int run) {
     sbMsg1.append(" , at ");
     sbMsg1.append(timeElapsed(milliStart, millis()));
     historyList.append(sbMsg1.toString());
+    // porportion estimate figures
+    if ((bestunfilledQty < 1) & (doEstimatePorp)) { 
+        msfqty = msfqty + 1;
+        
+        smqty = smqty + run;
+       
+        msnqty = msnqty + run - 1;
+        
+        if (msfqty >= minsamp){
+           println(msfqty);
+           println(smqty);
+           println(msnqty);
+           p = msfqty/smqty;
+           println(  nf(p, 1, 8)  );
+           p_upperb = p + 1.96 * sqrt(p * (1-p)/ smqty);
+           p_lowerb = p - 1.96 * sqrt(p * (1-p)/ smqty);
+           sbMsg2.append("At 97% confidence p_lower: ");
+           sbMsg2.append( p_lowerb);
+           sbMsg2.append(" , p: ");
+           sbMsg2.append( p);
+           sbMsg2.append(" , p_upper: ");
+           sbMsg2.append( p_upperb);
+           historyList.append(sbMsg2.toString());
+        }
+    }
+    // output just for console
     println(sbMsg.toString());
+    if ((bestunfilledQty < 1) & (doEstimatePorp)) { 
+      println(sbMsg2.toString());
+    }
   }
 }// end recordBetterRunIfAny
+
 
 void initializeBestlabGroupMatrix() {
   bestlabGroupMatrix = new LabGroup[roundsQty][groupQty];
