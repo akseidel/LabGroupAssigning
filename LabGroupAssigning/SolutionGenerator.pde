@@ -7,19 +7,9 @@ int run;
 // This function is called on a thread.
 void DoStartProcess() {
   boolean doTerminate;
-  StringBuilder sbTitle = new StringBuilder();
+  
   for (cntSolution = 1; cntSolution <  howManySolutionsToDo() + 1; cntSolution++) {
-    sbTitle.setLength(0);
-    sbTitle.append(windowTitle);
-    if (doAutoFiling) {
-      sbTitle.append(" | Running ... Will auto-save this ");
-      sbTitle.append(cntSolution);
-      sbTitle.append(" of ");
-      sbTitle.append(autoFileQty);
-    } else {
-      sbTitle.append(" | Running ...");
-    }
-    surface.setTitle(sbTitle.toString());
+    putStatusOnTitle();      
     timeSolStart = getTimeNow("Time Started: ");
     timeSolEnd = " - |"; 
     milliStart = millis();
@@ -28,7 +18,7 @@ void DoStartProcess() {
     bestPossibleMin = propBestPossibleMin;
     historyList.clear();
     // start multiple solution trials
-    for (run = 1; run < trialQty + 1; run ++) {
+    for (run = 1; run < trialMaxQty + 1; run ++) {
       feedbackStatus(run);
       labGroupMatrix = new LabGroup[roundsQty][groupQty];
       mstrPosGroups = new PossibleGroupsK(classSize, gSize);
@@ -136,25 +126,12 @@ void DoStartProcess() {
         //  println();
         //}
       } // next row ie. round
-      // The trial run is over at this point.
+      // ************    The trial run is over at this point.
 
       //if (beVerbose) {
       //  reportResults(unfilledQty);
       //}
 
-      // Record any better run.
-      recordBetterRunIfAny(run);
-
-      // Break if a perfect solution was found.
-      if (bestunfilledQty < bestPossibleMin + 1) { 
-        milliEnd = millis();
-        if (doAutoFiling) {
-          surface.setTitle(windowTitle + " | Completed, auto-saved this " + cntSolution + " of " + autoFileQty);
-        } else {
-          surface.setTitle(windowTitle + " | Completed");
-        }   
-        break;
-      }
       // Break if a q key was pressed.
       if (processWasQuit) {
         milliEnd = millis();
@@ -166,6 +143,21 @@ void DoStartProcess() {
         }    
         break;
       }
+
+      // Record any better run.
+      recordBetterRunIfAny(run);
+
+      // Break if a perfect solution was found.
+      if (bestunfilledQty < bestPossibleMin + 1) { 
+          milliEnd = millis();
+          if (doAutoFiling) {
+            surface.setTitle(windowTitle + " | Completed, auto-saved this " + cntSolution + " of " + autoFileQty);
+          } else {
+            surface.setTitle(windowTitle + " | Completed");
+          }
+          break;
+      }
+      
     } // end for run loop
     timeSolEnd = getTimeNow(" - Time Ended: ");
     if (processWasQuit) {
@@ -177,7 +169,15 @@ void DoStartProcess() {
       lastStatusMsg = msg;
     }
     println();
-    processCompleted = true;
+    
+    if (!doEstimatePorp) {
+      processCompleted = true; 
+    } else {
+        if (msfqty >= minsamp){
+         // processCompleted = true;
+        }
+    }
+    
     setButtonRunEnableState(false);
     if (doAutoFiling) {
       filePrint("Auto-saved");
@@ -230,8 +230,8 @@ void  MakeListOfPriorItemsForThisRowColCell(int row, int col) {
 void recordBetterRunIfAny(int run) {
   if (unfilledQty < bestunfilledQty) {
     StringBuilder sbMsg = new StringBuilder();
-    StringBuilder sbMsg1 = new StringBuilder();
-    StringBuilder sbMsg2 = new StringBuilder();
+    StringBuilder sbMsgHist = new StringBuilder();
+    StringBuilder sbMsgEst = new StringBuilder();
     bestunfilledQty = unfilledQty;
     bestlabGroupMatrix = labGroupMatrix;
     besttrialrun = run;
@@ -241,42 +241,38 @@ void recordBetterRunIfAny(int run) {
     sbMsg.append( nfc(besttrialrun));
     sbMsg.append(" at time ");
     sbMsg.append(timeElapsed(milliStart, millis()));
-    sbMsg1.append(bestunfilledQty);
-    sbMsg1.append(" remaining, trial: ");
-    sbMsg1.append(nfc(besttrialrun));
-    sbMsg1.append(" , at ");
-    sbMsg1.append(timeElapsed(milliStart, millis()));
-    historyList.append(sbMsg1.toString());
-    // porportion estimate figures
-    if ((bestunfilledQty < 1) & (doEstimatePorp)) { 
-        msfqty = msfqty + 1;
-        
-        smqty = smqty + run;
-       
-        msnqty = msnqty + run - 1;
-        
-        if (msfqty >= minsamp){
-           println(msfqty);
-           println(smqty);
-           println(msnqty);
-           p = msfqty/smqty;
-           println(  nf(p, 1, 8)  );
-           p_upperb = p + 1.96 * sqrt(p * (1-p)/ smqty);
-           p_lowerb = p - 1.96 * sqrt(p * (1-p)/ smqty);
-           sbMsg2.append("At 97% confidence p_lower: ");
-           sbMsg2.append( p_lowerb);
-           sbMsg2.append(" , p: ");
-           sbMsg2.append( p);
-           sbMsg2.append(" , p_upper: ");
-           sbMsg2.append( p_upperb);
-           historyList.append(sbMsg2.toString());
-        }
-    }
     // output just for console
     println(sbMsg.toString());
-    if ((bestunfilledQty < 1) & (doEstimatePorp)) { 
-      println(sbMsg2.toString());
+    // The history string is slightly different.
+    sbMsgHist.append(bestunfilledQty);
+    sbMsgHist.append(" remaining, trial: ");
+    sbMsgHist.append(nfc(besttrialrun));
+    sbMsgHist.append(" , at ");
+    sbMsgHist.append(timeElapsed(milliStart, millis()));
+    historyList.append(sbMsgHist.toString());
+    // porportion estimate figures
+    if ((bestunfilledQty < bestPossibleMin + 1) & (doEstimatePorp)) { 
+        msfqty = msfqty + 1;
+        smqty = smqty + run;
+        msnqty = msnqty + run - 1;
+      //  if (msfqty >= minsamp){
+           p = float(msfqty)/float(smqty);
+           p_upperb = p + 1.96 * sqrt(p * (1.0-p)/ float(smqty));
+           p_lowerb = p - 1.96 * sqrt(p * (1.0-p)/ float(smqty));
+           sbMsgEst.append("Samples ");
+           sbMsgEst.append( msfqty);
+           sbMsgEst.append(" , At 95% confidence p_lower: ");
+           sbMsgEst.append( p_lowerb);
+           sbMsgEst.append(" , p: ");
+           sbMsgEst.append( p);
+           sbMsgEst.append(" , p_upper: ");
+           sbMsgEst.append( p_upperb);
+           historyList.append(sbMsgEst.toString());
+       // }
+         // output just for console
+        println(sbMsgEst.toString());
     }
+   
   }
 }// end recordBetterRunIfAny
 
@@ -300,3 +296,23 @@ void feedbackStatus(int run) {
   sbMsg.append(nfc(run));
   lastStatusMsg = sbMsg.toString();
 }// end feedbackStatus
+
+
+void putStatusOnTitle(){
+ StringBuilder sbTitle = new StringBuilder();
+    sbTitle.setLength(0);
+    sbTitle.append(windowTitle);
+    if (doAutoFiling) {
+      sbTitle.append(" | Running ... Will auto-save this ");
+      sbTitle.append(cntSolution);
+      sbTitle.append(" of ");
+      sbTitle.append(autoFileQty);
+    } else {
+       if ( doEstimatePorp) {
+            sbTitle.append(" | Sample " + cntSolution + " of " + minsamp);
+          } else {
+            sbTitle.append(" | Running ...");
+          }
+    }
+    surface.setTitle(sbTitle.toString()); 
+}

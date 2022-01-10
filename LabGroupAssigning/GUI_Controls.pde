@@ -40,11 +40,6 @@ void setButtonRunEnableState(boolean isRunning) {
   }
   butStop.setEnabled(isRunning);
   chkDoEstimate.setEnabled(!isRunning);
-  if (isRunning) {
-    chkDoEstimate.setLocalColorScheme(GCScheme.RED_SCHEME);
-  }else {
-    chkDoEstimate.setLocalColorScheme(GCScheme.CYAN_SCHEME);
-  }
 }
 
 // moves G4P controls as window is resized
@@ -69,6 +64,7 @@ void reposControl(GAbstractControl thisC, float wDelta) {
 }
 
 void doButtonStart() {
+  println(); // balnk line needed at console
   surface.setTitle(windowTitle);
   processCompleted = false;
   processWasQuit = false;
@@ -136,10 +132,12 @@ void  doChkSaveUnusedClicked( GEvent event) {
 void doChkDoEstimateClicked( GEvent event){
   if (event ==GEvent.SELECTED) {
     doEstimatePorp = true;
+    chkDoEstimate.setLocalColorScheme(GCScheme.GREEN_SCHEME);
     return;
   }
   if (event ==GEvent.DESELECTED) {
     doEstimatePorp = false;
+    chkDoEstimate.setLocalColorScheme(GCScheme.CYAN_SCHEME);
     return;
   }
 }

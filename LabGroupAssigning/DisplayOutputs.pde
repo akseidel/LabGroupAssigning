@@ -41,10 +41,11 @@ void showInitialHeader(boolean inConsoleOnly) {
   }
   sbMsg.setLength(0);
   sbMsg.append("Performing at most ");
-  sbMsg.append(nfc(trialQty));
+  sbMsg.append(nfc(trialMaxQty));
   sbMsg.append( " solution trials ... Press q at any time to terminate.");
   if (inConsoleOnly) {
     println(sbMsg.toString());
+    println();
   }
   if (!inConsoleOnly) {
     text(sbMsg.toString(), drawborder, nextLineY());
@@ -64,7 +65,7 @@ void showInitialHeader(boolean inConsoleOnly) {
 void printFirstBest(boolean stopConsoleOutput) {
   StringBuilder sbMsg = new StringBuilder();
   sbMsg.append("First best number of unfilled groups in ");
-  sbMsg.append(nfc(trialQty));
+  sbMsg.append(nfc(trialMaxQty));
   sbMsg.append(" trials. ");
   sbMsg.append(bestunfilledQty);
   sbMsg.append(" unfilled in trial: ");
@@ -99,6 +100,9 @@ void printBestResultsMatrix(boolean atScreenOnly) {
   int checkSumCol = 0;
   int gw = (gSize*2)+(gSize-1);   // group text length
   int cospc = 4;                  // space between columns
+  
+  // In the IDE, sometimes bestlabGroupMatrix is yet to be.
+  if (bestlabGroupMatrix == null) { return;}
 
   printMatrixHeader(atScreenOnly);
   sbMsg.append("Group ");
@@ -114,6 +118,7 @@ void printBestResultsMatrix(boolean atScreenOnly) {
   }
   text(sbMsg.toString(), drawborder, nextLineY());
 
+  
   for (int row =0; row < roundsQty; row ++) {
     StringBuilder sbMsg1 = new StringBuilder();
     sbMsg1.append("Round ");
@@ -131,6 +136,8 @@ void printBestResultsMatrix(boolean atScreenOnly) {
     text(sbMsg1.toString(), drawborder, nextLineY());
     checkSumRow = 0;
   }
+
+  
   StringBuilder sbMsg2 = new StringBuilder();
   sbMsg2.append("Chk:");
   sbMsg2.append(spc(7));

@@ -12,7 +12,7 @@ import g4p_controls.*;  // Install this library. It provides the GUI controls.
 // 
 // Pressing the q key stops the process and outputs the current best solution.
 //
-int trialQty = 1000000000;         // Number of trial runs.
+int trialMaxQty = 1000000000;         // Number of trial runs.
 //boolean beVerbose = true;   // Display each trial in the console, sections are commented out.
 boolean beVerbose = false;    // Do not sisplay each trial in the console.
 boolean processWasQuit = false;      // used for quitting a long process with a q keypress.
@@ -20,10 +20,10 @@ boolean thereIsANewBest = false;
 boolean doAutoFiling = false;
 boolean doUnused = false;
 
-int classSize = 18;         // The number of students in the class
-int gSize = 3;              // Number of students in each group
-int groupQty = 6;           // Number of groups during each event time session
-int roundsQty = 6;          // Number of event time sessions
+int classSize = 10;         // The number of students in the class
+int gSize = 2;              // Number of students in each group
+int groupQty = 5;           // Number of groups during each event time session
+int roundsQty = 5;          // Number of event time sessions
 int poolSize;                 // Number of gSize combinations in classSize 
 int besttrialrun = 1;         // Trial number where best run first occurred.
 int bestunfilledQty = roundsQty * groupQty;
@@ -42,8 +42,8 @@ boolean stopConsoleOutput = false;
 String theWarning = new String();
 StringList warningsList = new StringList();
 StringList historyList = new StringList();
-String timeSolStart;
-String timeSolEnd;
+String timeSolStart = new String();
+String timeSolEnd = new String();
 
 // Porportion Estimate related
 boolean doEstimatePorp = false;   // Estimate the solutions proportion 
@@ -54,10 +54,9 @@ int minfsqty;                     // minimum number of soltions to find
 float p;                         // porportion being solution
 float p_lowerb;                  // lowerbound from porportion being solution
 float p_upperb;                  // upperbound from porportion being solution
-int minsamp = 1;                 // minimum samples for porportion estimate (5)
+int minsamp = 10;                 // minimum samples for porportion estimate (5)
 
-
-LabGroup[][] bestlabGroupMatrix;
+LabGroup[][] bestlabGroupMatrix;  
 LabGroup noSolLG = defNoSolLG(gSize);
 PossibleGroupsK tempPosGroups;                // temporary possiblegroups pool copy
 ArrayList<LabGroup> priorItemsForThisRowCell; // Used for the trial comparisons.
@@ -94,7 +93,7 @@ void draw() {
   nextLineY();
   text(lastStatusMsg, drawborder, nextLineY());
 
-  if (processCompleted || processWasQuit) {
+ if (processCompleted || processWasQuit) {
     // This section runs when process is completed or quitted.
     printFirstBest(stopConsoleOutput);
     printBestResultsMatrix(stopConsoleOutput);
