@@ -66,14 +66,24 @@ public void textfieldAuto_change1(GTextField source, GEvent event) { //_CODE_:te
   autoFileQtyCheck(source);
 } //_CODE_:textfieldAuto:872339:
 
+
+public void textfieldEstP_change1(GTextField source, GEvent event) { 
+  //println("textfieldEstP - GTextField >> GEvent." + event + " @ " + millis()); 
+  if (event ==GEvent.LOST_FOCUS){
+    source.setText(str(source.getValueI()));
+    return; 
+  }
+  textfieldEstPCheck(source);
+} 
+
 public void chkUnused_clicked1(GCheckbox source, GEvent event) { //_CODE_:chkUnused:542584:
   //println("chkUnused - GCheckbox >> GEvent." + event + " @ " + millis());
   doChkSaveUnusedClicked( event);
 } //_CODE_:chkUnused:542584:
 
-public void chkDoEstimate_clicked1(GCheckbox source, GEvent event) { 
-  //println("chkDoEstimate - GCheckbox >> GEvent." + event + " @ " + millis());
-  doChkDoEstimateClicked( event);
+public void optDoEstimate_clicked1(GOption source, GEvent event) { 
+  //println("optDoEstimate - GOption >> GEvent." + event + " @ " + millis());
+  doOptDoEstimateClicked( event);
 }
 
 
@@ -163,13 +173,27 @@ public void createGUI(){
   chkUnused.setText(" Report Unused In File");
   chkUnused.setLocalColorScheme(GCScheme.CYAN_SCHEME);
   chkUnused.setOpaque(false);
-  chkUnused.addEventHandler(this, "chkUnused_clicked1");
-  chkDoEstimate = new GCheckbox(this, 762, 200, 206, 30);
-  chkDoEstimate.setIconAlign(GAlign.LEFT, GAlign.CENTER);
-  chkDoEstimate.setText(" Do A Porportion Estimate");
-  chkDoEstimate.setLocalColorScheme(GCScheme.CYAN_SCHEME);
-  chkDoEstimate.setOpaque(false);
-  chkDoEstimate.addEventHandler(this, "chkDoEstimate_clicked1");
+  chkUnused.addEventHandler(this, "chkUnused_clicked1"); 
+  optDoEstimate = new GOption(this, 762, 200, 206, 30,"Do A Porportion Estimate");
+  optDoEstimate.setIconAlign(GAlign.LEFT, GAlign.CENTER);
+  optDoEstimate.setLocalColorScheme(GCScheme.CYAN_SCHEME);
+  optDoEstimate.setOpaque(false);
+  optDoEstimate.addEventHandler(this, "optDoEstimate_clicked1");
+  textfieldEstP = new GTextField(this, 762, 226, 36, 20, G4P.SCROLLBARS_NONE);
+  textfieldEstP.setNumericType(G4P.INTEGER);
+  textfieldEstP.setNumeric(minSampAbs,100000,minSampAbs);
+  textfieldEstP.setLocalColorScheme(GCScheme.CYAN_SCHEME);
+  textfieldEstP.setOpaque(true);
+  textfieldEstP.addEventHandler(this, "textfieldEstP_change1");
+  labelEstP = new GLabel(this, 804, 222, 200, 30);
+  labelEstP.setTextAlign(GAlign.LEFT, GAlign.CENTER);
+  labelEstP.setText("# Solutions For Estimate");
+  labelEstP.setLocalColorScheme(GCScheme.CYAN_SCHEME);
+  labelEstP.setOpaque(false);
+  
+  
+  
+  
 }
 
 // Variable declarations 
@@ -190,4 +214,6 @@ GCheckbox chkAutoFile;
 GTextField textfieldAuto; 
 GLabel labelAutoTrials; 
 GCheckbox chkUnused;
-GCheckbox chkDoEstimate;
+GOption optDoEstimate;
+GTextField textfieldEstP;
+GLabel labelEstP;

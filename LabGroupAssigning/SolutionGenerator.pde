@@ -164,7 +164,7 @@ void DoStartProcess() {
       break;
     }
     if (!processWasQuit) {
-      msg = "Completed in " + timeElapsed(milliStart, milliEnd);
+      msg = "This matrix find completed in " + timeElapsed(milliStart, milliEnd);
       println(msg);
       lastStatusMsg = msg;
     }
@@ -173,8 +173,8 @@ void DoStartProcess() {
     if (!doEstimatePorp) {
       processCompleted = true; 
     } else {
-        if (msfqty >= minsamp){
-         // processCompleted = true;
+        if (msfqty >= minSamp){
+         processCompleted = true;
         }
     }
     
@@ -255,13 +255,15 @@ void recordBetterRunIfAny(int run) {
         msfqty = msfqty + 1;
         smqty = smqty + run;
         msnqty = msnqty + run - 1;
-      //  if (msfqty >= minsamp){
+      //  if (msfqty >= minSamp){
            p = float(msfqty)/float(smqty);
            p_upperb = p + 1.96 * sqrt(p * (1.0-p)/ float(smqty));
            p_lowerb = p - 1.96 * sqrt(p * (1.0-p)/ float(smqty));
-           sbMsgEst.append("Samples ");
            sbMsgEst.append( msfqty);
-           sbMsgEst.append(" , At 95% confidence p_lower: ");
+           sbMsgEst.append(" solutions found in ");
+           sbMsgEst.append( smqty);
+           sbMsgEst.append(" samples");
+           sbMsgEst.append(", At 95% confidence p_lower: ");
            sbMsgEst.append( p_lowerb);
            sbMsgEst.append(" , p: ");
            sbMsgEst.append( p);
@@ -309,7 +311,7 @@ void putStatusOnTitle(){
       sbTitle.append(autoFileQty);
     } else {
        if ( doEstimatePorp) {
-            sbTitle.append(" | Sample " + cntSolution + " of " + minsamp);
+            sbTitle.append(" | Sampling for " + cntSolution + " of " + minSamp + " solutions");
           } else {
             sbTitle.append(" | Running ...");
           }

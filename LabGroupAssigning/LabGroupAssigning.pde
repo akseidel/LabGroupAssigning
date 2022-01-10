@@ -54,7 +54,8 @@ int minfsqty;                     // minimum number of soltions to find
 float p;                         // porportion being solution
 float p_lowerb;                  // lowerbound from porportion being solution
 float p_upperb;                  // upperbound from porportion being solution
-int minsamp = 10;                 // minimum samples for porportion estimate (5)
+int minSamp = 10;                 // minimum samples for porportion estimate (5)
+int minSampAbs = 5; 
 
 LabGroup[][] bestlabGroupMatrix;  
 LabGroup noSolLG = defNoSolLG(gSize);

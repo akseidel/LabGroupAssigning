@@ -178,11 +178,11 @@ int nextLineY() {
 void reportQuitNowMessage(int run) {
   float duration = (float)(milliEnd - milliStart)/1000; // in seconds
   if (duration < 90) { // msg when under 90 second
-    msg = "Completed in " + nf(duration, 0, 3) + " seconds." ;
+    msg = "This find completed in " + nf(duration, 0, 3) + " seconds." ;
   } else if ((duration < 3600) & (duration > 90)) { //msg when under hour but above 90 seconds
-    msg = "Completed in " + nf(duration/60, 0, 3) + " minutes.";
+    msg = "This find completed in " + nf(duration/60, 0, 3) + " minutes.";
   } else { // msg when above an hour
-    msg = "Completed in " + nf(duration/3600, 0, 3) + " hours.";
+    msg = "This find completed in " + nf(duration/3600, 0, 3) + " hours.";
   }
   msg = "Process terminated by keypress after trial " + nfc(run) + " at time " +timeElapsed(milliStart, milliEnd) + ".";
   isMsgFeedBack = true;

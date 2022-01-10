@@ -9,6 +9,7 @@ void initGUI() {
   textfieldRoundsQTY.setText(str(roundsQty));
   textfieldGroupQty.setText(str(groupQty));
   textfieldAuto.setText(str(autoFileQty));
+  textfieldEstP.setText(str(minSamp));
   setButtonRunEnableState(true); // App is running when started.
   // g4pStuff is for iterating when window is resized
   g4pStuff.add(butStart);
@@ -27,7 +28,9 @@ void initGUI() {
   g4pStuff.add(textfieldAuto);
   g4pStuff.add(chkAutoFile);
   g4pStuff.add(chkUnused);
-  g4pStuff.add(chkDoEstimate);
+  g4pStuff.add(optDoEstimate);
+  g4pStuff.add(textfieldEstP);
+  g4pStuff.add(labelEstP);
 }
 
 // setButtonRunState - Sets GUI button enabled state
@@ -36,10 +39,10 @@ void setButtonRunEnableState(boolean isRunning) {
   int lclassSize = int(textfieldClassSize.getText());
   if (lclassSize > 1) {
     butStart.setEnabled(!isRunning);
-    chkDoEstimate.setEnabled(!isRunning);
+    optDoEstimate.setEnabled(!isRunning);
   }
   butStop.setEnabled(isRunning);
-  chkDoEstimate.setEnabled(!isRunning);
+  optDoEstimate.setEnabled(!isRunning);
 }
 
 // moves G4P controls as window is resized
@@ -129,15 +132,21 @@ void  doChkSaveUnusedClicked( GEvent event) {
   }
 }
 
-void doChkDoEstimateClicked( GEvent event){
+void doOptDoEstimateClicked( GEvent event){
   if (event ==GEvent.SELECTED) {
     doEstimatePorp = true;
-    chkDoEstimate.setLocalColorScheme(GCScheme.GREEN_SCHEME);
+    optDoEstimate.setLocalColorScheme(GCScheme.GREEN_SCHEME);
     return;
   }
   if (event ==GEvent.DESELECTED) {
     doEstimatePorp = false;
-    chkDoEstimate.setLocalColorScheme(GCScheme.CYAN_SCHEME);
+    optDoEstimate.setLocalColorScheme(GCScheme.CYAN_SCHEME);
     return;
   }
+}
+
+// For some reason the textfield cannot be set within this call. 
+void textfieldEstPCheck(GTextField source) {
+  minSamp = source.getValueI();
+  source.setNumeric(minSampAbs,100000,minSamp);
 }

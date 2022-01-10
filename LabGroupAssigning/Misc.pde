@@ -196,7 +196,7 @@ public static float factorial(int number) {
 // Returns how many trials to run based on autosave settings
 int howManySolutionsToDo() {
   if (doEstimatePorp){
-    return minsamp;
+    return minSamp;
   }
   if (doAutoFiling) {
     return autoFileQty;
