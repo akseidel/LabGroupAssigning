@@ -189,6 +189,9 @@ void reportQuitNowMessage(int run) {
   println(msg);
   lastStatusMsg = msg;
   historyList.append("Stopped, trial: " + nfc(run) + " , at " + timeElapsed(milliStart, millis()));
+  if (doEstimatePorp) {
+    doEstimatePropIntoHistory();
+  }
 } // end reportQuitNowMessage
 
 // Function to return a string of len spaces.

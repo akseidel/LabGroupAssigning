@@ -114,11 +114,13 @@ public void createGUI(){
   labGSize.setLocalColorScheme(GCScheme.CYAN_SCHEME);
   labGSize.setOpaque(false);
   textfieldClassSize = new GTextField(this, 762, 12, 36, 20, G4P.SCROLLBARS_NONE);
+  textfieldClassSize.setNumericType(G4P.INTEGER);
   textfieldClassSize.setText("24");
   textfieldClassSize.setLocalColorScheme(GCScheme.CYAN_SCHEME);
   textfieldClassSize.setOpaque(true);
   textfieldClassSize.addEventHandler(this, "textfieldClassSizez");
   textfieldGSize = new GTextField(this, 762, 38, 36, 20, G4P.SCROLLBARS_NONE);
+  textfieldGSize.setNumericType(G4P.INTEGER);
   textfieldGSize.setText("2");
   textfieldGSize.setPromptText("Group Size");
   textfieldGSize.setLocalColorScheme(GCScheme.CYAN_SCHEME);
@@ -130,6 +132,7 @@ public void createGUI(){
   labTaskQty.setLocalColorScheme(GCScheme.CYAN_SCHEME);
   labTaskQty.setOpaque(false);
   textfieldGroupQty = new GTextField(this, 762, 64, 36, 20, G4P.SCROLLBARS_NONE);
+  textfieldGroupQty.setNumericType(G4P.INTEGER);
   textfieldGroupQty.setText("12");
   textfieldGroupQty.setPromptText("Enter the number of groups. (matrix columns)");
   textfieldGroupQty.setLocalColorScheme(GCScheme.CYAN_SCHEME);
@@ -141,6 +144,7 @@ public void createGUI(){
   labRoundsQty.setLocalColorScheme(GCScheme.CYAN_SCHEME);
   labRoundsQty.setOpaque(false);
   textfieldRoundsQTY = new GTextField(this, 762, 90, 36, 20, G4P.SCROLLBARS_NONE);
+  textfieldRoundsQTY.setNumericType(G4P.INTEGER);
   textfieldRoundsQTY.setText("12");
   textfieldRoundsQTY.setLocalColorScheme(GCScheme.CYAN_SCHEME);
   textfieldRoundsQTY.setOpaque(true);
@@ -160,6 +164,7 @@ public void createGUI(){
   chkAutoFile.setOpaque(false);
   chkAutoFile.addEventHandler(this, "chkAutoFile_clicked1");
   textfieldAuto = new GTextField(this, 762, 150, 36, 20, G4P.SCROLLBARS_NONE);
+  textfieldAuto.setNumericType(G4P.INTEGER);
   textfieldAuto.setLocalColorScheme(GCScheme.CYAN_SCHEME);
   textfieldAuto.setOpaque(true);
   textfieldAuto.addEventHandler(this, "textfieldAuto_change1");
@@ -179,15 +184,15 @@ public void createGUI(){
   optDoEstimate.setLocalColorScheme(GCScheme.CYAN_SCHEME);
   optDoEstimate.setOpaque(false);
   optDoEstimate.addEventHandler(this, "optDoEstimate_clicked1");
-  textfieldEstP = new GTextField(this, 762, 226, 36, 20, G4P.SCROLLBARS_NONE);
+  textfieldEstP = new GTextField(this, 762, 226, 80, 20, G4P.SCROLLBARS_NONE);
   textfieldEstP.setNumericType(G4P.INTEGER);
   textfieldEstP.setNumeric(minSampAbs,100000,minSampAbs);
   textfieldEstP.setLocalColorScheme(GCScheme.CYAN_SCHEME);
   textfieldEstP.setOpaque(true);
   textfieldEstP.addEventHandler(this, "textfieldEstP_change1");
-  labelEstP = new GLabel(this, 804, 222, 200, 30);
+  labelEstP = new GLabel(this, 762, 242, 200, 30);
   labelEstP.setTextAlign(GAlign.LEFT, GAlign.CENTER);
-  labelEstP.setText("# Solutions For Estimate");
+  labelEstP.setText("Solution Qty. Basis For Estimate");
   labelEstP.setLocalColorScheme(GCScheme.CYAN_SCHEME);
   labelEstP.setOpaque(false);
   

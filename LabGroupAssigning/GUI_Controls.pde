@@ -39,7 +39,6 @@ void setButtonRunEnableState(boolean isRunning) {
   int lclassSize = int(textfieldClassSize.getText());
   if (lclassSize > 1) {
     butStart.setEnabled(!isRunning);
-    optDoEstimate.setEnabled(!isRunning);
   }
   butStop.setEnabled(isRunning);
   optDoEstimate.setEnabled(!isRunning);

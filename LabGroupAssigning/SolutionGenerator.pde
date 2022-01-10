@@ -177,12 +177,12 @@ void DoStartProcess() {
          processCompleted = true;
         }
     }
-    
-    setButtonRunEnableState(false);
+        
     if (doAutoFiling) {
       filePrint("Auto-saved");
     }
   }// end for cntSolution
+  setButtonRunEnableState(false);
 }// end DoStartProcess
 
 // The valid trial selections. Each bad trial will be removed 
@@ -231,7 +231,6 @@ void recordBetterRunIfAny(int run) {
   if (unfilledQty < bestunfilledQty) {
     StringBuilder sbMsg = new StringBuilder();
     StringBuilder sbMsgHist = new StringBuilder();
-    StringBuilder sbMsgEst = new StringBuilder();
     bestunfilledQty = unfilledQty;
     bestlabGroupMatrix = labGroupMatrix;
     besttrialrun = run;
@@ -255,29 +254,37 @@ void recordBetterRunIfAny(int run) {
         msfqty = msfqty + 1;
         smqty = smqty + run;
         msnqty = msnqty + run - 1;
-      //  if (msfqty >= minSamp){
-           p = float(msfqty)/float(smqty);
-           p_upperb = p + 1.96 * sqrt(p * (1.0-p)/ float(smqty));
-           p_lowerb = p - 1.96 * sqrt(p * (1.0-p)/ float(smqty));
-           sbMsgEst.append( msfqty);
-           sbMsgEst.append(" solutions found in ");
-           sbMsgEst.append( smqty);
-           sbMsgEst.append(" samples");
-           sbMsgEst.append(", At 95% confidence p_lower: ");
-           sbMsgEst.append( p_lowerb);
-           sbMsgEst.append(" , p: ");
-           sbMsgEst.append( p);
-           sbMsgEst.append(" , p_upper: ");
-           sbMsgEst.append( p_upperb);
-           historyList.append(sbMsgEst.toString());
-       // }
-         // output just for console
-        println(sbMsgEst.toString());
-    }
-   
-  }
+        // Make porportion estimate if enough solutions sampled
+        doEstimatePropIntoHistory();
+    } // end if doEstimatePorp
+  } // end if it is a better run
 }// end recordBetterRunIfAny
 
+// Make porportion estimate if enough solutions sampled
+void doEstimatePropIntoHistory() {
+  StringBuilder sbMsgEst = new StringBuilder();   
+  if (msfqty >= minSampAbs){
+       p = float(msfqty)/float(smqty);
+       p_upperb = p + 1.96 * sqrt(p * (1.0-p)/ float(smqty));
+       p_lowerb = p - 1.96 * sqrt(p * (1.0-p)/ float(smqty));
+       sbMsgEst.append( msfqty);
+       sbMsgEst.append(" solutions found in ");
+       sbMsgEst.append( smqty);
+       sbMsgEst.append(" samples");
+       sbMsgEst.append(", At 95% confidence p_lower: ");
+       sbMsgEst.append( p_lowerb);
+       sbMsgEst.append(" , p: ");
+       sbMsgEst.append( p);
+       sbMsgEst.append(" , p_upper: ");
+       sbMsgEst.append( p_upperb);
+     } else {
+       sbMsgEst.append( msfqty);
+       sbMsgEst.append(" solutions sampled is not enough for a porportion estimate.");
+     }// end if meets minimum samples found
+     historyList.append(sbMsgEst.toString());
+     // output just for console
+     println(sbMsgEst.toString());
+} // end doEstimatePropIntoHistory
 
 void initializeBestlabGroupMatrix() {
   bestlabGroupMatrix = new LabGroup[roundsQty][groupQty];
