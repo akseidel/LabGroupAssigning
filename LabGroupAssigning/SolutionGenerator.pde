@@ -7,12 +7,14 @@ int run;
 // This function is called on a thread.
 void DoStartProcess() {
   boolean doTerminate;
-  
+  milliSStart = millis();
+  timeSStart = getTimeNow("Session Start: ");
+  timeSEnd = " - |";
   for (cntSolution = 1; cntSolution <  howManySolutionsToDo() + 1; cntSolution++) {
     putStatusOnTitle();      
-    timeSolStart = getTimeNow("Time Started: ");
+    timeSolStart = getTimeNow("Trial Start: ");
     timeSolEnd = " - |"; 
-    milliStart = millis();
+    milliTStart = millis();
     initializeBestlabGroupMatrix();
     bestunfilledQty = roundsQty * groupQty;
     bestPossibleMin = propBestPossibleMin;
@@ -134,13 +136,10 @@ void DoStartProcess() {
 
       // Break if a q key was pressed.
       if (processWasQuit) {
-        milliEnd = millis();
+        milliTEnd = millis();
+        milliSEnd = milliTEnd;
         reportQuitNowMessage(run);
-        if (doAutoFiling) {
-          surface.setTitle(windowTitle + " | Terminated, this auto-save  " + cntSolution + " of " + autoFileQty);
-        } else {
-          surface.setTitle(windowTitle + " | Terminated");
-        }    
+        endMsgWindowTitle( "Terminated", cntSolution, autoFileQty);    
         break;
       }
 
@@ -149,22 +148,18 @@ void DoStartProcess() {
 
       // Break if a perfect solution was found.
       if (bestunfilledQty < bestPossibleMin + 1) { 
-          milliEnd = millis();
-          if (doAutoFiling) {
-            surface.setTitle(windowTitle + " | Completed, auto-saved this " + cntSolution + " of " + autoFileQty);
-          } else {
-            surface.setTitle(windowTitle + " | Completed");
-          }
+          milliTEnd = millis();
+          endMsgWindowTitle( "Completed", cntSolution, autoFileQty);
           break;
       }
       
     } // end for run loop
-    timeSolEnd = getTimeNow(" - Time Ended: ");
+    timeSolEnd = getTimeNow(" - Trial End: ");
     if (processWasQuit) {
       break;
     }
     if (!processWasQuit) {
-      msg = "This matrix find completed in " + timeElapsed(milliStart, milliEnd);
+      msg = "This matrix find completed in " + timeElapsed(milliTStart, milliTEnd);
       println(msg);
       lastStatusMsg = msg;
     }
@@ -183,6 +178,8 @@ void DoStartProcess() {
     }
   }// end for cntSolution
   setButtonRunEnableState(false);
+  milliSEnd = millis();
+  timeSEnd = " - Duration: " + timeElapsed(milliSStart, milliSEnd);
 }// end DoStartProcess
 
 // The valid trial selections. Each bad trial will be removed 
@@ -239,7 +236,7 @@ void recordBetterRunIfAny(int run) {
     sbMsg.append(" in trial ");
     sbMsg.append( nfc(besttrialrun));
     sbMsg.append(" at time ");
-    sbMsg.append(timeElapsed(milliStart, millis()));
+    sbMsg.append(timeElapsed(milliTStart, millis()));
     // output just for console
     println(sbMsg.toString());
     // The history string is slightly different.
@@ -247,7 +244,7 @@ void recordBetterRunIfAny(int run) {
     sbMsgHist.append(" remaining, trial: ");
     sbMsgHist.append(nfc(besttrialrun));
     sbMsgHist.append(" , at ");
-    sbMsgHist.append(timeElapsed(milliStart, millis()));
+    sbMsgHist.append(timeElapsed(milliTStart, millis()));
     historyList.append(sbMsgHist.toString());
     // porportion estimate figures
     if ((bestunfilledQty < bestPossibleMin + 1) & (doEstimatePorp)) { 
@@ -324,4 +321,13 @@ void putStatusOnTitle(){
           }
     }
     surface.setTitle(sbTitle.toString()); 
+}
+
+
+void endMsgWindowTitle( String reason, int cntSolution, int autoFileQty){
+        if (doAutoFiling) {
+          surface.setTitle(windowTitle + " | " + reason + ", this auto-save " + cntSolution + " of " + autoFileQty);
+        } else {
+          surface.setTitle(windowTitle + " | " + reason);
+        }  
 }

@@ -205,7 +205,7 @@ int howManySolutionsToDo() {
   }
 }
 
-
+// Returns formatted time expression preceeded by text argument.
 String getTimeNow(String hd) {
   StringBuilder sbTimeNow = new StringBuilder(); 
   sbTimeNow.append(hd);

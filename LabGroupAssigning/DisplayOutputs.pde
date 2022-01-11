@@ -59,7 +59,18 @@ void showInitialHeader(boolean inConsoleOnly) {
   if (!inConsoleOnly) {
     text(sbMsg.toString(), drawborder, nextLineY());
   }
-  
+  // session only information
+  if (doEstimatePorp || doAutoFiling){
+    sbMsg.setLength(0);
+    sbMsg.append(timeSStart);
+    sbMsg.append(timeSEnd);
+    if (inConsoleOnly) {
+      println(sbMsg.toString());
+    }
+    if (!inConsoleOnly) {
+      text(sbMsg.toString(), drawborder, nextLineY());
+    }
+  }
 }
 
 void printFirstBest(boolean stopConsoleOutput) {
@@ -170,25 +181,33 @@ void outputWarnings() {
   nextLineY();
 }
 
+// Increments current display output position
 int nextLineY() {
   currentlineY = currentlineY + fontsize + vfontgap;
   return currentlineY;
 }// end nextline
 
+// Builds time message when process halted by user.
 void reportQuitNowMessage(int run) {
-  float duration = (float)(milliEnd - milliStart)/1000; // in seconds
-  if (duration < 90) { // msg when under 90 second
-    msg = "This find completed in " + nf(duration, 0, 3) + " seconds." ;
-  } else if ((duration < 3600) & (duration > 90)) { //msg when under hour but above 90 seconds
-    msg = "This find completed in " + nf(duration/60, 0, 3) + " minutes.";
-  } else { // msg when above an hour
-    msg = "This find completed in " + nf(duration/3600, 0, 3) + " hours.";
+  // to do, needs to handle multiple run instances. Currently reports
+  // the duration of the stopped single last trial
+  String runtype = new String();
+  String timetype = new String();
+  String strDuration = new String();
+  if (doEstimatePorp || doAutoFiling){
+    strDuration = timeElapsed(milliSStart, milliSEnd);
+    runtype = "Session";
+    timetype = "session";
+  } else {
+    strDuration = timeElapsed(milliTStart, milliTEnd);
+    runtype = "Find";
+    timetype = "trial";
   }
-  msg = "Process terminated by keypress after trial " + nfc(run) + " at time " +timeElapsed(milliStart, milliEnd) + ".";
+  msg = runtype + " terminated by keypress after trial " + nfc(run) + " at " + timetype + " time " + strDuration + ".";
   isMsgFeedBack = true;
   println(msg);
   lastStatusMsg = msg;
-  historyList.append("Stopped, trial: " + nfc(run) + " , at " + timeElapsed(milliStart, millis()));
+  historyList.append(msg);
   if (doEstimatePorp) {
     doEstimatePropIntoHistory();
   }
@@ -203,6 +222,7 @@ String spc(int len) {
   return s.toString();
 }
 
+// Returns time duration seconds as formatted string.
 String timeElapsed(int lmStart, int lmEnd) {
   String result;
   float duration = (float)(lmEnd - lmStart)/1000; // in seconds
@@ -272,8 +292,6 @@ void printlnWhereTo(String msg, int whereTo) {
     }
   }
 }
-
-
 
 // Retain this. It is used in a beVerbose function that is commented out
 void reportResults(int unfilledQty) {

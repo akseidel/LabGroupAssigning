@@ -175,7 +175,7 @@ public void createGUI(){
   labelAutoTrials.setOpaque(false);
   chkUnused = new GCheckbox(this, 762, 168, 206, 30);
   chkUnused.setIconAlign(GAlign.LEFT, GAlign.CENTER);
-  chkUnused.setText(" Report Unused In File");
+  chkUnused.setText(" Report Unused In File/Console");
   chkUnused.setLocalColorScheme(GCScheme.CYAN_SCHEME);
   chkUnused.setOpaque(false);
   chkUnused.addEventHandler(this, "chkUnused_clicked1"); 

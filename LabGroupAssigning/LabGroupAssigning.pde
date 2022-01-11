@@ -20,10 +20,10 @@ boolean thereIsANewBest = false;
 boolean doAutoFiling = false;
 boolean doUnused = false;
 
-int classSize = 10;         // The number of students in the class
+int classSize = 16;         // The number of students in the class
 int gSize = 2;              // Number of students in each group
-int groupQty = 5;           // Number of groups during each event time session
-int roundsQty = 5;          // Number of event time sessions
+int groupQty = 8;           // Number of groups during each event time session
+int roundsQty = 8;          // Number of event time sessions
 int poolSize;                 // Number of gSize combinations in classSize 
 int besttrialrun = 1;         // Trial number where best run first occurred.
 int bestunfilledQty = roundsQty * groupQty;
@@ -33,8 +33,10 @@ int row ;
 int col ;
 int index;                    // thislg index usually
 int unfilledQty;
-int milliStart;
-int milliEnd;
+int milliTStart;              // single trial start
+int milliTEnd;                // single trial end
+int milliSStart;              // session start
+int milliSEnd;                // session end
 int autoFileQty = 1;
 boolean isMsgFeedBack = false;
 boolean processCompleted = false;
@@ -44,6 +46,8 @@ StringList warningsList = new StringList();
 StringList historyList = new StringList();
 String timeSolStart = new String();
 String timeSolEnd = new String();
+String timeSStart = new String();
+String timeSEnd = new String();
 
 // Porportion Estimate related
 boolean doEstimatePorp = false;   // Estimate the solutions proportion 

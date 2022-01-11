@@ -1,4 +1,4 @@
-// Functions related to the GUI //<>//
+// Functions related to the GUI //<>// //<>//
 int lastWidth;
 int lastHeight;
 ArrayList<GAbstractControl> g4pStuff = new ArrayList();
