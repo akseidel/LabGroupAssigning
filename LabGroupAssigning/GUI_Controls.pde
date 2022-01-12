@@ -81,7 +81,7 @@ void setProcessInits(){
   besttrialrun = 0;         
   bestunfilledQty = roundsQty * groupQty;
   noSolLG = defNoSolLG(gSize);
-  initEstPorp();
+  initEstProp();
   stopConsoleOutput = false;
   setButtonRunEnableState(true);
   initializeBestlabGroupMatrix();
@@ -103,7 +103,8 @@ void doButtonStop() {
   processWasQuit = true;
 }
 
-void doButtonQuit() {  
+void doButtonQuit() { 
+  doButtonStop();
   exit();
 }
 
@@ -143,12 +144,12 @@ void  doChkSaveUnusedClicked( GEvent event) {
 
 void doOptDoEstimateClicked( GEvent event){
   if (event ==GEvent.SELECTED) {
-    doEstimatePorp = true;
+    doEstimateProp = true;
     optDoEstimate.setLocalColorScheme(GCScheme.GREEN_SCHEME);
     return;
   }
   if (event ==GEvent.DESELECTED) {
-    doEstimatePorp = false;
+    doEstimateProp = false;
     optDoEstimate.setLocalColorScheme(GCScheme.CYAN_SCHEME);
     return;
   }

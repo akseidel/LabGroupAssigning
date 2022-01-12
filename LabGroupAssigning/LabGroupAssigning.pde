@@ -49,16 +49,16 @@ String timeSolEnd = new String();
 String timeSStart = new String();
 String timeSEnd = new String();
 
-// Porportion Estimate related
-boolean doEstimatePorp = false;   // Estimate the solutions proportion 
+// proportion Estimate related
+boolean doEstimateProp = false;   // Estimate the solutions proportion 
 int msfqty;                       // qty of matrices solutions found
 int smqty;                        // qty of sampled maatrices
 int msnqty;                       // qty of matrices not solutions found
 int minfsqty;                     // minimum number of soltions to find
-float p;                          // porportion being solution
-float p_lowerb;                   // lowerbound from porportion being solution
-float p_upperb;                   // upperbound from porportion being solution
-int minSamp = 10;                 // minimum samples for porportion estimate (5)
+float p;                          // proportion being solution
+float p_lowerb;                   // lowerbound from proportion being solution
+float p_upperb;                   // upperbound from proportion being solution
+int minSamp = 10;                 // minimum samples for proportion estimate (5)
 int minSampAbs = 5; 
 
 LabGroup[][] bestlabGroupMatrix; 

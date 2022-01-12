@@ -177,7 +177,7 @@ public void createGUI(){
   chkUnused.setLocalColorScheme(GCScheme.CYAN_SCHEME);
   chkUnused.setOpaque(false);
   chkUnused.addEventHandler(this, "chkUnused_clicked1"); 
-  optDoEstimate = new GOption(this, 762, 200, 206, 30,"Do A Porportion Estimate");
+  optDoEstimate = new GOption(this, 762, 200, 206, 30,"Do A Proportion Estimate");
   optDoEstimate.setIconAlign(GAlign.LEFT, GAlign.CENTER);
   optDoEstimate.setLocalColorScheme(GCScheme.CYAN_SCHEME);
   optDoEstimate.setOpaque(false);

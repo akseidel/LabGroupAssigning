@@ -60,7 +60,7 @@ void showInitialHeader(boolean inConsoleOnly) {
     text(sbMsg.toString(), drawborder, nextLineY());
   }
   // session only information
-  if (doEstimatePorp || doAutoFiling) {
+  if (doEstimateProp || doAutoFiling) {
     sbMsg.setLength(0);
     sbMsg.append(timeSStart);
     sbMsg.append(timeSEnd);
@@ -75,11 +75,8 @@ void showInitialHeader(boolean inConsoleOnly) {
 
 void printFirstBest(boolean stopConsoleOutput) {
   StringBuilder sbMsg = new StringBuilder();
-  sbMsg.append("First best number of unfilled groups in ");
-  sbMsg.append(nfc(trialMaxQty));
-  sbMsg.append(" trials. ");
   sbMsg.append(bestunfilledQty);
-  sbMsg.append(" unfilled in trial: ");
+  sbMsg.append(" unfilled at trial: ");
   sbMsg.append(nfc(besttrialrun));
   nextLineY();
   text(sbMsg.toString(), drawborder, nextLineY());
@@ -193,7 +190,7 @@ void reportQuitNowMessage(int run) {
   String runtype = new String();
   String timetype = new String();
   String strDuration = new String();
-  if (doEstimatePorp || doAutoFiling) {
+  if (doEstimateProp || doAutoFiling) {
     strDuration = timeElapsed(milliSStart, milliSEnd);
     runtype = "Session";
     timetype = "session";
@@ -207,7 +204,7 @@ void reportQuitNowMessage(int run) {
   println(msg);
   lastStatusMsg = msg;
   historyList.append(msg);
-  if (doEstimatePorp) {
+  if (doEstimateProp) {
     doEstimatePropIntoHistory();
   }
 } // end reportQuitNowMessage

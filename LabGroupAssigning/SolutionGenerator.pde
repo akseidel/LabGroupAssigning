@@ -165,7 +165,7 @@ void DoStartProcess() {
     }
     println();
     
-    if (!doEstimatePorp) {
+    if (!doEstimateProp) {
       processCompleted = true; 
     } else {
         if (msfqty >= minSamp){
@@ -246,27 +246,27 @@ void recordBetterRunIfAny(int run) {
     sbMsgHist.append(" , at ");
     sbMsgHist.append(timeElapsed(milliTStart, millis()));
     historyList.append(sbMsgHist.toString());
-    // porportion estimate figures
-    if ((bestunfilledQty < bestPossibleMin + 1) & (doEstimatePorp)) { 
+    // proportion estimate figures
+    if ((bestunfilledQty < bestPossibleMin + 1) & (doEstimateProp)) { 
         msfqty = msfqty + 1;
         smqty = smqty + run;
         msnqty = msnqty + run - 1;
-        // Make porportion estimate if enough solutions sampled
+        // Make proportion estimate if enough solutions sampled
         doEstimatePropIntoHistory();
-    } // end if doEstimatePorp
+    } // end if doEstimateProp
   } // end if it is a better run
 }// end recordBetterRunIfAny
 
-// Make porportion estimate if enough solutions sampled
+// Make proportion estimate if enough solutions sampled
 void doEstimatePropIntoHistory() {
   StringBuilder sbMsgEst = new StringBuilder();   
   if (msfqty >= minSampAbs){
        p = float(msfqty)/float(smqty);
        p_upperb = p + 1.96 * sqrt(p * (1.0-p)/ float(smqty));
        p_lowerb = p - 1.96 * sqrt(p * (1.0-p)/ float(smqty));
-       sbMsgEst.append( msfqty);
+       sbMsgEst.append( nfc(msfqty));
        sbMsgEst.append(" solutions found in ");
-       sbMsgEst.append( smqty);
+       sbMsgEst.append( nfc(smqty));
        sbMsgEst.append(" samples");
        sbMsgEst.append(", At 95% confidence p_lower: ");
        sbMsgEst.append( p_lowerb);
@@ -276,7 +276,7 @@ void doEstimatePropIntoHistory() {
        sbMsgEst.append( p_upperb);
      } else {
        sbMsgEst.append( msfqty);
-       sbMsgEst.append(" solutions sampled is not enough for a porportion estimate.");
+       sbMsgEst.append(" solutions sampled is not enough for a proportion estimate.");
      }// end if meets minimum samples found
      historyList.append(sbMsgEst.toString());
      // output just for console
@@ -331,7 +331,7 @@ void putStatusOnTitle(){
       sbTitle.append(" of ");
       sbTitle.append(autoFileQty);
     } else {
-       if ( doEstimatePorp) {
+       if ( doEstimateProp) {
             sbTitle.append(" | Sampling for " + cntSolution + " of " + minSamp + " solutions");
           } else {
             sbTitle.append(" | Running ...");

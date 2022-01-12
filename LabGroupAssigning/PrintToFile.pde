@@ -98,11 +98,8 @@ void makeOutput(String why) {
 
   if (processCompleted || processWasQuit) {
     StringBuilder sbFBH = new StringBuilder();
-    sbFBH.append("First best number of unfilled groups in ");
-    sbFBH.append(nfc(trialMaxQty));
-    sbFBH.append(" trials. ");
     sbFBH.append(bestunfilledQty);
-    sbFBH.append(" unfilled in trial: ");
+    sbFBH.append(" unfilled at trial: ");
     sbFBH.append(nfc(besttrialrun));
     theFileOutput.println(sbFBH.toString());
   }

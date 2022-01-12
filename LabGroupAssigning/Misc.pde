@@ -195,7 +195,7 @@ public static float factorial(int number) {
 
 // Returns how many trials to run based on autosave settings
 int howManySolutionsToDo() {
-  if (doEstimatePorp){
+  if (doEstimateProp){
     return minSamp;
   }
   if (doAutoFiling) {
@@ -223,14 +223,14 @@ String getTimeNow(String hd) {
   return sbTimeNow.toString();
 }
 
-void initEstPorp(){
-  if (doEstimatePorp){
+void initEstProp(){
+  if (doEstimateProp){
     msfqty = 0;                     // qty of matrices solutions found
     smqty = 0;                      // qty of sampled maatrices
     msnqty = 0;                     // qty of matrices not solutions found
     minfsqty = 5;                   // minimum number of soltions to find
-    p = 0;                       // porportion being solution
-    p_lowerb = 0;                // lowerbound from porportion being solution
-    p_upperb = 0;                // upperbound from porportion being solution
+    p = 0;                       // proportion being solution
+    p_lowerb = 0;                // lowerbound from proportion being solution
+    p_upperb = 0;                // upperbound from proportion being solution
   }
 }
