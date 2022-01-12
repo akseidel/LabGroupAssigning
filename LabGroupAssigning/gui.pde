@@ -66,7 +66,6 @@ public void textfieldAuto_change1(GTextField source, GEvent event) { //_CODE_:te
   autoFileQtyCheck(source);
 } //_CODE_:textfieldAuto:872339:
 
-
 public void textfieldEstP_change1(GTextField source, GEvent event) { 
   //println("textfieldEstP - GTextField >> GEvent." + event + " @ " + millis()); 
   if (event ==GEvent.LOST_FOCUS){
@@ -85,7 +84,6 @@ public void optDoEstimate_clicked1(GOption source, GEvent event) {
   //println("optDoEstimate - GOption >> GEvent." + event + " @ " + millis());
   doOptDoEstimateClicked( event);
 }
-
 
 
 // Create all the GUI controls. 

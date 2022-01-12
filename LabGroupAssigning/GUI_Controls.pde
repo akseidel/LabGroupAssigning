@@ -67,7 +67,13 @@ void reposControl(GAbstractControl thisC, float wDelta) {
 }
 
 void doButtonStart() {
-  println(); // balnk line needed at console
+  setProcessInits();
+  thread("DoStartProcess");
+}
+
+// Initializes values for the process  
+void setProcessInits(){
+  println(); // blank line needed at console
   surface.setTitle(windowTitle);
   processCompleted = false;
   processWasQuit = false;
@@ -78,14 +84,17 @@ void doButtonStart() {
   initEstPorp();
   stopConsoleOutput = false;
   setButtonRunEnableState(true);
-  thread("DoStartProcess");
+  initializeBestlabGroupMatrix();
 }
 
+// Gets the GUI text fields
 void getGUITextFields() {
   classSize = int(textfieldClassSize.getText());
   roundsQty = int(textfieldRoundsQTY.getText());
   groupQty = int(textfieldGroupQty.getText());
   gSize = int(textfieldGSize.getText());
+  // minSamp is acknowledged as not here
+  // autoFileQty is acknowledged as not here
 }
 
 void doButtonStop() {

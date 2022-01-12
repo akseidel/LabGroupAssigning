@@ -4,7 +4,7 @@
 int cntSolution;
 int run;
 
-// This function is called on a thread.
+// This function is called on a thread. 
 void DoStartProcess() {
   boolean doTerminate;
   milliSStart = millis();
@@ -15,7 +15,7 @@ void DoStartProcess() {
     timeSolStart = getTimeNow("Trial Start: ");
     timeSolEnd = " - |"; 
     milliTStart = millis();
-    initializeBestlabGroupMatrix();
+    emptyTheBestlabGroupMatrix(bestlabGroupMatrix);
     bestunfilledQty = roundsQty * groupQty;
     bestPossibleMin = propBestPossibleMin;
     historyList.clear();
@@ -283,6 +283,11 @@ void doEstimatePropIntoHistory() {
      println(sbMsgEst.toString());
 } // end doEstimatePropIntoHistory
 
+// Creates a new matrix populated with noSolLG
+// This must be called outside of the process thread. At one time it
+// was called within the process thread. Sometimes the draw loop
+// would catch the matrix as it was being created when parts were
+// still null. 
 void initializeBestlabGroupMatrix() {
   bestlabGroupMatrix = new LabGroup[roundsQty][groupQty];
   for (int r = 0; r < roundsQty; r++) {
@@ -291,6 +296,18 @@ void initializeBestlabGroupMatrix() {
     }
   }
 }// end initializeBestlabGroupMatrix
+
+// Restores, ie populates existing matrix with noSolLG
+// Using this inside of the process thread seems to prevent the 
+// condition where the draw loop would find parts of the matrix
+// null during trial switching.
+void emptyTheBestlabGroupMatrix(LabGroup[][] bestlabGroupMatrix) {
+  for (int r = 0; r < roundsQty; r++) {
+    for (int c = 0; c < groupQty; c++) {
+      bestlabGroupMatrix[r][c] = noSolLG;
+    }
+  }
+}// end emptyTheBestlabGroupMatrix
 
 void feedbackStatus(int run) {
   StringBuilder sbMsg = new StringBuilder();

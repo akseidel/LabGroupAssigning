@@ -85,6 +85,7 @@ void setup() {
   createGUI();
   initGUI();
   initDisplays();
+  setProcessInits();
   thread("DoStartProcess");
 }
 

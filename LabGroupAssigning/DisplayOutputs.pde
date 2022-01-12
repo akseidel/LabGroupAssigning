@@ -60,7 +60,7 @@ void showInitialHeader(boolean inConsoleOnly) {
     text(sbMsg.toString(), drawborder, nextLineY());
   }
   // session only information
-  if (doEstimatePorp || doAutoFiling){
+  if (doEstimatePorp || doAutoFiling) {
     sbMsg.setLength(0);
     sbMsg.append(timeSStart);
     sbMsg.append(timeSEnd);
@@ -86,7 +86,7 @@ void printFirstBest(boolean stopConsoleOutput) {
   if (! stopConsoleOutput) {
     println(sbMsg.toString());
   }
-} 
+}
 
 // Displays header to both screen and console. atScreenONly arg results in display
 // to screen only. Console display is supressed.
@@ -111,11 +111,9 @@ void printBestResultsMatrix(boolean atScreenOnly) {
   int checkSumCol = 0;
   int gw = (gSize*2)+(gSize-1);   // group text length
   int cospc = 4;                  // space between columns
-  
+
   // Sometimes bestlabGroupMatrix is yet to be.
-  if (bestlabGroupMatrix == null) { 
-    return;
-  }
+  if (bestlabGroupMatrix == null) { return;}
 
   printMatrixHeader(atScreenOnly);
   sbMsg.append("Group ");
@@ -124,14 +122,13 @@ void printBestResultsMatrix(boolean atScreenOnly) {
     String strHN = str((col+1));
     sbMsg.append(strHN);
     sbMsg.append(spc(gw+cospc-strHN.length()));
-  } 
+  }
   sbMsg.append("Chk:");
   if (! atScreenOnly) {
     println(sbMsg.toString());
   }
   text(sbMsg.toString(), drawborder, nextLineY());
 
-  
   for (int row =0; row < roundsQty; row ++) {
     StringBuilder sbMsg1 = new StringBuilder();
     sbMsg1.append("Round ");
@@ -150,7 +147,7 @@ void printBestResultsMatrix(boolean atScreenOnly) {
     checkSumRow = 0;
   }
 
-  
+
   StringBuilder sbMsg2 = new StringBuilder();
   sbMsg2.append("Chk:");
   sbMsg2.append(spc(7));
@@ -196,7 +193,7 @@ void reportQuitNowMessage(int run) {
   String runtype = new String();
   String timetype = new String();
   String strDuration = new String();
-  if (doEstimatePorp || doAutoFiling){
+  if (doEstimatePorp || doAutoFiling) {
     strDuration = timeElapsed(milliSStart, milliSEnd);
     runtype = "Session";
     timetype = "session";
@@ -261,9 +258,9 @@ void reportLeftOverGroups(boolean atScreenOnly, int whereTo) {
         }
       }
     }
-  } 
+  }
   rm = freshMstrPosGroups.pGroups.size();
-  printlnWhereTo("", whereTo);  
+  printlnWhereTo("", whereTo);
   printlnWhereTo(rm + " Lab Groups remaining:", whereTo);
   for (LabGroup lg : freshMstrPosGroups.pGroups) {
     if (sbRpt.length() < 120) {
