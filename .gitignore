@@ -3,3 +3,5 @@ LabGroupAssigning/application.*
 NotForGitHub/*
 LabGroupAssigning/*.txt
 *.txt
+application.macosx/*
+GUI_BUILDER_DATA/*
