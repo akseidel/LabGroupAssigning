@@ -196,9 +196,6 @@ public void createGUI(){
   labelEstP.setLocalColorScheme(GCScheme.CYAN_SCHEME);
   labelEstP.setOpaque(false);
   
-  
-  
-  
 }
 
 // Variable declarations 

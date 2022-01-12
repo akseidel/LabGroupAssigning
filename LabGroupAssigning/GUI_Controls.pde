@@ -10,7 +10,8 @@ void initGUI() {
   textfieldGroupQty.setText(str(groupQty));
   textfieldAuto.setText(str(autoFileQty));
   textfieldEstP.setText(str(minSamp));
-  setButtonRunEnableState(true); // App is running when started.
+  //setButtonRunEnableState(true); // App is running when started.
+  setButtonRunEnableState(false); // App is not running when started.
   // g4pStuff is for iterating when window is resized
   g4pStuff.add(butStart);
   g4pStuff.add(butQuit);

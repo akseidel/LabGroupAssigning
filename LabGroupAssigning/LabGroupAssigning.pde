@@ -12,23 +12,23 @@ import g4p_controls.*;  // Install this library. It provides the GUI controls.
 // 
 // Pressing the q key stops the process and outputs the current best solution.
 //
-int trialMaxQty = 1000000000;         // Number of trial runs.
+int trialMaxQty = 1000000000;        // Number of trial runs.
 //boolean beVerbose = true;   // Display each trial in the console, sections are commented out.
-boolean beVerbose = false;    // Do not sisplay each trial in the console.
+boolean beVerbose = false;           // Do not sisplay each trial in the console.
 boolean processWasQuit = false;      // used for quitting a long process with a q keypress.
 boolean thereIsANewBest = false;
 boolean doAutoFiling = false;
 boolean doUnused = false;
 
-int classSize = 16;         // The number of students in the class
-int gSize = 2;              // Number of students in each group
-int groupQty = 8;           // Number of groups during each event time session
-int roundsQty = 8;          // Number of event time sessions
+int classSize = 16;           // The number of students in the class
+int gSize = 2;                // Number of students in each group
+int groupQty = 8;             // Number of groups during each event time session
+int roundsQty = 8;            // Number of event time sessions
 int poolSize;                 // Number of gSize combinations in classSize 
 int besttrialrun = 1;         // Trial number where best run first occurred.
 int bestunfilledQty = roundsQty * groupQty;
 int propBestPossibleMin = besttrialrun; 
-int bestPossibleMin = 0;      // Best possible solution has this remaining unfilles slections. 
+int bestPossibleMin = 0;      // Best possible solution has this remaining unfilled slections. 
 int row ;
 int col ;
 int index;                    // thislg index usually
@@ -39,7 +39,7 @@ int milliSStart;              // session start
 int milliSEnd;                // session end
 int autoFileQty = 1;
 boolean isMsgFeedBack = false;
-boolean processCompleted = false;
+boolean processCompleted = true; // false suppresses finished status at initial startup 
 boolean stopConsoleOutput = false;
 String theWarning = new String();
 StringList warningsList = new StringList();
@@ -55,13 +55,13 @@ int msfqty;                       // qty of matrices solutions found
 int smqty;                        // qty of sampled maatrices
 int msnqty;                       // qty of matrices not solutions found
 int minfsqty;                     // minimum number of soltions to find
-float p;                         // porportion being solution
-float p_lowerb;                  // lowerbound from porportion being solution
-float p_upperb;                  // upperbound from porportion being solution
+float p;                          // porportion being solution
+float p_lowerb;                   // lowerbound from porportion being solution
+float p_upperb;                   // upperbound from porportion being solution
 int minSamp = 10;                 // minimum samples for porportion estimate (5)
 int minSampAbs = 5; 
 
-LabGroup[][] bestlabGroupMatrix;  
+LabGroup[][] bestlabGroupMatrix; 
 LabGroup noSolLG = defNoSolLG(gSize);
 PossibleGroupsK tempPosGroups;                // temporary possiblegroups pool copy
 ArrayList<LabGroup> priorItemsForThisRowCell; // Used for the trial comparisons.

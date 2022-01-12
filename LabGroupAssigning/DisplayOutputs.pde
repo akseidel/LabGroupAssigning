@@ -112,8 +112,10 @@ void printBestResultsMatrix(boolean atScreenOnly) {
   int gw = (gSize*2)+(gSize-1);   // group text length
   int cospc = 4;                  // space between columns
   
-  // In the IDE, sometimes bestlabGroupMatrix is yet to be.
-  if (bestlabGroupMatrix == null) { return;}
+  // Sometimes bestlabGroupMatrix is yet to be.
+  if (bestlabGroupMatrix == null) { 
+    return;
+  }
 
   printMatrixHeader(atScreenOnly);
   sbMsg.append("Group ");

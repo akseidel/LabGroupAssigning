@@ -1,11 +1,10 @@
 // Meant to be a lab group of students working together
 // where students are string ids
 
-class LabGroup {
+static class LabGroup {
   StringList labglist;
   LabGroup( StringList glist) {
     labglist = glist;
-    //labglist.sort();
   }
   LabGroup( ) {
     labglist = new StringList();
