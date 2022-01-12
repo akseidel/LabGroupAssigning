@@ -4,4 +4,7 @@ NotForGitHub/*
 LabGroupAssigning/*.txt
 *.txt
 application.macosx/*
+application.linux/*
+application.windows/*
 GUI_BUILDER_DATA/*
+Releases/*
