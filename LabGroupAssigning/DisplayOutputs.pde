@@ -184,8 +184,8 @@ int nextLineY() {
 }// end nextline
 
 // Builds time message when process halted by user.
-void reportQuitNowMessage(int run) {
-  // to do, needs to handle multiple run instances. Currently reports
+void reportQuitNowMessage(int trialRun) {
+  // to do, needs to handle multiple trialRun instances. Currently reports
   // the duration of the stopped single last trial
   String runtype = new String();
   String timetype = new String();
@@ -199,7 +199,7 @@ void reportQuitNowMessage(int run) {
     runtype = "Find";
     timetype = "trial";
   }
-  msg = runtype + " terminated by keypress after trial " + nfc(run) + " at " + timetype + " time " + strDuration + ".";
+  msg = runtype + " terminated by keypress after trial " + nfc(trialRun) + " at " + timetype + " time " + strDuration + ".";
   isMsgFeedBack = true;
   println(msg);
   lastStatusMsg = msg;

@@ -7,9 +7,9 @@ import g4p_controls.*;  // Install this library. It provides the GUI controls.
 // more than once.
 //
 // Output goes to both the console and the Processing application screen but the
-// process is blocking to the Processing screen. Therefore the process is run in 
+// process is blocking to the Processing screen. Therefore the process is run in
 // a thread, which signals when there are updates for the screen draw to display.
-// 
+//
 // Pressing the q key stops the process and outputs the current best solution.
 //
 int trialMaxQty = 1000000000;        // Number of trial runs.
@@ -24,11 +24,11 @@ int classSize = 16;           // The number of students in the class
 int gSize = 2;                // Number of students in each group
 int groupQty = 8;             // Number of groups during each event time session
 int roundsQty = 8;            // Number of event time sessions
-int poolSize;                 // Number of gSize combinations in classSize 
+int poolSize;                 // Number of gSize combinations in classSize
 int besttrialrun = 1;         // Trial number where best run first occurred.
 int bestunfilledQty = roundsQty * groupQty;
-int propBestPossibleMin = besttrialrun; 
-int bestPossibleMin = 0;      // Best possible solution has this remaining unfilled slections. 
+int propBestPossibleMin = besttrialrun;
+int bestPossibleMin = 0;      // Best possible solution has this remaining unfilled slections.
 int row ;
 int col ;
 int index;                    // thislg index usually
@@ -39,7 +39,7 @@ int milliSStart;              // session start
 int milliSEnd;                // session end
 int autoFileQty = 1;
 boolean isMsgFeedBack = false;
-boolean processCompleted = true; // false suppresses finished status at initial startup 
+boolean processCompleted = true; // false suppresses finished status at initial startup
 boolean stopConsoleOutput = false;
 String theWarning = new String();
 StringList warningsList = new StringList();
@@ -50,7 +50,7 @@ String timeSStart = new String();
 String timeSEnd = new String();
 
 // proportion Estimate related
-boolean doEstimateProp = false;   // Estimate the solutions proportion 
+boolean doEstimateProp = false;   // Estimate the solutions proportion
 int msfqty;                       // qty of matrices solutions found
 int smqty;                        // qty of sampled maatrices
 int msnqty;                       // qty of matrices not solutions found
@@ -59,9 +59,9 @@ float p;                          // proportion being solution
 float p_lowerb;                   // lowerbound from proportion being solution
 float p_upperb;                   // upperbound from proportion being solution
 int minSamp = 10;                 // minimum samples for proportion estimate (5)
-int minSampAbs = 5; 
+int minSampAbs = 5;
 
-LabGroup[][] bestlabGroupMatrix; 
+LabGroup[][] bestlabGroupMatrix;
 LabGroup noSolLG = defNoSolLG(gSize);
 PossibleGroupsK tempPosGroups;                // temporary possiblegroups pool copy
 ArrayList<LabGroup> priorItemsForThisRowCell; // Used for the trial comparisons.
@@ -99,7 +99,7 @@ void draw() {
   nextLineY();
   text(lastStatusMsg, drawborder, nextLineY());
 
- if (processCompleted || processWasQuit) {
+  if (processCompleted || processWasQuit) {
     // This section runs when process is completed or quitted.
     printFirstBest(stopConsoleOutput);
     printBestResultsMatrix(stopConsoleOutput);
@@ -109,13 +109,13 @@ void draw() {
     // Allows summary to print only once at the console.
     stopConsoleOutput = true;
   } else {
-    // This section executes when the process thread is active.  
+    // This section executes when the process thread is active.
     printBestResultsMatrix(true);
   }
   checkForUserWindowResize();
 } // end draw
 
-void keyPressed() {   
+void keyPressed() {
   if (key == 'q' || key == 'Q') {
     setButtonRunEnableState(false);
     processWasQuit = true;

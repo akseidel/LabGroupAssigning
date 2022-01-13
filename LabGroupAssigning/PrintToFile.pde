@@ -92,7 +92,7 @@ void makeOutput(String why) {
     sbHDR.append(timeSolEnd);
   } else { // print is requested during process
     sbHDR.append(" - Currently in process at trial: ");
-    sbHDR.append(nfc(run));
+    sbHDR.append(nfc(trialRun));
   }
   theFileOutput.println(sbHDR.toString());
 

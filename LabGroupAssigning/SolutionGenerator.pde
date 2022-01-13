@@ -2,26 +2,28 @@
 // Note: The beVerbose sections have been commented out.
 
 int cntSolution;
-int run;
+int trialRun;
 
-// This function is called on a thread. 
+// This function is called on a thread.
 void DoStartProcess() {
-  boolean doTerminate;
+  boolean doTerminateTrial;
   milliSStart = millis();
   timeSStart = getTimeNow("Session Start: ");
   timeSEnd = " - |";
+  // Looping through number of solutions to find for either filing solution purpose
+  // or for estimating a solution proportion.
   for (cntSolution = 1; cntSolution <  howManySolutionsToDo() + 1; cntSolution++) {
-    putStatusOnTitle();      
+    putStatusOnTitle();
     timeSolStart = getTimeNow("Trial Start: ");
-    timeSolEnd = " - |"; 
+    timeSolEnd = " - |";
     milliTStart = millis();
-    emptyTheBestlabGroupMatrix(bestlabGroupMatrix);
     bestunfilledQty = roundsQty * groupQty;
     bestPossibleMin = propBestPossibleMin;
     historyList.clear();
-    // start multiple solution trials
-    for (run = 1; run < trialMaxQty + 1; run ++) {
-      feedbackStatus(run);
+
+    // Looping through trials to discover a solution.
+    for (trialRun = 1; trialRun < trialMaxQty + 1; trialRun ++) {
+      feedbackStatus(trialRun);
       labGroupMatrix = new LabGroup[roundsQty][groupQty];
       mstrPosGroups = new PossibleGroupsK(classSize, gSize);
 
@@ -29,7 +31,7 @@ void DoStartProcess() {
       row = 0;
       col = 0;
       unfilledQty = 0;
-      doTerminate = false;
+      doTerminateTrial = false;
       // start groups matrix build
 
       //if (beVerbose) {
@@ -37,7 +39,7 @@ void DoStartProcess() {
       //}
 
       // The start for each trial.
-      // The mstrPosGroups is the master possible groups collection. This is a 
+      // The mstrPosGroups is the master possible groups collection. This is a
       // collection of all the possible selection combinations. During each trial
       // each selection determined to be valid at the time is added to the assigning
       // matrix and then removed from the mstrPosGroups. Thus that selection cannot
@@ -46,21 +48,21 @@ void DoStartProcess() {
       // or round as it is called, and each column, or group as it is called, are not to
       // have a single student occur more than once. A copy of the mstrPosGroups collection,
       // called the tempPosGroups, is used as the selection pool for any one cell selection
-      // after the appropriet student containing prior selections for that row and colum 
+      // after the appropriet student containing prior selections for that row and colum
       // are first removed from the copy of the mstrPosGroups selection matrix.
 
       while (row < roundsQty) {
 
         //if (beVerbose) {
         //  print("Round ", str(row+1), spc(3));
-        //}   
+        //}
 
         while (col < groupQty) {
           // Make a fresh copy of the current mstrPosGroups selection pool. This
           // copy is the tempPosGroups pool. The appropriet prior lab groups will
           // be removed from the tempPosGroups before a random selection is drawn
           // from it.
-          MakeFreshTempGroups(); 
+          MakeFreshTempGroups();
 
           // Collect all the prior selections in the same row and same column as the
           // current row, col. This collection is called priorItemsForThisRowCell.
@@ -73,7 +75,7 @@ void DoStartProcess() {
           // the row and col priors for this row, cell. After this step any selection
           // from the tempPosGroups pool will have students new to both the current
           // round (row) and group (column) for this row/column matrix cell.
-          PurgeTempPosPoolOfAllNonUniquePriors(priorItemsForThisRowCell, tempPosGroups);      
+          PurgeTempPosPoolOfAllNonUniquePriors(priorItemsForThisRowCell, tempPosGroups);
 
           // Any LabGroup remaining in the tempPosGroups pool at this point would be a
           // valid pick for this current row cell. A random LabGroup will be selected.
@@ -93,17 +95,21 @@ void DoStartProcess() {
             mstrPosGroups.pGroups.remove(index);
           } else {
             // tempPosGroups pool is exhausted, there are no solutions
-            // for this matrix position. Mark as no solution.
-            labGroupMatrix[row][col] = noSolLG;     
+            // for this matrix position.qq
             // Increment no solution counter.
             unfilledQty ++;
+            // Mark as no solution.
+            labGroupMatrix[row][col] = noSolLG;
             // Terminate check. There is no point to continue with this trial if the
             // unfilledQty equals the current best.
             if (bestunfilledQty <= unfilledQty) {
-              // set doTerminate flag
-              doTerminate = true;
-              break;
+              // set doTerminateTrial flag
+              doTerminateTrial = true;
+              break;// breaks out of for while col loop
+              // intent is to also cascade out of the while row loop and thus this trial
             }
+            // Yes,all trials could be abandoned at the first dud. Doing so would speed the
+            // process considerably as lab group member size increases.
           }
 
           //if (beVerbose) {
@@ -112,11 +118,12 @@ void DoStartProcess() {
           //}
 
           col ++;
-        } // next col
+        } // end while next col
 
-        // Break out of this trial run if doTerminate flag is set.
-        if (doTerminate) {
-          break;
+        // Cascade break out of this trial trialRun if doTerminateTrial flag is set.
+        if (doTerminateTrial) {
+          break;// breaks out of for while row loop, ie break from the trial trialRun
+          // because it cannot be a solution
         }
 
         //reset col index for next row
@@ -127,8 +134,10 @@ void DoStartProcess() {
         //  print("  Remaining labgroups in pool: ", mstrPosGroups.pGroups.size());
         //  println();
         //}
-      } // next row ie. round
-      // ************    The trial run is over at this point.
+      } // end while next row ie.round
+      // ************    The trial trialRun is over at this point.
+      // Matrix is either not populated, ie a dud, or populated, ie a solution
+      // at this point, but not yet as to categorized which.
 
       //if (beVerbose) {
       //  reportResults(unfilledQty);
@@ -138,61 +147,64 @@ void DoStartProcess() {
       if (processWasQuit) {
         milliTEnd = millis();
         milliSEnd = milliTEnd;
-        reportQuitNowMessage(run);
-        endMsgWindowTitle( "Terminated", cntSolution, autoFileQty);    
-        break;
+        reportQuitNowMessage(trialRun);
+        endMsgWindowTitle( "Terminated", cntSolution, autoFileQty);
+        break; // breaks out of for trialRun loop
+        // intent is to cascade break from all matrix guess trials
       }
 
-      // Record any better run.
-      recordBetterRunIfAny(run);
+      // Record any better trialRun.
+      recordBetterRunIfAny(trialRun);
 
       // Break if a perfect solution was found.
-      if (bestunfilledQty < bestPossibleMin + 1) { 
-          milliTEnd = millis();
-          endMsgWindowTitle( "Completed", cntSolution, autoFileQty);
-          break;
+      if (bestunfilledQty < bestPossibleMin + 1) {
+        milliTEnd = millis();
+        endMsgWindowTitle( "Completed", cntSolution, autoFileQty);
+        break; // breaks out of for trialRun loop, ie from all matrix guess trials
       }
-      
-    } // end for run loop
+    } // end for trialRun loop, ie the matrix guess trial
+    // Matrix is now categorized not populated, ie a dud, or populated, ie a solution
+
     timeSolEnd = getTimeNow(" - Trial End: ");
+
     if (processWasQuit) {
-      break;
-    }
-    if (!processWasQuit) {
+      break; // breaks out of for cntSolution,the repeating loop to find multiple solutions
+    } else {
       msg = "This matrix find completed in " + timeElapsed(milliTStart, milliTEnd);
       println(msg);
       lastStatusMsg = msg;
     }
     println();
-    
+
     if (!doEstimateProp) {
-      processCompleted = true; 
+      processCompleted = true;
     } else {
-        if (msfqty >= minSamp){
-         processCompleted = true;
-        }
+      if (msfqty >= minSamp) {
+        processCompleted = true;
+      }
     }
-        
+
     if (doAutoFiling) {
       filePrint("Auto-saved");
     }
-  }// end for cntSolution
+  }// end for cntSolution, the repeating loop to find multiple solutions
+
   setButtonRunEnableState(false);
   milliSEnd = millis();
   timeSEnd = " - Duration: " + timeElapsed(milliSStart, milliSEnd);
 }// end DoStartProcess
 
-// The valid trial selections. Each bad trial will be removed 
+// The valid trial selections. Each bad trial will be removed
 // from the pool copy. When a selection is valid it will be
 // removed from the true mstrPosGroups pool. The tempPosGroups
 // is a copy of the ever decreasing m.strPosGroups pool
-void MakeFreshTempGroups() { 
+void MakeFreshTempGroups() {
   tempPosGroups = new PossibleGroupsK(mstrPosGroups.pGroups);
 }// end MakeFreshTempGroups
 
-// Purge groupsPol of all LabGroups that are not unique to those in priorLabGroups 
+// Purge groupsPol of all LabGroups that are not unique to those in priorLabGroups
 void PurgeTempPosPoolOfAllNonUniquePriors(ArrayList<LabGroup> priorLabGroups, PossibleGroupsK tempGroupsPool) {
-  for (LabGroup aPriorLG : priorLabGroups) { 
+  for (LabGroup aPriorLG : priorLabGroups) {
     // Purge must be performed from end to start
     for (int i = tempGroupsPool.pGroups.size()- 1; i >= 0; i--) {
       LabGroup poolLG = tempGroupsPool.pGroups.get(i);
@@ -224,13 +236,13 @@ void  MakeListOfPriorItemsForThisRowColCell(int row, int col) {
   }
 }// end MakeListOfPriorItemsForThisRowColCell
 
-void recordBetterRunIfAny(int run) {
+void recordBetterRunIfAny(int trialRun) {
   if (unfilledQty < bestunfilledQty) {
     StringBuilder sbMsg = new StringBuilder();
     StringBuilder sbMsgHist = new StringBuilder();
     bestunfilledQty = unfilledQty;
     bestlabGroupMatrix = labGroupMatrix;
-    besttrialrun = run;
+    besttrialrun = trialRun;
     sbMsg.append("Current best ");
     sbMsg.append( bestunfilledQty);
     sbMsg.append(" in trial ");
@@ -247,47 +259,47 @@ void recordBetterRunIfAny(int run) {
     sbMsgHist.append(timeElapsed(milliTStart, millis()));
     historyList.append(sbMsgHist.toString());
     // proportion estimate figures
-    if ((bestunfilledQty < bestPossibleMin + 1) & (doEstimateProp)) { 
-        msfqty = msfqty + 1;
-        smqty = smqty + run;
-        msnqty = msnqty + run - 1;
-        // Make proportion estimate if enough solutions sampled
-        doEstimatePropIntoHistory();
+    if ((bestunfilledQty < bestPossibleMin + 1) & (doEstimateProp)) {
+      msfqty = msfqty + 1;
+      smqty = smqty + trialRun;
+      msnqty = msnqty + trialRun - 1;
+      // Make proportion estimate if enough solutions sampled
+      doEstimatePropIntoHistory();
     } // end if doEstimateProp
-  } // end if it is a better run
+  } // end if it is a better trialRun
 }// end recordBetterRunIfAny
 
 // Make proportion estimate if enough solutions sampled
 void doEstimatePropIntoHistory() {
-  StringBuilder sbMsgEst = new StringBuilder();   
-  if (msfqty >= minSampAbs){
-       p = float(msfqty)/float(smqty);
-       p_upperb = p + 1.96 * sqrt(p * (1.0-p)/ float(smqty));
-       p_lowerb = p - 1.96 * sqrt(p * (1.0-p)/ float(smqty));
-       sbMsgEst.append( nfc(msfqty));
-       sbMsgEst.append(" solutions found in ");
-       sbMsgEst.append( nfc(smqty));
-       sbMsgEst.append(" samples");
-       sbMsgEst.append(", At 95% confidence p_lower: ");
-       sbMsgEst.append( p_lowerb);
-       sbMsgEst.append(" , p: ");
-       sbMsgEst.append( p);
-       sbMsgEst.append(" , p_upper: ");
-       sbMsgEst.append( p_upperb);
-     } else {
-       sbMsgEst.append( msfqty);
-       sbMsgEst.append(" solutions sampled is not enough for a proportion estimate.");
-     }// end if meets minimum samples found
-     historyList.append(sbMsgEst.toString());
-     // output just for console
-     println(sbMsgEst.toString());
+  StringBuilder sbMsgEst = new StringBuilder();
+  if (msfqty >= minSampAbs) {
+    p = float(msfqty)/float(smqty);
+    p_upperb = p + 1.96 * sqrt(p * (1.0-p)/ float(smqty));
+    p_lowerb = p - 1.96 * sqrt(p * (1.0-p)/ float(smqty));
+    sbMsgEst.append( nfc(msfqty));
+    sbMsgEst.append(" solutions found in ");
+    sbMsgEst.append( nfc(smqty));
+    sbMsgEst.append(" samples");
+    sbMsgEst.append(", At 95% confidence p_lower: ");
+    sbMsgEst.append( p_lowerb);
+    sbMsgEst.append(" , p: ");
+    sbMsgEst.append( p);
+    sbMsgEst.append(" , p_upper: ");
+    sbMsgEst.append( p_upperb);
+  } else {
+    sbMsgEst.append( msfqty);
+    sbMsgEst.append(" solutions sampled is not enough for a proportion estimate.");
+  }// end if meets minimum samples found
+  historyList.append(sbMsgEst.toString());
+  // output just for console
+  println(sbMsgEst.toString());
 } // end doEstimatePropIntoHistory
 
 // Creates a new matrix populated with noSolLG
 // This must be called outside of the process thread. At one time it
 // was called within the process thread. Sometimes the draw loop
 // would catch the matrix as it was being created when parts were
-// still null. 
+// still null.
 void initializeBestlabGroupMatrix() {
   bestlabGroupMatrix = new LabGroup[roundsQty][groupQty];
   for (int r = 0; r < roundsQty; r++) {
@@ -297,54 +309,54 @@ void initializeBestlabGroupMatrix() {
   }
 }// end initializeBestlabGroupMatrix
 
-// Restores, ie populates existing matrix with noSolLG
-// Using this inside of the process thread seems to prevent the 
-// condition where the draw loop would find parts of the matrix
-// null during trial switching.
-void emptyTheBestlabGroupMatrix(LabGroup[][] bestlabGroupMatrix) {
-  for (int r = 0; r < roundsQty; r++) {
-    for (int c = 0; c < groupQty; c++) {
-      bestlabGroupMatrix[r][c] = noSolLG;
-    }
-  }
-}// end emptyTheBestlabGroupMatrix
+//// Restores, ie populates existing matrix with noSolLG
+//// Using this inside of the process thread seems to prevent the
+//// condition where the draw loop would find parts of the matrix
+//// null during trial switching.
+//void emptyTheBestlabGroupMatrix(LabGroup[][] bestlabGroupMatrix) {
+//  for (int r = 0; r < roundsQty; r++) {
+//    for (int c = 0; c < groupQty; c++) {
+//      bestlabGroupMatrix[r][c] = noSolLG;
+//    }
+//  }
+//}// end emptyTheBestlabGroupMatrix
 
-void feedbackStatus(int run) {
+void feedbackStatus(int trialRun) {
   StringBuilder sbMsg = new StringBuilder();
   sbMsg.append("Least Unfilled: ");
   sbMsg.append( bestunfilledQty);
   sbMsg.append(" in trial ");
   sbMsg.append( nfc(besttrialrun));
   sbMsg.append("  Current Trial: ");
-  sbMsg.append(nfc(run));
+  sbMsg.append(nfc(trialRun));
   lastStatusMsg = sbMsg.toString();
 }// end feedbackStatus
 
 
-void putStatusOnTitle(){
- StringBuilder sbTitle = new StringBuilder();
-    sbTitle.setLength(0);
-    sbTitle.append(windowTitle);
-    if (doAutoFiling) {
-      sbTitle.append(" | Running ... Will auto-save this ");
-      sbTitle.append(cntSolution);
-      sbTitle.append(" of ");
-      sbTitle.append(autoFileQty);
+void putStatusOnTitle() {
+  StringBuilder sbTitle = new StringBuilder();
+  sbTitle.setLength(0);
+  sbTitle.append(windowTitle);
+  if (doAutoFiling) {
+    sbTitle.append(" | Running ... Will auto-save this ");
+    sbTitle.append(cntSolution);
+    sbTitle.append(" of ");
+    sbTitle.append(autoFileQty);
+  } else {
+    if ( doEstimateProp) {
+      sbTitle.append(" | Sampling for " + cntSolution + " of " + minSamp + " solutions");
     } else {
-       if ( doEstimateProp) {
-            sbTitle.append(" | Sampling for " + cntSolution + " of " + minSamp + " solutions");
-          } else {
-            sbTitle.append(" | Running ...");
-          }
+      sbTitle.append(" | Running ...");
     }
-    surface.setTitle(sbTitle.toString()); 
+  }
+  surface.setTitle(sbTitle.toString());
 }
 
 
-void endMsgWindowTitle( String reason, int cntSolution, int autoFileQty){
-        if (doAutoFiling) {
-          surface.setTitle(windowTitle + " | " + reason + ", this auto-save " + cntSolution + " of " + autoFileQty);
-        } else {
-          surface.setTitle(windowTitle + " | " + reason);
-        }  
+void endMsgWindowTitle( String reason, int cntSolution, int autoFileQty) {
+  if (doAutoFiling) {
+    surface.setTitle(windowTitle + " | " + reason + ", this auto-save " + cntSolution + " of " + autoFileQty);
+  } else {
+    surface.setTitle(windowTitle + " | " + reason);
+  }
 }
