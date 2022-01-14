@@ -1,6 +1,6 @@
 import g4p_controls.*;  // Install this library. It provides the GUI controls.
 
-// LabGroupAssigning   5/2021 AKS
+// LabGroupAssigning   5/2021 AKS, 1/2022 AKS
 // Selects from a student class size student teams to be involved in lab tasks
 // during experiment rounds. Each student is involved once every session round
 // and once for each different tasks. No one student lab grouping is involved
@@ -19,6 +19,7 @@ boolean processWasQuit = false;      // used for quitting a long process with a 
 boolean thereIsANewBest = false;
 boolean doAutoFiling = false;
 boolean doUnused = false;
+boolean modeRuthless = false;        // Abandon matrix trials at first failed matrix position
 
 int classSize = 16;           // The number of students in the class
 int gSize = 2;                // Number of students in each group
@@ -101,7 +102,9 @@ void draw() {
 
   if (processCompleted || processWasQuit) {
     // This section runs when process is completed or quitted.
-    printFirstBest(stopConsoleOutput);
+    if (!modeRuthless) {
+      printFirstBest(stopConsoleOutput);
+    }
     printBestResultsMatrix(stopConsoleOutput);
     if (doUnused) {
       reportLeftOverGroups(stopConsoleOutput, 0);
@@ -110,7 +113,9 @@ void draw() {
     stopConsoleOutput = true;
   } else {
     // This section executes when the process thread is active.
-    printBestResultsMatrix(true);
+    if (!modeRuthless) {
+      printBestResultsMatrix(true);
+    }
   }
   checkForUserWindowResize();
 } // end draw

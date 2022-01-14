@@ -102,69 +102,104 @@ void printMatrixHeader(boolean atScreenOnly) {
   text(msg, drawborder, nextLineY());
 }// end printMatrixHeader
 
+// Outputs the bestresultsmatrix, which being generated in
+// the process thread, can be sometimes entirely null or
+// partially null.
 void printBestResultsMatrix(boolean atScreenOnly) {
   StringBuilder sbMsg = new StringBuilder();
+  LabGroup matrxPos = defNoSolLG(gSize);
   int checkSumRow = 0;
   int checkSumCol = 0;
   int gw = (gSize*2)+(gSize-1);   // group text length
   int cospc = 4;                  // space between columns
 
   // Sometimes bestlabGroupMatrix is yet to be.
-  if (bestlabGroupMatrix == null) { return;}
-
-  printMatrixHeader(atScreenOnly);
-  sbMsg.append("Group ");
-  sbMsg.append(spc(5));
-  for (int col = 0; col < groupQty; col ++ ) {
-    String strHN = str((col+1));
-    sbMsg.append(strHN);
-    sbMsg.append(spc(gw+cospc-strHN.length()));
+  if (bestlabGroupMatrix == null) {
+    return;
   }
-  sbMsg.append("Chk:");
-  if (! atScreenOnly) {
-    println(sbMsg.toString());
-  }
-  text(sbMsg.toString(), drawborder, nextLineY());
-
-  for (int row =0; row < roundsQty; row ++) {
-    StringBuilder sbMsg1 = new StringBuilder();
-    sbMsg1.append("Round ");
-    sbMsg1.append(nf((row+1), 2));
-    sbMsg1.append("   ");
+  // best matrix and history data is not applicable in ruthless mode
+  if (!modeRuthless) {
+    // Top header line
+    printMatrixHeader(atScreenOnly);
+    sbMsg.append("Group ");
+    sbMsg.append(spc(5));
     for (int col = 0; col < groupQty; col ++ ) {
-      sbMsg1.append(bestlabGroupMatrix[row][col].showMembers());
-      sbMsg1.append(spc(cospc));
-      checkSumRow = checkSumRow + bestlabGroupMatrix[row][col].sumMembers();
+      String strHN = str((col+1));
+      sbMsg.append(strHN);
+      sbMsg.append(spc(gw+cospc-strHN.length()));
     }
-    sbMsg1.append(checkSumRow);
+    sbMsg.append("Chk:");
     if (! atScreenOnly) {
-      println(sbMsg1.toString());
+      println(sbMsg.toString());
     }
-    text(sbMsg1.toString(), drawborder, nextLineY());
-    checkSumRow = 0;
-  }
+    text(sbMsg.toString(), drawborder, nextLineY());
 
-
-  StringBuilder sbMsg2 = new StringBuilder();
-  sbMsg2.append("Chk:");
-  sbMsg2.append(spc(7));
-  for (int col = 0; col < groupQty; col ++ ) {
+    // Now Each rounds line
     for (int row =0; row < roundsQty; row ++) {
-      checkSumCol = checkSumCol + bestlabGroupMatrix[row][col].sumMembers();
+      StringBuilder sbMsg1 = new StringBuilder();
+      sbMsg1.append("Round ");
+      sbMsg1.append(nf((row+1), 2));
+      sbMsg1.append("   ");
+      for (int col = 0; col < groupQty; col ++ ) {
+        if (bestlabGroupMatrix[row][col] != null) {
+          matrxPos = bestlabGroupMatrix[row][col];
+        }
+        sbMsg1.append(matrxPos.showMembers());
+        sbMsg1.append(spc(cospc));
+        checkSumRow = checkSumRow + matrxPos.sumMembers();
+      }
+      sbMsg1.append(checkSumRow);
+      if (! atScreenOnly) {
+        println(sbMsg1.toString());
+      }
+      text(sbMsg1.toString(), drawborder, nextLineY());
+      checkSumRow = 0;
     }
-    String strCSV = str(checkSumCol);
-    sbMsg2.append(strCSV);
-    sbMsg2.append(spc(gw+cospc-strCSV.length()));
-    checkSumCol = 0;
-  }
-  if (! atScreenOnly) {
-    println(sbMsg2.toString());
-  }
-  text(sbMsg2.toString(), drawborder, nextLineY());
-  nextLineY();
-  // output the history list
-  for (String h : historyList) {
-    text(h, drawborder, nextLineY());
+
+    // Now the bottom chk row
+    StringBuilder sbMsg2 = new StringBuilder();
+    sbMsg2.append("Chk:");
+    sbMsg2.append(spc(7));
+    for (int col = 0; col < groupQty; col ++ ) {
+      for (int row =0; row < roundsQty; row ++) {
+        if (bestlabGroupMatrix[row][col] != null) {
+          matrxPos = bestlabGroupMatrix[row][col];
+        }
+        checkSumCol = checkSumCol + matrxPos.sumMembers();
+      }
+      String strCSV = str(checkSumCol);
+      sbMsg2.append(strCSV);
+      sbMsg2.append(spc(gw+cospc-strCSV.length()));
+      checkSumCol = 0;
+    }
+    if (! atScreenOnly) {
+      println(sbMsg2.toString());
+    }
+    text(sbMsg2.toString(), drawborder, nextLineY());
+    nextLineY();
+    // output the history list
+    for (String h : historyList) {
+      text(h, drawborder, nextLineY());
+    }
+  } else {  // Limited output during ruthless mode
+    nextLineY();
+    text("Best matrix and incomplete run history are not applicable in this mode.", drawborder, nextLineY());
+    if (doEstimateProp) {
+      nextLineY();
+      if (msfqty >= minSampAbs) {
+        // proportion data is the historyList last line
+        int i = historyList.size();
+        text(historyList.get(i-1), drawborder, nextLineY());
+      } else {
+        sbMsg.setLength(0);
+        sbMsg.append("Proportion estimate needs ");
+        sbMsg.append(nfc(minfsqty));
+        sbMsg.append(" found. ");
+        sbMsg.append(nfc(msfqty));
+        sbMsg.append(" were found.");
+        text(sbMsg.toString(), drawborder, nextLineY());
+      }
+    }
   }
 }// end printBestResultsMatrix
 

@@ -32,6 +32,7 @@ void initGUI() {
   g4pStuff.add(optDoEstimate);
   g4pStuff.add(textfieldEstP);
   g4pStuff.add(labelEstP);
+  g4pStuff.add( optRuthless);
 }
 
 // setButtonRunState - Sets GUI button enabled state
@@ -43,6 +44,7 @@ void setButtonRunEnableState(boolean isRunning) {
   }
   butStop.setEnabled(isRunning);
   optDoEstimate.setEnabled(!isRunning);
+  optRuthless.setEnabled(!isRunning);
 }
 
 // moves G4P controls as window is resized
@@ -120,37 +122,41 @@ void autoFileQtyCheck(GTextField source) {
   }
 }
 
-void  doChkAutoFileClicked( GEvent event) {
+void  doChkAutoFileClicked( GCheckbox source, GEvent event) {
   if (event ==GEvent.SELECTED) {
     doAutoFiling = true;
+    setCntrlSelected( source, true);
     return;
   }
   if (event ==GEvent.DESELECTED) {
     doAutoFiling = false;
+    setCntrlSelected( source, false);
     return;
   }
 }
 
-void  doChkSaveUnusedClicked( GEvent event) {
+void  doChkSaveUnusedClicked( GCheckbox source, GEvent event) {
   if (event ==GEvent.SELECTED) {
     doUnused = true;
+    setCntrlSelected( source, true);
     return;
   }
   if (event ==GEvent.DESELECTED) {
     doUnused = false;
+    setCntrlSelected( source, false);
     return;
   }
 }
 
-void doOptDoEstimateClicked( GEvent event){
+void doOptDoEstimateClicked( GOption source, GEvent event){
   if (event ==GEvent.SELECTED) {
     doEstimateProp = true;
-    optDoEstimate.setLocalColorScheme(GCScheme.GREEN_SCHEME);
+    setCntrlSelected( source, true);
     return;
   }
   if (event ==GEvent.DESELECTED) {
     doEstimateProp = false;
-    optDoEstimate.setLocalColorScheme(GCScheme.CYAN_SCHEME);
+    setCntrlSelected( source, false);
     return;
   }
 }
@@ -159,4 +165,28 @@ void doOptDoEstimateClicked( GEvent event){
 void textfieldEstPCheck(GTextField source) {
   minSamp = source.getValueI();
   source.setNumeric(minSampAbs,100000,minSamp);
+}
+
+void  doOptRuthlessClicked( GOption source, GEvent event) {
+  if (event ==GEvent.SELECTED) {
+    modeRuthless = true;
+    setCntrlSelected( source, true);
+    return;
+  }
+  if (event ==GEvent.DESELECTED) {
+    modeRuthless = false;
+    setCntrlSelected( source, false);
+    return;
+  }
+}
+
+
+void setCntrlSelected( GAbstractControl item, boolean sel){
+  item.setOpaque(sel);
+  if (sel){
+    item.setLocalColorScheme(GCScheme.GREEN_SCHEME);
+  } else {
+    item.setLocalColorScheme(GCScheme.CYAN_SCHEME);
+  }
+  return;
 }

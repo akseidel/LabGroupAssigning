@@ -100,6 +100,14 @@ void DoStartProcess() {
             unfilledQty ++;
             // Mark as no solution.
             labGroupMatrix[row][col] = noSolLG;
+            // Terminating the trial in modeRuthless results in much faster operation
+            // at the expense of seeing the bestunfilled matrix guesses. The more members
+            // there are in the labgroups, the faster the operation.
+            if (modeRuthless) {
+              // set doTerminateTrial flag
+              doTerminateTrial = true;
+              break;// breaks out of for while col loop
+            }
             // Terminate check. There is no point to continue with this trial if the
             // unfilledQty equals the current best.
             if (bestunfilledQty <= unfilledQty) {
@@ -170,7 +178,7 @@ void DoStartProcess() {
     if (processWasQuit) {
       break; // breaks out of for cntSolution,the repeating loop to find multiple solutions
     } else {
-      msg = "This matrix find completed in " + timeElapsed(milliTStart, milliTEnd);
+      msg = "This last matrix find completed in " + timeElapsed(milliTStart, milliTEnd);
       println(msg);
       lastStatusMsg = msg;
     }
@@ -280,7 +288,7 @@ void doEstimatePropIntoHistory() {
     sbMsgEst.append(" solutions found in ");
     sbMsgEst.append( nfc(smqty));
     sbMsgEst.append(" samples");
-    sbMsgEst.append(", At 95% confidence p_lower: ");
+    sbMsgEst.append(", 95% confidence p_lower: ");
     sbMsgEst.append( p_lowerb);
     sbMsgEst.append(" , p: ");
     sbMsgEst.append( p);
@@ -323,11 +331,14 @@ void initializeBestlabGroupMatrix() {
 
 void feedbackStatus(int trialRun) {
   StringBuilder sbMsg = new StringBuilder();
-  sbMsg.append("Least Unfilled: ");
-  sbMsg.append( bestunfilledQty);
-  sbMsg.append(" in trial ");
-  sbMsg.append( nfc(besttrialrun));
-  sbMsg.append("  Current Trial: ");
+  if (!modeRuthless) {
+    sbMsg.append("Least Unfilled: ");
+    sbMsg.append( bestunfilledQty);
+    sbMsg.append(" in trial ");
+    sbMsg.append( nfc(besttrialrun));
+    sbMsg.append("  ");
+  }
+  sbMsg.append("Current Trial: ");
   sbMsg.append(nfc(trialRun));
   lastStatusMsg = sbMsg.toString();
 }// end feedbackStatus
