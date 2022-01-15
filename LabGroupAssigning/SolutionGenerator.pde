@@ -245,6 +245,7 @@ void  MakeListOfPriorItemsForThisRowColCell(int row, int col) {
 }// end MakeListOfPriorItemsForThisRowColCell
 
 void recordBetterRunIfAny(int trialRun) {
+  // todo - refactor for modeRuthless
   if (unfilledQty < bestunfilledQty) {
     StringBuilder sbMsg = new StringBuilder();
     StringBuilder sbMsgHist = new StringBuilder();
@@ -266,7 +267,7 @@ void recordBetterRunIfAny(int trialRun) {
     sbMsgHist.append(" , at ");
     sbMsgHist.append(timeElapsed(milliTStart, millis()));
     historyList.append(sbMsgHist.toString());
-    // proportion estimate figures
+    // proportion estimate figures if a solution
     if ((bestunfilledQty < bestPossibleMin + 1) & (doEstimateProp)) {
       msfqty = msfqty + 1;
       smqty = smqty + trialRun;
@@ -279,29 +280,36 @@ void recordBetterRunIfAny(int trialRun) {
 
 // Make proportion estimate if enough solutions sampled
 void doEstimatePropIntoHistory() {
+  String estProp = strEstimateProportion();
+  historyList.append(estProp);
+  // output just for console
+  println(estProp);
+} // end doEstimatePropIntoHistory
+
+// Make proportion estimate if enough solutions sampled
+String strEstimateProportion() {
   StringBuilder sbMsgEst = new StringBuilder();
   if (msfqty >= minSampAbs) {
     p = float(msfqty)/float(smqty);
-    p_upperb = p + 1.96 * sqrt(p * (1.0-p)/ float(smqty));
-    p_lowerb = p - 1.96 * sqrt(p * (1.0-p)/ float(smqty));
+    p_upb = p + 1.96 * sqrt(p * (1.0-p)/ float(smqty));
+    p_lowb = p - 1.96 * sqrt(p * (1.0-p)/ float(smqty));
     sbMsgEst.append( nfc(msfqty));
     sbMsgEst.append(" solutions found in ");
     sbMsgEst.append( nfc(smqty));
     sbMsgEst.append(" samples");
-    sbMsgEst.append(", 95% confidence p_lower: ");
-    sbMsgEst.append( p_lowerb);
-    sbMsgEst.append(" , p: ");
+    sbMsgEst.append(",95% confidence p_low: ");
+    sbMsgEst.append( p_lowb);
+    sbMsgEst.append(" ,p: ");
     sbMsgEst.append( p);
-    sbMsgEst.append(" , p_upper: ");
-    sbMsgEst.append( p_upperb);
+    sbMsgEst.append(" ,p_up: ");
+    sbMsgEst.append( p_upb);
   } else {
     sbMsgEst.append( msfqty);
     sbMsgEst.append(" solutions sampled is not enough for a proportion estimate.");
   }// end if meets minimum samples found
-  historyList.append(sbMsgEst.toString());
-  // output just for console
-  println(sbMsgEst.toString());
-} // end doEstimatePropIntoHistory
+  return sbMsgEst.toString();
+} // end strEstimateProportion()
+
 
 // Creates a new matrix populated with noSolLG
 // This must be called outside of the process thread. At one time it

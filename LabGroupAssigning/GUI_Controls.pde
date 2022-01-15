@@ -84,7 +84,7 @@ void setProcessInits(){
   bestunfilledQty = roundsQty * groupQty;
   noSolLG = defNoSolLG(gSize);
   initEstProp();
-  stopConsoleOutput = false;
+  noConsoleOutput = false;
   setButtonRunEnableState(true);
   initializeBestlabGroupMatrix();
 }

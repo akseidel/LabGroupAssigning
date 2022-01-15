@@ -230,7 +230,7 @@ void initEstProp(){
     msnqty = 0;                     // qty of matrices not solutions found
     minfsqty = 5;                   // minimum number of soltions to find
     p = 0;                       // proportion being solution
-    p_lowerb = 0;                // lowerbound from proportion being solution
-    p_upperb = 0;                // upperbound from proportion being solution
+    p_lowb = 0;                // lowerbound from proportion being solution
+    p_upb = 0;                // upperbound from proportion being solution
   }
 }

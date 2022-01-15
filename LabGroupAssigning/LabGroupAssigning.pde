@@ -41,7 +41,7 @@ int milliSEnd;                // session end
 int autoFileQty = 1;
 boolean isMsgFeedBack = false;
 boolean processCompleted = true; // false suppresses finished status at initial startup
-boolean stopConsoleOutput = false;
+boolean noConsoleOutput = false;
 String theWarning = new String();
 StringList warningsList = new StringList();
 StringList historyList = new StringList();
@@ -57,8 +57,8 @@ int smqty;                        // qty of sampled maatrices
 int msnqty;                       // qty of matrices not solutions found
 int minfsqty;                     // minimum number of soltions to find
 float p;                          // proportion being solution
-float p_lowerb;                   // lowerbound from proportion being solution
-float p_upperb;                   // upperbound from proportion being solution
+float p_lowb;                   // lowerbound from proportion being solution
+float p_upb;                   // upperbound from proportion being solution
 int minSamp = 10;                 // minimum samples for proportion estimate (5)
 int minSampAbs = 5;
 
@@ -96,26 +96,29 @@ void draw() {
   if (warningsList.size() > 0) {
     outputWarnings();
   }
-  showInitialHeader(false);
+  showSummaryText(false);
   nextLineY();
   text(lastStatusMsg, drawborder, nextLineY());
 
+  // Output strategy here divides into two modes.
+  // One is for output while process is running. The other is for output
+  // when process is complete. Output goes to app window and the console.
+  // The draw loop runs continously. Output to the console needs to stop
+  // when the process is not running.
   if (processCompleted || processWasQuit) {
-    // This section runs when process is completed or quitted.
+    // This if section runs when process is completed or quitted.
     if (!modeRuthless) {
-      printFirstBest(stopConsoleOutput);
+      printRptFirstBest(noConsoleOutput);
     }
-    printBestResultsMatrix(stopConsoleOutput);
+    printBestResultsMatrix(noConsoleOutput);
     if (doUnused) {
-      reportLeftOverGroups(stopConsoleOutput, 0);
+      reportLeftOverGroups(noConsoleOutput, 0);
     }
-    // Allows summary to print only once at the console.
-    stopConsoleOutput = true;
+    // Causes summary to print only once at the console.
+    noConsoleOutput = true;
   } else {
     // This section executes when the process thread is active.
-    if (!modeRuthless) {
-      printBestResultsMatrix(true);
-    }
+    printBestResultsMatrix(true);
   }
   checkForUserWindowResize();
 } // end draw

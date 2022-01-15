@@ -1,27 +1,30 @@
 // Display related functions
 String windowTitle = "Lab Group Assigning";
+
+
 void initDisplays() {
   surfaceSetup();
   lastWidth = width;
   lastHeight = height;
   fontSetUp();
   classSizeCheck(textfieldClassSize);
-  showInitialHeader(true);
-}
+  showSummaryText(true);
+}// end initDisplays
 
 void surfaceSetup() {
   surface.setTitle(windowTitle);
   surface.setResizable(true);
-}
+}// end surfaceSetup
 
 void fontSetUp() {
   f = createFont("Monospaced", fontsize, true);
   textFont(f);
   textAlign(LEFT);
   fill(0);
-}
+}// end fontSetUp
 
-void showInitialHeader(boolean inConsoleOnly) {
+// show the summary text line
+void showSummaryText(boolean inConsoleOnly) {
   StringBuilder sbMsg = new StringBuilder();
   sbMsg.append("Class Size: ");
   sbMsg.append(classSize);
@@ -71,41 +74,46 @@ void showInitialHeader(boolean inConsoleOnly) {
       text(sbMsg.toString(), drawborder, nextLineY());
     }
   }
-}
+}// end showSummaryText
 
-void printFirstBest(boolean stopConsoleOutput) {
+// reports the first best scoring matrix guess
+// atAppWindowOnly arg results in display
+// to screen only. Console display is supressed.
+void printRptFirstBest(boolean atAppWindowOnly) {
   StringBuilder sbMsg = new StringBuilder();
   sbMsg.append(bestunfilledQty);
   sbMsg.append(" unfilled at trial: ");
   sbMsg.append(nfc(besttrialrun));
   nextLineY();
   text(sbMsg.toString(), drawborder, nextLineY());
-  if (! stopConsoleOutput) {
+  if (! atAppWindowOnly) {
     println(sbMsg.toString());
   }
-}
+}// end printRptFirstBest
 
-// Displays header to both screen and console. atScreenONly arg results in display
+// Displays header to both screen and console.
+// atAppWindowOnly arg results in display
 // to screen only. Console display is supressed.
-void printMatrixHeader(boolean atScreenOnly) {
+void printMatrixHeader(boolean atAppWindowOnly) {
   msg ="Lab Groups Matrix - Student may occur only once in any row and once in any column.";
-  if (! atScreenOnly) {
+  if (! atAppWindowOnly) {
     println();
     println(msg);
   }
   nextLineY();
   text(msg, drawborder, nextLineY());
   msg ="Student Class Size: " + classSize;
-  if (! atScreenOnly) {
+  if (! atAppWindowOnly) {
     println(msg);
   }
   text(msg, drawborder, nextLineY());
 }// end printMatrixHeader
 
-// Outputs the bestresultsmatrix, which being generated in
-// the process thread, can be sometimes entirely null or
-// partially null.
-void printBestResultsMatrix(boolean atScreenOnly) {
+// Outputs the bestresultsmatrix, which being generated in the
+// process thread, can be sometimes entirely null or partially null.
+// atAppWindowOnly arg results in display
+// to screen only. Console display is supressed.
+void printBestResultsMatrix(boolean atAppWindowOnly) {
   StringBuilder sbMsg = new StringBuilder();
   LabGroup matrxPos = defNoSolLG(gSize);
   int checkSumRow = 0;
@@ -117,10 +125,13 @@ void printBestResultsMatrix(boolean atScreenOnly) {
   if (bestlabGroupMatrix == null) {
     return;
   }
-  // best matrix and history data is not applicable in ruthless mode
-  if (!modeRuthless) {
+  // If processCompleted then best matrix is meaningfull in all conditions.
+  // If processWasQuit then best matrix is meaningfull only when not modeRuthless.
+  // HistoryList is not meaningfull only when modeRuthless, except for its last
+  // line when doEstimateProp, ie estaimating the proportion, is going on.
+  if (!modeRuthless || processCompleted) {
     // Top header line
-    printMatrixHeader(atScreenOnly);
+    printMatrixHeader(atAppWindowOnly);
     sbMsg.append("Group ");
     sbMsg.append(spc(5));
     for (int col = 0; col < groupQty; col ++ ) {
@@ -129,7 +140,7 @@ void printBestResultsMatrix(boolean atScreenOnly) {
       sbMsg.append(spc(gw+cospc-strHN.length()));
     }
     sbMsg.append("Chk:");
-    if (! atScreenOnly) {
+    if (! atAppWindowOnly) {
       println(sbMsg.toString());
     }
     text(sbMsg.toString(), drawborder, nextLineY());
@@ -149,7 +160,7 @@ void printBestResultsMatrix(boolean atScreenOnly) {
         checkSumRow = checkSumRow + matrxPos.sumMembers();
       }
       sbMsg1.append(checkSumRow);
-      if (! atScreenOnly) {
+      if (! atAppWindowOnly) {
         println(sbMsg1.toString());
       }
       text(sbMsg1.toString(), drawborder, nextLineY());
@@ -172,45 +183,43 @@ void printBestResultsMatrix(boolean atScreenOnly) {
       sbMsg2.append(spc(gw+cospc-strCSV.length()));
       checkSumCol = 0;
     }
-    if (! atScreenOnly) {
+    if (! atAppWindowOnly) {
       println(sbMsg2.toString());
     }
     text(sbMsg2.toString(), drawborder, nextLineY());
     nextLineY();
-    // output the history list
-    for (String h : historyList) {
-      text(h, drawborder, nextLineY());
-    }
-  } else {  // Limited output during ruthless mode
-    nextLineY();
-    text("Best matrix and incomplete run history are not applicable in this mode.", drawborder, nextLineY());
-    if (doEstimateProp) {
-      nextLineY();
-      if (msfqty >= minSampAbs) {
-        // proportion data is the historyList last line
-        int i = historyList.size();
-        text(historyList.get(i-1), drawborder, nextLineY());
-      } else {
-        sbMsg.setLength(0);
-        sbMsg.append("Proportion estimate needs ");
-        sbMsg.append(nfc(minfsqty));
-        sbMsg.append(" found. ");
-        sbMsg.append(nfc(msfqty));
-        sbMsg.append(" were found.");
-        text(sbMsg.toString(), drawborder, nextLineY());
+
+    // output the history list, but mode could have been ruthless
+    if (!modeRuthless) {
+      printHistoryList(0);
+    } else {
+      text("History is not applicable in this mode.", drawborder, nextLineY());
+      if (doEstimateProp) {
+        nextLineY();
+        if (msfqty >= minSampAbs) {
+          text(strEstimateProportion(), drawborder, nextLineY());
+        } else {
+          sbMsg.setLength(0);
+          sbMsg.append("Proportion estimate needs ");
+          sbMsg.append(nfc(minfsqty));
+          sbMsg.append(" found. ");
+          sbMsg.append(nfc(msfqty));
+          sbMsg.append(" were found.");
+          text(sbMsg.toString(), drawborder, nextLineY());
+        }
       }
     }
-  }
+  }// end if (!modeRuthless || processCompleted)
 }// end printBestResultsMatrix
 
-// Display the warnings
+// Display the warnings list
 void outputWarnings() {
   for (String warn : warningsList) {
     text(warn, drawborder, currentlineY);
     nextLineY();
   }
   nextLineY();
-}
+}// end outputWarnings
 
 // Increments current display output position
 int nextLineY() {
@@ -251,7 +260,7 @@ String spc(int len) {
     s.append(" ");
   }
   return s.toString();
-}
+}// end spc
 
 // Returns time duration seconds as formatted string.
 String timeElapsed(int lmStart, int lmEnd) {
@@ -265,16 +274,18 @@ String timeElapsed(int lmStart, int lmEnd) {
     result = nf(duration/3600, 0, 5) + " hours";
   }
   return result;
-}
+}// end timeElapsed
 
 // Report the unused LabGroups
 // int whereTo is a switch for where the report goes.
-// whereTo 0 = comnsole, whereTo 1 is file
-void reportLeftOverGroups(boolean atScreenOnly, int whereTo) {
+// whereTo 0 = to console, whereTo 1 = to file
+// atAppWindowOnly arg results in display
+// to screen only..
+void reportLeftOverGroups(boolean atAppWindowOnly, int whereTo) {
   PossibleGroupsK freshMstrPosGroups;
   StringBuilder sbRpt = new StringBuilder();
   int rm;
-  if (atScreenOnly) {
+  if (atAppWindowOnly) {
     return;
   }
   freshMstrPosGroups = new PossibleGroupsK(classSize, gSize);
@@ -322,7 +333,7 @@ void printlnWhereTo(String msg, int whereTo) {
       break;
     }
   }
-}
+}// end printlnWhereTo
 
 // Retain this. It is used in a beVerbose function that is commented out
 void reportResults(int unfilledQty) {
@@ -334,3 +345,15 @@ void reportResults(int unfilledQty) {
     println("All groups are filled.");
   }
 }// end reportResults
+
+// prints the history list
+// where=0 to window, where>0 to console
+void printHistoryList(int where) {
+  for (String h : historyList) {
+    if (where < 1) {
+      text(h, drawborder, nextLineY());
+    } else {
+      println(h);
+    }
+  }
+}
