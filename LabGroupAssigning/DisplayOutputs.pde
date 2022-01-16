@@ -129,7 +129,7 @@ void printBestResultsMatrix(boolean atAppWindowOnly) {
   // If processWasQuit then best matrix is meaningfull only when not modeRuthless.
   // bestHistList is not meaningfull only when modeRuthless, except for its last
   // line when doEstimateProp, ie estaimating the proportion, is going on.
-  if (!modeRuthless || processCompleted) {
+  if (!modeRuthless || processCompleted) { // show matrix
     // Top header line
     printMatrixHeader(atAppWindowOnly);
     sbMsg.append("Group ");
@@ -199,7 +199,13 @@ void printBestResultsMatrix(boolean atAppWindowOnly) {
       }
       text("Best history is not applicable in this mode.", drawborder, nextLineY());
     }
+    return;
   }// end if (!modeRuthless || processCompleted)
+  // The exception case
+  if (modeRuthless && doEstimateProp ) {
+    nextLineY();
+    printpropEstimate(0);
+  }// end if (modeRuthless && doEstimateProp && processWasQuit)
 }// end printBestResultsMatrix
 
 // Display the warnings list
