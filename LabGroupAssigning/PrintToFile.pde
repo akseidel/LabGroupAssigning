@@ -16,7 +16,7 @@ void filePrint(String why) {
       sbTitle.append( cntSolution);
       sbTitle.append(" of ");
       sbTitle.append(autoFileQty);
-    } else {   
+    } else {
       sbTitle.append(" result ");
     }
   } else { // print is requested during process
@@ -26,7 +26,7 @@ void filePrint(String why) {
   sbTitle.append(theFileOutputName);
   surface.setTitle(sbTitle.toString());
   makeOutput(why);
-}
+}// end fileprint
 
 void setupPrintJobName() {
   sbFN.setLength(0);
@@ -67,12 +67,20 @@ void makeOutput(String why) {
   int cospc = 4;                  // space between columns
 
   theFileOutput.println("Date: "+ sbDC.toString() + " " + why);
+  
+  // report if modeRuthless
+  if (modeRuthless) {
+    theFileOutput.println("Note: Running in Ruthless mode.");
+  }
+  
   theFileOutput.println();
+  // report trial conditions status
   for (String warn : warningsList) {
     theFileOutput.println(warn);
-  }
+  }// end for warn : warningsList
   theFileOutput.println();
 
+  // report trial conditions
   StringBuilder sbHDR = new StringBuilder();
   sbHDR.append("Class Size: ");
   sbHDR.append(classSize);
@@ -86,6 +94,7 @@ void makeOutput(String why) {
   sbHDR.append(nfc(poolSize));
   theFileOutput.println(sbHDR.toString());
 
+  // report trial time events
   sbHDR.setLength(0);
   sbHDR.append(timeSolStart);
   if (processCompleted || processWasQuit) {
@@ -93,17 +102,19 @@ void makeOutput(String why) {
   } else { // print is requested during process
     sbHDR.append(" - Currently in process at trial: ");
     sbHDR.append(nfc(trialRun));
-  }
+  } // end if (processCompleted || processWasQuit)
   theFileOutput.println(sbHDR.toString());
 
+  // report bestunfilled and trial number
   if (processCompleted || processWasQuit) {
     StringBuilder sbFBH = new StringBuilder();
     sbFBH.append(bestunfilledQty);
     sbFBH.append(" unfilled at trial: ");
     sbFBH.append(nfc(besttrialrun));
     theFileOutput.println(sbFBH.toString());
-  }
+  } // end if (processCompleted || processWasQuit)
 
+  // report the matrix
   theFileOutput.println();
   msg ="Lab Groups Matrix";
   theFileOutput.println(msg);
@@ -115,7 +126,7 @@ void makeOutput(String why) {
     String strHN = str((col+1));
     sbMTX.append(strHN);
     sbMTX.append(spc(gw+cospc-strHN.length()));
-  } 
+  }
   sbMTX.append("Chk:");
   theFileOutput.println(sbMTX.toString());
 
@@ -147,11 +158,20 @@ void makeOutput(String why) {
     checkSumCol = 0;
   }
   theFileOutput.println(sbMTX.toString());
+  // matrix completed
 
+  // report best history
   theFileOutput.println();
   for (String h : bestHistList) {
     theFileOutput.println(h);
   }
+  
+  // report estimated proportion if applicable
+  if (doEstimateProp){
+    theFileOutput.println(propEstimate);
+  }
+  
+  // report unused
   if (doUnused) {
     reportLeftOverGroups(false, 1);
   }
