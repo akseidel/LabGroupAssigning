@@ -143,8 +143,8 @@ void classSizeCheck(GTextField source) {
       butStart.setEnabled(true);
     }
   }
-
-  propBestPossibleMin = unFilled ;
+  // projected best possible allows for unbalanced
+  projBestPossibleMin = unFilled + 1;
 }// end classSizeCheck(GTextField source)
 
 // Returns number of possible filled positions for a row or column

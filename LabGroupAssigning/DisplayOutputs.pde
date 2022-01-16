@@ -127,7 +127,7 @@ void printBestResultsMatrix(boolean atAppWindowOnly) {
   }
   // If processCompleted then best matrix is meaningfull in all conditions.
   // If processWasQuit then best matrix is meaningfull only when not modeRuthless.
-  // HistoryList is not meaningfull only when modeRuthless, except for its last
+  // bestHistList is not meaningfull only when modeRuthless, except for its last
   // line when doEstimateProp, ie estaimating the proportion, is going on.
   if (!modeRuthless || processCompleted) {
     // Top header line
@@ -189,25 +189,15 @@ void printBestResultsMatrix(boolean atAppWindowOnly) {
     text(sbMsg2.toString(), drawborder, nextLineY());
     nextLineY();
 
-    // output the history list, but mode could have been ruthless
+    // output the bestHist list, but mode could have been ruthless
     if (!modeRuthless) {
-      printHistoryList(0);
+      printpropEstimate(0);
+      printbestHistList(0);
     } else {
-      text("History is not applicable in this mode.", drawborder, nextLineY());
       if (doEstimateProp) {
-        nextLineY();
-        if (msfqty >= minSampAbs) {
-          text(strEstimateProportion(), drawborder, nextLineY());
-        } else {
-          sbMsg.setLength(0);
-          sbMsg.append("Proportion estimate needs ");
-          sbMsg.append(nfc(minfsqty));
-          sbMsg.append(" found. ");
-          sbMsg.append(nfc(msfqty));
-          sbMsg.append(" were found.");
-          text(sbMsg.toString(), drawborder, nextLineY());
-        }
+        printpropEstimate(0);
       }
+      text("Best history is not applicable in this mode.", drawborder, nextLineY());
     }
   }// end if (!modeRuthless || processCompleted)
 }// end printBestResultsMatrix
@@ -247,7 +237,7 @@ void reportQuitNowMessage(int trialRun) {
   isMsgFeedBack = true;
   println(msg);
   lastStatusMsg = msg;
-  historyList.append(msg);
+  bestHistList.append(msg);
   if (doEstimateProp) {
     doEstimatePropIntoHistory();
   }
@@ -346,14 +336,24 @@ void reportResults(int unfilledQty) {
   }
 }// end reportResults
 
-// prints the history list
+// prints the bestHist list
 // where=0 to window, where>0 to console
-void printHistoryList(int where) {
-  for (String h : historyList) {
+void printbestHistList(int where) {
+  for (String h : bestHistList) {
     if (where < 1) {
       text(h, drawborder, nextLineY());
     } else {
       println(h);
     }
+  }
+}
+
+// prints the propHist list
+// where=0 to window, where>0 to console
+void printpropEstimate(int where) {
+  if (where < 1) {
+    text(propEstimate, drawborder, nextLineY());
+  } else {
+    println(propEstimate);
   }
 }

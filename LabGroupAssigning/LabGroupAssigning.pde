@@ -21,15 +21,15 @@ boolean doAutoFiling = false;
 boolean doUnused = false;
 boolean modeRuthless = false;        // Abandon matrix trials at first failed matrix position
 
-int classSize = 16;           // The number of students in the class
+int classSize = 10;           // The number of students in the class
 int gSize = 2;                // Number of students in each group
-int groupQty = 8;             // Number of groups during each event time session
-int roundsQty = 8;            // Number of event time sessions
+int groupQty = 5;             // Number of groups during each event time session
+int roundsQty = 5;            // Number of event time sessions
 int poolSize;                 // Number of gSize combinations in classSize
 int besttrialrun = 1;         // Trial number where best run first occurred.
 int bestunfilledQty = roundsQty * groupQty;
-int propBestPossibleMin = besttrialrun;
-int bestPossibleMin = 0;      // Best possible solution has this remaining unfilled slections.
+int projBestPossibleMin = besttrialrun;   // projected best possible fill for unbalanced conditions
+int bestPossibleMin = 1;      // Best possible solution has this remaining unfilled selections minus 1.
 int row ;
 int col ;
 int index;                    // thislg index usually
@@ -44,7 +44,8 @@ boolean processCompleted = true; // false suppresses finished status at initial 
 boolean noConsoleOutput = false;
 String theWarning = new String();
 StringList warningsList = new StringList();
-StringList historyList = new StringList();
+StringList bestHistList = new StringList();
+String propEstimate;
 String timeSolStart = new String();
 String timeSolEnd = new String();
 String timeSStart = new String();

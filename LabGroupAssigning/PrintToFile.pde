@@ -149,7 +149,7 @@ void makeOutput(String why) {
   theFileOutput.println(sbMTX.toString());
 
   theFileOutput.println();
-  for (String h : historyList) {
+  for (String h : bestHistList) {
     theFileOutput.println(h);
   }
   if (doUnused) {

@@ -87,6 +87,7 @@ void setProcessInits(){
   noConsoleOutput = false;
   setButtonRunEnableState(true);
   initializeBestlabGroupMatrix();
+  propEstimate = new String();
 }
 
 // Gets the GUI text fields

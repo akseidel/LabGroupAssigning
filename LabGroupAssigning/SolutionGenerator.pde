@@ -18,8 +18,8 @@ void DoStartProcess() {
     timeSolEnd = " - |";
     milliTStart = millis();
     bestunfilledQty = roundsQty * groupQty;
-    bestPossibleMin = propBestPossibleMin;
-    historyList.clear();
+    bestPossibleMin = projBestPossibleMin;   // adjust for unbalanced
+    bestHistList.clear();
 
     // Looping through trials to discover a solution.
     for (trialRun = 1; trialRun < trialMaxQty + 1; trialRun ++) {
@@ -144,8 +144,8 @@ void DoStartProcess() {
         //}
       } // end while next row ie.round
       // ************    The trial trialRun is over at this point.
-      // Matrix is either not populated, ie a dud, or populated, ie a solution
-      // at this point, but not yet as to categorized which.
+      // At this point matrix is either not populated, ie a dud, or populated, ie a solution
+      // But is not yet categorized as to which.
 
       //if (beVerbose) {
       //  reportResults(unfilledQty);
@@ -161,11 +161,14 @@ void DoStartProcess() {
         // intent is to cascade break from all matrix guess trials
       }
 
+      boolean isSolution = (unfilledQty < bestPossibleMin);
+
       // Record any better trialRun.
-      recordBetterRunIfAny(trialRun);
+      recordBetterRunIfAny(trialRun, isSolution);
 
       // Break if a perfect solution was found.
-      if (bestunfilledQty < bestPossibleMin + 1) {
+      if (isSolution ) {
+        //if (bestunfilledQty < bestPossibleMin ) {
         milliTEnd = millis();
         endMsgWindowTitle( "Completed", cntSolution, autoFileQty);
         break; // breaks out of for trialRun loop, ie from all matrix guess trials
@@ -244,46 +247,55 @@ void  MakeListOfPriorItemsForThisRowColCell(int row, int col) {
   }
 }// end MakeListOfPriorItemsForThisRowColCell
 
-void recordBetterRunIfAny(int trialRun) {
+void recordBetterRunIfAny(int trialRun, boolean isSolution) {
   // todo - refactor for modeRuthless
-  if (unfilledQty < bestunfilledQty) {
-    StringBuilder sbMsg = new StringBuilder();
-    StringBuilder sbMsgHist = new StringBuilder();
-    bestunfilledQty = unfilledQty;
-    bestlabGroupMatrix = labGroupMatrix;
-    besttrialrun = trialRun;
-    sbMsg.append("Current best ");
-    sbMsg.append( bestunfilledQty);
-    sbMsg.append(" in trial ");
-    sbMsg.append( nfc(besttrialrun));
-    sbMsg.append(" at time ");
-    sbMsg.append(timeElapsed(milliTStart, millis()));
-    // output just for console
-    println(sbMsg.toString());
-    // The history string is slightly different.
-    sbMsgHist.append(bestunfilledQty);
-    sbMsgHist.append(" remaining, trial: ");
-    sbMsgHist.append(nfc(besttrialrun));
-    sbMsgHist.append(" , at ");
-    sbMsgHist.append(timeElapsed(milliTStart, millis()));
-    historyList.append(sbMsgHist.toString());
-    // proportion estimate figures if a solution
-    if ((bestunfilledQty < bestPossibleMin + 1) & (doEstimateProp)) {
+  if (!modeRuthless) {
+    if (unfilledQty < bestunfilledQty) {
+      StringBuilder sbMsg = new StringBuilder();
+      StringBuilder sbMsgHist = new StringBuilder();
+      bestunfilledQty = unfilledQty;
+      bestlabGroupMatrix = labGroupMatrix;
+      besttrialrun = trialRun;
+      sbMsg.append("Current best ");
+      sbMsg.append( bestunfilledQty);
+      sbMsg.append(" in trial ");
+      sbMsg.append( nfc(besttrialrun));
+      sbMsg.append(" at time ");
+      sbMsg.append(timeElapsed(milliTStart, millis()));
+      // output just for console
+      println(sbMsg.toString());
+      // The bestHist string is slightly different.
+      sbMsgHist.append(bestunfilledQty);
+      sbMsgHist.append(" remaining, trial: ");
+      sbMsgHist.append(nfc(besttrialrun));
+      sbMsgHist.append(" , at ");
+      sbMsgHist.append(timeElapsed(milliTStart, millis()));
+      bestHistList.append(sbMsgHist.toString());
+    } // end if it is a better trialRun
+  } // end if not ruthless
+
+  // if a solution then do proportion estimate figures
+  // and record state if modeRuthless
+  if (isSolution  ) {
+    if (modeRuthless) {
+      bestlabGroupMatrix = labGroupMatrix;
+      besttrialrun = trialRun;
+    }
+    if (doEstimateProp) {
       msfqty = msfqty + 1;
       smqty = smqty + trialRun;
       msnqty = msnqty + trialRun - 1;
       // Make proportion estimate if enough solutions sampled
       doEstimatePropIntoHistory();
-    } // end if doEstimateProp
-  } // end if it is a better trialRun
+    }// end if doEstimateProp
+  } // end if isSolution
 }// end recordBetterRunIfAny
 
 // Make proportion estimate if enough solutions sampled
 void doEstimatePropIntoHistory() {
-  String estProp = strEstimateProportion();
-  historyList.append(estProp);
+  propEstimate = strEstimateProportion();
   // output just for console
-  println(estProp);
+  println(propEstimate);
 } // end doEstimatePropIntoHistory
 
 // Make proportion estimate if enough solutions sampled
@@ -310,7 +322,6 @@ String strEstimateProportion() {
   return sbMsgEst.toString();
 } // end strEstimateProportion()
 
-
 // Creates a new matrix populated with noSolLG
 // This must be called outside of the process thread. At one time it
 // was called within the process thread. Sometimes the draw loop
@@ -325,18 +336,6 @@ void initializeBestlabGroupMatrix() {
   }
 }// end initializeBestlabGroupMatrix
 
-//// Restores, ie populates existing matrix with noSolLG
-//// Using this inside of the process thread seems to prevent the
-//// condition where the draw loop would find parts of the matrix
-//// null during trial switching.
-//void emptyTheBestlabGroupMatrix(LabGroup[][] bestlabGroupMatrix) {
-//  for (int r = 0; r < roundsQty; r++) {
-//    for (int c = 0; c < groupQty; c++) {
-//      bestlabGroupMatrix[r][c] = noSolLG;
-//    }
-//  }
-//}// end emptyTheBestlabGroupMatrix
-
 void feedbackStatus(int trialRun) {
   StringBuilder sbMsg = new StringBuilder();
   if (!modeRuthless) {
@@ -350,7 +349,6 @@ void feedbackStatus(int trialRun) {
   sbMsg.append(nfc(trialRun));
   lastStatusMsg = sbMsg.toString();
 }// end feedbackStatus
-
 
 void putStatusOnTitle() {
   StringBuilder sbTitle = new StringBuilder();
@@ -370,7 +368,6 @@ void putStatusOnTitle() {
   }
   surface.setTitle(sbTitle.toString());
 }
-
 
 void endMsgWindowTitle( String reason, int cntSolution, int autoFileQty) {
   if (doAutoFiling) {
