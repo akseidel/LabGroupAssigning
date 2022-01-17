@@ -21,10 +21,10 @@ boolean doAutoFiling = false;
 boolean doUnused = false;
 boolean modeRuthless = false;        // Abandon matrix trials at first failed matrix position
 
-int classSize = 10;           // The number of students in the class
+int classSize = 16;           // The number of students in the class
 int gSize = 2;                // Number of students in each group
-int groupQty = 5;             // Number of groups during each event time session
-int roundsQty = 5;            // Number of event time sessions
+int groupQty = 8;             // Number of groups during each event time session
+int roundsQty = 8;            // Number of event time sessions
 int poolSize;                 // Number of gSize combinations in classSize
 int besttrialrun = 1;         // Trial number where best run first occurred.
 int bestunfilledQty = roundsQty * groupQty;
