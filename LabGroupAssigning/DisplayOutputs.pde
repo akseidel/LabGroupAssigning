@@ -79,7 +79,7 @@ void showSummaryText(boolean inConsoleOnly) {
 // reports the first best scoring matrix guess
 // atAppWindowOnly arg results in display
 // to screen only. Console display is supressed.
-void printRptFirstBest(boolean atAppWindowOnly) {
+void printRptFirstBest(int bestunfilledQty, int besttrialrun, boolean atAppWindowOnly) {
   StringBuilder sbMsg = new StringBuilder();
   sbMsg.append(bestunfilledQty);
   sbMsg.append(" unfilled at trial: ");
@@ -129,8 +129,14 @@ void printBestResultsMatrix(boolean atAppWindowOnly) {
   // If processWasQuit then best matrix is meaningfull only when not modeRuthless.
   // bestHistList is not meaningfull only when modeRuthless, except for its last
   // line when doEstimateProp, ie estaimating the proportion, is going on.
-  if (!modeRuthless || processCompleted) { // show matrix
-    // Top header line
+  if (!modeRuthless || processCompleted) {
+
+    // trial at solution is valid information for completed modeRuthless runs
+    if (modeRuthless) {
+      printRptFirstBest(bestunfilledQty, besttrialrun, noConsoleOutput);
+    }// end if modeRuthless
+
+    // Starting the matrix
     printMatrixHeader(atAppWindowOnly);
     sbMsg.append("Group ");
     sbMsg.append(spc(5));
@@ -188,6 +194,7 @@ void printBestResultsMatrix(boolean atAppWindowOnly) {
     }
     text(sbMsg2.toString(), drawborder, nextLineY());
     nextLineY();
+    // end of matrix
 
     // output the bestHist list, but mode could have been ruthless
     if (!modeRuthless) {
@@ -201,11 +208,12 @@ void printBestResultsMatrix(boolean atAppWindowOnly) {
     }
     return;
   }// end if (!modeRuthless || processCompleted)
+  
   // The exception case
   if (modeRuthless && doEstimateProp ) {
-    nextLineY();
     printpropEstimate(0);
-  }// end if (modeRuthless && doEstimateProp && processWasQuit)
+  }// end if (modeRuthless && doEstimateProp )
+
 }// end printBestResultsMatrix
 
 // Display the warnings list

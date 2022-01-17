@@ -109,8 +109,8 @@ void draw() {
   if (processCompleted || processWasQuit) {
     // This if section runs when process is completed or quitted.
     if (!modeRuthless) {
-      printRptFirstBest(noConsoleOutput);
-     }
+      printRptFirstBest(bestunfilledQty, besttrialrun, noConsoleOutput);
+    }
     printBestResultsMatrix(noConsoleOutput);
     if (doUnused) {
       reportLeftOverGroups(noConsoleOutput, 0);

@@ -280,6 +280,7 @@ void recordBetterRunIfAny(int trialRun, boolean isSolution) {
     if (modeRuthless) {
       bestlabGroupMatrix = labGroupMatrix;
       besttrialrun = trialRun;
+      bestunfilledQty = unfilledQty;
     }
     if (doEstimateProp) {
       msfqty = msfqty + 1;
