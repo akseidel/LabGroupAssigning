@@ -32,6 +32,8 @@
 
 ![Example Screen Run](./readme-images/LabGroupsAssigning-screen-proportion.png)
 
+* The displayed lab groups matrix and the trial history data always corresponds to the last trial run. In the above image for a proportion estimate session that was to find 100 solution assignments, the last solution found required 941 trial guesses taking 0.112 seconds. The entire session of 100 found solutions required 1,151,365 trial guesses (samples) taking 1.7275 minutes.
+  
 ![Example Screen Run](./readme-images/LabGroupsAssigning-screen-proportion-ruthless.png)
 
 ## Notes
@@ -64,5 +66,5 @@
 * **Window Un-Minimizing (Unhide) on Apple OSX:** Select the running application's icon in the **Dock** to restore the minimized window. The exported **Processing** application for Apple OSX has a simple top menu that lacks **Window** controls used to restore a minimized window one might happen to minimize via the application's **Yellow** control dot. **Command Tab** switching to the application will not resize the minimized application window. This is normal behavior for OSX applications, but OSX applications have the top menu **Window** control where the OS places a restore option for all minimized child windows. As of this writing exported Processing 3 applications lack that control.
 
 ## Console Output
-* This application continuously writes to the console as it runs. The console output is similar to GUI output but captures more information in certain circumstances because the GUI writes over itself faster than what you can notice. The console scrolls instead. The proportion estimate improvement over sample trials is observable in the console. Console output is shown when running the application from a Terminal session. In Linux you run the application from a Terminal session, so you get to see it automatically. Starting the application from a Terminal session in Mac OSX is accomplished by running the LabGroupsAssigning file within a Terminal session. This file is at the folder Contents/MacOS within the MacOSX LabGroupAssigning application package.     
 
+* This application continuously writes to the console as it runs. The console output is similar to GUI output but captures more information in certain circumstances because the GUI writes over itself faster than what you can notice. The console scrolls instead. The proportion estimate improvement over sample trials is observable in the console. Console output is shown when running the application from a Terminal session. In Linux you run the application from a Terminal session, so you get to see it automatically. Starting the application from a Terminal session in Mac OSX is accomplished by running the LabGroupsAssigning file within a Terminal session. This file is at the folder Contents/MacOS within the MacOSX LabGroupAssigning application package.
