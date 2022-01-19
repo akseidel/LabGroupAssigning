@@ -310,11 +310,11 @@ String strEstimateProportion() {
     sbMsgEst.append(" solutions found in ");
     sbMsgEst.append( nfc(smqty));
     sbMsgEst.append(" samples");
-    sbMsgEst.append(",95% confidence p_low: ");
+    sbMsgEst.append(", 95% confidence p_low:");
     sbMsgEst.append( p_lowb);
-    sbMsgEst.append(" ,p: ");
+    sbMsgEst.append(" ,p:");
     sbMsgEst.append( p);
-    sbMsgEst.append(" ,p_up: ");
+    sbMsgEst.append(" ,p_up:");
     sbMsgEst.append( p_upb);
   } else {
     sbMsgEst.append( msfqty);
