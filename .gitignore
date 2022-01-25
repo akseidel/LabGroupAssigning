@@ -8,3 +8,4 @@ application.linux/*
 application.windows/*
 GUI_BUILDER_DATA/*
 Releases/*
+.vscode/*
