@@ -1,4 +1,4 @@
-// Display related functions
+// Display related functions //<>//
 String windowTitle = "Lab Group Assigning";
 
 
@@ -208,12 +208,11 @@ void printBestResultsMatrix(boolean atAppWindowOnly) {
     }
     return;
   }// end if (!modeRuthless || processCompleted)
-  
+
   // The exception case
   if (modeRuthless && doEstimateProp ) {
     printpropEstimate(0);
   }// end if (modeRuthless && doEstimateProp )
-
 }// end printBestResultsMatrix
 
 // Display the warnings list

@@ -1,4 +1,4 @@
-// Functions related to the GUI //<>// //<>//
+// Functions related to the GUI //<>// //<>// //<>//
 int lastWidth;
 int lastHeight;
 ArrayList<GAbstractControl> g4pStuff = new ArrayList();
@@ -73,14 +73,14 @@ void doButtonStart() {
   thread("DoStartProcess");
 }
 
-// Initializes values for the process  
-void setProcessInits(){
+// Initializes values for the process
+void setProcessInits() {
   println(); // blank line needed at console
   surface.setTitle(windowTitle);
   processCompleted = false;
   processWasQuit = false;
   getGUITextFields();
-  besttrialrun = 0;         
+  besttrialrun = 0;
   bestunfilledQty = roundsQty * groupQty;
   noSolLG = defNoSolLG(gSize);
   initEstProp();
@@ -88,6 +88,9 @@ void setProcessInits(){
   setButtonRunEnableState(true);
   initializeBestlabGroupMatrix();
   propEstimate = new String();
+  if (doEstimateProp & recordEstProp) {
+    startEstPropProgRecording();
+  }
 }
 
 // Gets the GUI text fields
@@ -106,12 +109,12 @@ void doButtonStop() {
   processWasQuit = true;
 }
 
-void doButtonQuit() { 
+void doButtonQuit() {
   doButtonStop();
   exit();
 }
 
-// For some reason the textfield cannot be set within this call. 
+// For some reason the textfield cannot be set within this call.
 void autoFileQtyCheck(GTextField source) {
   if (source.getText().equals(" ") ) {
     return;
@@ -149,7 +152,7 @@ void  doChkSaveUnusedClicked( GCheckbox source, GEvent event) {
   }
 }
 
-void doOptDoEstimateClicked( GOption source, GEvent event){
+void doOptDoEstimateClicked( GOption source, GEvent event) {
   if (event ==GEvent.SELECTED) {
     doEstimateProp = true;
     setCntrlSelected( source, true);
@@ -162,10 +165,10 @@ void doOptDoEstimateClicked( GOption source, GEvent event){
   }
 }
 
-// For some reason the textfield cannot be set within this call. 
+// For some reason the textfield cannot be set within this call.
 void textfieldEstPCheck(GTextField source) {
   minSamp = source.getValueI();
-  source.setNumeric(minSampAbs,100000,minSamp);
+  source.setNumeric(minSampAbs, 100000, minSamp);
 }
 
 void  doOptRuthlessClicked( GOption source, GEvent event) {
@@ -182,9 +185,9 @@ void  doOptRuthlessClicked( GOption source, GEvent event) {
 }
 
 
-void setCntrlSelected( GAbstractControl item, boolean sel){
+void setCntrlSelected( GAbstractControl item, boolean sel) {
   item.setOpaque(sel);
-  if (sel){
+  if (sel) {
     item.setLocalColorScheme(GCScheme.GREEN_SCHEME);
   } else {
     item.setLocalColorScheme(GCScheme.CYAN_SCHEME);
