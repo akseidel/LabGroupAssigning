@@ -316,6 +316,22 @@ String strEstimateProportion() {
     sbMsgEst.append( p);
     sbMsgEst.append(" ,p_up:");
     sbMsgEst.append( p_upb);
+    // write to file
+    if ( recordEstProp) {
+      StringBuilder sbMsgREst = new StringBuilder();
+      sbMsgREst.append(millis()-milliSStart);  // time
+      sbMsgREst.append("\t");
+      sbMsgREst.append( nfc(msfqty)); // sol qty
+      sbMsgREst.append("\t");
+      sbMsgREst.append( nfc(smqty)); // sample qty
+      sbMsgREst.append("\t");
+      sbMsgREst.append( p_lowb);  // p_lowerbound
+      sbMsgREst.append("\t");
+      sbMsgREst.append( p); // p
+      sbMsgREst.append("\t");
+      sbMsgREst.append( p_upb); // P_upperbound
+      addToAFile(theEstPropRecName, sbMsgREst.toString());
+    }
   } else {
     sbMsgEst.append( msfqty);
     sbMsgEst.append(" solutions sampled is not enough for a proportion estimate.");

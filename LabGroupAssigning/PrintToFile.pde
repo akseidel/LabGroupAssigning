@@ -1,8 +1,55 @@
+import java.io.FileWriter; //<>// //<>// //<>//
+import java.io.*;
+FileWriter fw;
+BufferedWriter bw;
+
 PrintWriter theFileOutput;
 String theFileOutputName;
+String theEstPropRecName;
 String runInfo;
 StringBuilder sbDC = new StringBuilder();
 StringBuilder sbFN = new StringBuilder();
+
+// Creates the estimate proportion history file, which at this point wiil
+// have just the header top line. The history file will be appended, flushed
+// and closed at every time a history line is added.
+void startEstPropProgRecording() {
+  theEstPropRecName = sketchPath() + "/" + makeTrialFileName("LGM_EstProp_", "tsv");
+  StringBuilder sbMsgREst = new StringBuilder();
+  sbMsgREst.append("MSec\t");
+  sbMsgREst.append( "SolQty\t");
+  sbMsgREst.append("SampQty\t");
+  sbMsgREst.append( "p_low\t");
+  sbMsgREst.append( "p\t");
+  sbMsgREst.append( "p_upper\t");
+  addToAFile(theEstPropRecName, sbMsgREst.toString());
+}
+
+// Writes a new line consisting of whatToAdd to theFilePathName file.
+// File theFilePathName is appended, flushed and closed each time.
+// A new file is created for theFilePathName if that file does not exist.
+void addToAFile(String theFilePathName, String whatToAdd) {
+  try {
+    File thisFile =new File( theFilePathName);
+
+    if (!thisFile.exists()) {
+      thisFile.createNewFile();
+    }
+
+    FileWriter fW = new FileWriter(thisFile, true); //true = append
+    BufferedWriter bW = new BufferedWriter(fW);
+    PrintWriter pW = new PrintWriter(bW);
+
+    pW.write(whatToAdd + "\n");
+    pW.flush();
+    pW.close();
+  }
+  catch(IOException e) {
+    println("Exception at recordToFile");
+    println(e);
+  }
+}
+
 
 void filePrint(String why) {
   setupPrintJobName();
@@ -29,8 +76,13 @@ void filePrint(String why) {
 }// end fileprint
 
 void setupPrintJobName() {
+  theFileOutputName = makeTrialFileName("LGM_", "txt");
+  theFileOutput = createWriter(theFileOutputName);
+}
+
+String makeTrialFileName(String preFix, String sufFix) {
   sbFN.setLength(0);
-  sbFN.append("LGM_");
+  sbFN.append(preFix);
   sbFN.append(classSize);
   sbFN.append("_");
   sbFN.append(gSize);
@@ -55,9 +107,9 @@ void setupPrintJobName() {
   sbDC.append("+");
   sbDC.append(int(random(100)));
   sbFN.append(sbDC.toString());
-  sbFN.append(".txt");
-  theFileOutputName = sbFN.toString();
-  theFileOutput = createWriter(theFileOutputName);
+  sbFN.append(".");
+  sbFN.append(sufFix);
+  return sbFN.toString();
 }
 
 void makeOutput(String why) {
@@ -67,12 +119,12 @@ void makeOutput(String why) {
   int cospc = 4;                  // space between columns
 
   theFileOutput.println("Date: "+ sbDC.toString() + " " + why);
-  
+
   // report if modeRuthless
   if (modeRuthless) {
     theFileOutput.println("Note: Running in Ruthless mode.");
   }
-  
+
   theFileOutput.println();
   // report trial conditions status
   for (String warn : warningsList) {
@@ -165,12 +217,12 @@ void makeOutput(String why) {
   for (String h : bestHistList) {
     theFileOutput.println(h);
   }
-  
+
   // report estimated proportion if applicable
-  if (doEstimateProp){
+  if (doEstimateProp) {
     theFileOutput.println(propEstimate);
   }
-  
+
   // report unused
   if (doUnused) {
     reportLeftOverGroups(false, 1);

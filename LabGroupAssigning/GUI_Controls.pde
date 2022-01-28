@@ -1,4 +1,4 @@
-// Functions related to the GUI //<>// //<>//
+// Functions related to the GUI //<>// //<>// //<>//
 int lastWidth;
 int lastHeight;
 ArrayList<GAbstractControl> g4pStuff = new ArrayList();
@@ -32,19 +32,26 @@ void initGUI() {
   g4pStuff.add(optDoEstimate);
   g4pStuff.add(textfieldEstP);
   g4pStuff.add(labelEstP);
-  g4pStuff.add( optRuthless);
+  g4pStuff.add(optRuthless);
+  g4pStuff.add(optRecEstPProg);
+  // set cursor to change when hovering over a control
+  g4p_controls.G4P.setMouseOverEnabled  (true);
 }
 
-// setButtonRunState - Sets GUI button enabled state
+// setButtonRunState - Sets GUI buttons enabled states
 // as appropriet to current running state.
+// Mostly to disable certain buttons during a process.
 void setButtonRunEnableState(boolean isRunning) {
   int lclassSize = int(textfieldClassSize.getText());
   if (lclassSize > 1) {
     butStart.setEnabled(!isRunning);
   }
   butStop.setEnabled(isRunning);
-  optDoEstimate.setEnabled(!isRunning);
-  optRuthless.setEnabled(!isRunning);
+  setCntrlEnabled(optRuthless, !isRunning);
+  setCntrlEnabled(optDoEstimate, !isRunning);
+  if (recordEstProp) {
+    setCntrlEnabled(optRecEstPProg, !isRunning);
+  }
 }
 
 // moves G4P controls as window is resized
@@ -73,14 +80,14 @@ void doButtonStart() {
   thread("DoStartProcess");
 }
 
-// Initializes values for the process  
-void setProcessInits(){
+// Initializes values for the process
+void setProcessInits() {
   println(); // blank line needed at console
   surface.setTitle(windowTitle);
   processCompleted = false;
   processWasQuit = false;
   getGUITextFields();
-  besttrialrun = 0;         
+  besttrialrun = 0;
   bestunfilledQty = roundsQty * groupQty;
   noSolLG = defNoSolLG(gSize);
   initEstProp();
@@ -88,6 +95,9 @@ void setProcessInits(){
   setButtonRunEnableState(true);
   initializeBestlabGroupMatrix();
   propEstimate = new String();
+  if (doEstimateProp & recordEstProp) {
+    startEstPropProgRecording();
+  }
 }
 
 // Gets the GUI text fields
@@ -106,12 +116,12 @@ void doButtonStop() {
   processWasQuit = true;
 }
 
-void doButtonQuit() { 
+void doButtonQuit() {
   doButtonStop();
   exit();
 }
 
-// For some reason the textfield cannot be set within this call. 
+// For some reason the textfield cannot be set within this call.
 void autoFileQtyCheck(GTextField source) {
   if (source.getText().equals(" ") ) {
     return;
@@ -149,23 +159,42 @@ void  doChkSaveUnusedClicked( GCheckbox source, GEvent event) {
   }
 }
 
-void doOptDoEstimateClicked( GOption source, GEvent event){
+void doOptDoEstimateClicked( GOption source, GEvent event) {
   if (event ==GEvent.SELECTED) {
     doEstimateProp = true;
     setCntrlSelected( source, true);
+    setCntrlEnabled(optRecEstPProg, true);
     return;
   }
   if (event ==GEvent.DESELECTED) {
     doEstimateProp = false;
     setCntrlSelected( source, false);
+    cancelOptRecEstPProg();
     return;
   }
 }
 
-// For some reason the textfield cannot be set within this call. 
+void cancelOptRecEstPProg() {
+  recordEstProp = false;
+  optRecEstPProg.setSelected(false);
+  setCntrlSelected(optRecEstPProg, false);
+  setCntrlEnabled(optRecEstPProg, doEstimateProp);
+}
+
+void setCntrlEnabled( GAbstractControl item, boolean enaBl) {
+  item.setEnabled(enaBl);
+  if (enaBl) {
+    item.setLocalColorScheme(GCScheme.CYAN_SCHEME);
+  } else {
+    item.setLocalColorScheme(GCScheme.RED_SCHEME);
+  }
+}
+
+
+// For some reason the textfield cannot be set within this call.
 void textfieldEstPCheck(GTextField source) {
   minSamp = source.getValueI();
-  source.setNumeric(minSampAbs,100000,minSamp);
+  source.setNumeric(minSampAbs, 100000, minSamp);
 }
 
 void  doOptRuthlessClicked( GOption source, GEvent event) {
@@ -181,10 +210,22 @@ void  doOptRuthlessClicked( GOption source, GEvent event) {
   }
 }
 
+void doOptRecEstPProgClicked( GOption source, GEvent event) {
+  if (event ==GEvent.SELECTED) {
+    recordEstProp = true;
+    setCntrlSelected( source, true);
+    return;
+  }
+  if (event ==GEvent.DESELECTED) {
+    recordEstProp = false;
+    setCntrlSelected( source, false);
+    return;
+  }
+}
 
-void setCntrlSelected( GAbstractControl item, boolean sel){
+void setCntrlSelected( GAbstractControl item, boolean sel) {
   item.setOpaque(sel);
-  if (sel){
+  if (sel) {
     item.setLocalColorScheme(GCScheme.GREEN_SCHEME);
   } else {
     item.setLocalColorScheme(GCScheme.CYAN_SCHEME);
