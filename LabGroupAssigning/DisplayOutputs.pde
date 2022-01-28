@@ -9,6 +9,7 @@ void initDisplays() {
   fontSetUp();
   classSizeCheck(textfieldClassSize);
   showSummaryText(true);
+  cancelOptRecEstPProg();
 }// end initDisplays
 
 void surfaceSetup() {

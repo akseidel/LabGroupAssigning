@@ -53,7 +53,7 @@ String timeSEnd = new String();
 
 // proportion Estimate related
 boolean doEstimateProp = false;   // Estimate the solutions proportion
-boolean recordEstProp = true;      // Record est progress
+boolean recordEstProp = false;      // Record est progress
 int msfqty;                       // qty of matrices solutions found
 int smqty;                        // qty of sampled maatrices
 int msnqty;                       // qty of matrices not solutions found

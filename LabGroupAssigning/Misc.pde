@@ -1,9 +1,9 @@
 // Misc. functions
 
 // Predicting the best possible unfilled matrix slots.
-// The pool size must be larger than the matrix size. 
+// The pool size must be larger than the matrix size.
 // Lab group sizes of one student are a special case. Unfilled = matrix size - pool size when
-// pool size is less than matrix size when lab group size is one student. 
+// pool size is less than matrix size when lab group size is one student.
 // A row (round) or column (group) is called balanced when all the students are selected once
 // in a row and column. Unbalanced can be underfilled, ie not enough students, or overfilled,
 // ie too many students. Unbalanced underfilled results in empty matrix slots with no possible
@@ -11,13 +11,13 @@
 // participation.
 // Meant to forecast results and inhibit running the process with bad conditions.
 void classSizeCheck(GTextField source) {
-  StringBuilder sbTheWarning = new StringBuilder(); 
-  
+  StringBuilder sbTheWarning = new StringBuilder();
+
   if (source.getText().equals(" ") ) {
     warningsList.clear();
     sbTheWarning.append("Check the proposed input fields. At least one is empty.");
     warningsList.append(sbTheWarning.toString());
-    butStart.setEnabled(false);  
+    butStart.setEnabled(false);
     return;
     // Otherwise there will be null errors for anything beyond this.
   }
@@ -36,7 +36,7 @@ void classSizeCheck(GTextField source) {
   int unFilled = 0;  // default to totally filled
 
   // Exit when any fields are zero.
-  if ( lclassSize*lroundsQty*lgroupQty*lgSize < 1 ) { 
+  if ( lclassSize*lroundsQty*lgroupQty*lgSize < 1 ) {
     butStart.setEnabled(false);
     return;
   } else {
@@ -50,7 +50,7 @@ void classSizeCheck(GTextField source) {
   warningsList.clear();
   sbTheWarning.setLength(0);
   sbTheWarning.append("The proposed selection pool will be ");
-  sbTheWarning.append(nfc(lpoolSize)); 
+  sbTheWarning.append(nfc(lpoolSize));
   sbTheWarning.append(" , Pool Ratio: ");
   sbTheWarning.append(nfc(poolRatio, 2));
   sbTheWarning.append(":1");
@@ -151,7 +151,7 @@ void classSizeCheck(GTextField source) {
 // given class size, group size & the column or row size.
 int posFillsPerSlots(int classS, int gS, int slotQ) {
   // gS = 1 is special case that is indeterminate.
-  if (gS < 2) { 
+  if (gS < 2) {
     return slotQ;
   }
   int comBos = (int)numCombOfKinN(gS, classS);
@@ -168,7 +168,7 @@ int posFillsPerSlots(int classS, int gS, int slotQ) {
 String pls(int val) {
   if (val > 1) {
     return "s";
-  } else { 
+  } else {
     return "";
   }
 }
@@ -177,7 +177,7 @@ String pls(int val) {
 // from a population of n members. Combinations with different order
 // are considered the same combination.
 public static float numCombOfKinN(int k, int n) {
-  if (k < 2) { 
+  if (k < 2) {
     return (float)n;
   }
   float result = factorial(n)/(factorial(k)*factorial(n-k));
@@ -186,7 +186,7 @@ public static float numCombOfKinN(int k, int n) {
 
 // Returns the factorial of a number. This needs to be a float.
 public static float factorial(int number) {
-  if (number <= 1) { 
+  if (number <= 1) {
     return 1;
   } else {
     return number * factorial(number - 1);
@@ -195,7 +195,7 @@ public static float factorial(int number) {
 
 // Returns how many trials to run based on autosave settings
 int howManySolutionsToDo() {
-  if (doEstimateProp){
+  if (doEstimateProp) {
     return minSamp;
   }
   if (doAutoFiling) {
@@ -207,24 +207,24 @@ int howManySolutionsToDo() {
 
 // Returns formatted time expression preceeded by text argument.
 String getTimeNow(String hd) {
-  StringBuilder sbTimeNow = new StringBuilder(); 
+  StringBuilder sbTimeNow = new StringBuilder();
   sbTimeNow.append(hd);
   sbTimeNow.append(String.valueOf(year()));
   sbTimeNow.append(".");
-  sbTimeNow.append(String.valueOf(nf(month(),2)));
+  sbTimeNow.append(String.valueOf(nf(month(), 2)));
   sbTimeNow.append(".");
-  sbTimeNow.append(String.valueOf(nf(day(),2)));
+  sbTimeNow.append(String.valueOf(nf(day(), 2)));
   sbTimeNow.append("|");
-  sbTimeNow.append(String.valueOf(nf(hour(),2)));
+  sbTimeNow.append(String.valueOf(nf(hour(), 2)));
   sbTimeNow.append(".");
-  sbTimeNow.append(String.valueOf(nf(minute(),2)));
+  sbTimeNow.append(String.valueOf(nf(minute(), 2)));
   sbTimeNow.append(".");
-  sbTimeNow.append(String.valueOf(nf(second(),2)));
+  sbTimeNow.append(String.valueOf(nf(second(), 2)));
   return sbTimeNow.toString();
 }
 
-void initEstProp(){
-  if (doEstimateProp){
+void initEstProp() {
+  if (doEstimateProp) {
     msfqty = 0;                     // qty of matrices solutions found
     smqty = 0;                      // qty of sampled maatrices
     msnqty = 0;                     // qty of matrices not solutions found

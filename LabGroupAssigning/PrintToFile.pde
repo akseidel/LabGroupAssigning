@@ -10,6 +10,9 @@ String runInfo;
 StringBuilder sbDC = new StringBuilder();
 StringBuilder sbFN = new StringBuilder();
 
+// Creates the estimate proportion history file, which at this point wiil
+// have just the header top line. The history file will be appended, flushed
+// and closed at every time a history line is added.
 void startEstPropProgRecording() {
   theEstPropRecName = sketchPath() + "/" + makeTrialFileName("LGM_EstProp_", "tsv");
   StringBuilder sbMsgREst = new StringBuilder();
@@ -22,6 +25,9 @@ void startEstPropProgRecording() {
   addToAFile(theEstPropRecName, sbMsgREst.toString());
 }
 
+// Writes a new line consisting of whatToAdd to theFilePathName file.
+// File theFilePathName is appended, flushed and closed each time.
+// A new file is created for theFilePathName if that file does not exist.
 void addToAFile(String theFilePathName, String whatToAdd) {
   try {
     File thisFile =new File( theFilePathName);
