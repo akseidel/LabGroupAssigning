@@ -2,7 +2,9 @@
 LabGroupAssigning/application.*
 NotForGitHub/*
 LabGroupAssigning/*.txt
+LabGroupAssigning/*.tsv
 *.txt
+*.tsv
 application.macosx/*
 application.linux/*
 application.windows/*
