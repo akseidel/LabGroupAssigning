@@ -20,6 +20,7 @@ boolean thereIsANewBest = false;
 boolean doAutoFiling = false;
 boolean doUnused = false;
 boolean modeRuthless = false;        // Abandon matrix trials at first failed matrix position
+boolean areBalWarn = false;      // status used for popup message
 
 int classSize = 16;           // The number of students in the class
 int gSize = 2;                // Number of students in each group

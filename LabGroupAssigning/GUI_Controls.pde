@@ -76,6 +76,29 @@ void reposControl(GAbstractControl thisC, float wDelta) {
 }
 
 void doButtonStart() {
+  String[] msg ;
+  String thisMsg;
+  // Option to cancel for unbalanced.
+  if (areBalWarn) {
+    msg = new String[warningsList.size()-1];
+    for (int i = 1; i < warningsList.size(); i = i+1) {
+      if (!warningsList.get(i).contains("balances")) {
+        msg[i-1] = warningsList.get(i);
+      } else {
+        msg[i-1] = "";
+      }
+    }
+    thisMsg = "<b>" + join(msg, "<br>");
+    int resp = g4p_controls.G4P.selectOption  (this,
+      thisMsg,
+      "Confirm Ok To Run Or Cancel",
+      G4P.WARN_MESSAGE,
+      G4P.OK_CANCEL
+      );
+    if (resp==G4P.CANCEL) {
+      return;
+    }
+  }
   setProcessInits();
   thread("DoStartProcess");
 }

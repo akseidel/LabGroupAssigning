@@ -55,7 +55,7 @@ void classSizeCheck(GTextField source) {
   sbTheWarning.append(nfc(poolRatio, 2));
   sbTheWarning.append(":1");
   warningsList.append(sbTheWarning.toString());
-
+  areBalWarn = false;
   if ((lgSize == 1) && (matrixSize > lpoolSize)) {
     unFilled = matrixSize - lpoolSize;
     theWarning= "The " + lpoolSize + " students cannot fill the " + matrixSize + " positions. " + unFilled + " will be unfilled.";
@@ -68,8 +68,8 @@ void classSizeCheck(GTextField source) {
     sbTheWarning.append( unFilled);
     sbTheWarning.append( " will be unfilled.");
     warningsList.append(sbTheWarning.toString());
+    areBalWarn = true;
   } else {
-
     // examine row situation
     int rowUnder = 0;
     int rowOver = 0;
@@ -83,6 +83,7 @@ void classSizeCheck(GTextField source) {
       sbTheWarning.append(" matrix cell");
       sbTheWarning.append(pls(abs(rowUnder)));
       sbTheWarning.append(" in round will be empty.");
+      areBalWarn = true;
     } else { // rowBal < 0
       rowOver = round(abs(rowBal));
       sbTheWarning.append("Too many students for rounds. At least ");
@@ -92,6 +93,7 @@ void classSizeCheck(GTextField source) {
       sbTheWarning.append(" (");
       sbTheWarning.append(rowOrphans);
       sbTheWarning.append(" std) will not participate.");
+      areBalWarn = true;
     } // fi
     warningsList.append(sbTheWarning.toString());
     // examine column situation
@@ -107,6 +109,7 @@ void classSizeCheck(GTextField source) {
       sbTheWarning.append(" matrix cell");
       sbTheWarning.append(pls(abs(colUnder)));
       sbTheWarning.append(" in group will be empty.");
+      areBalWarn = true;
     } else { // colBal < 0
       colOver =  round(abs(colBal));
       sbTheWarning.append("Too many students for groups. At least ");
@@ -116,6 +119,7 @@ void classSizeCheck(GTextField source) {
       sbTheWarning.append(" (");
       sbTheWarning.append(colOrphans);
       sbTheWarning.append(" std) will not participate.");
+      areBalWarn = true;
     } // fi
     warningsList.append(sbTheWarning.toString());
 

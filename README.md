@@ -15,6 +15,7 @@
   * **Auto Saved Solutions** - The number of solutions that will be run with the same conditions where each solution result is saved to text file.
   * **Do A Proportion Estimate** - Option to perform a 95% confidence interval for the proportion of assignment solutions there are in all the possible assignment matrix permutations.
   * **Solution Qty. Basis For Estimate** - The number of solutions to find in order to make the solution proportion estimate. The minimum value is 5.
+  * **File Est. Prop. Progress** - Creates a tsv text file listing the estimated proportion information associated with each found solution in the basis for proportion estimate. This information can be graphed to observe the proportion estimate history for ever increasing solution samples found.  
   * **Run Ruthless** - Option to run faster.
 * The **Class Size** should be equal to the **Group Size** x (larger of **Group Qty** and **Rounds Qty**). Student selection will not be a balanced participation when **Group Qty** and **Rounds Qty** are not equal. The same applies when the **Class Size** is larger than the required number. **Chk** value variation indicates unbalanced participation.
 
@@ -38,8 +39,9 @@
 
 ## Notes
 
-* The application window is re-sizable at any time. It also starts up running a default assignment that may be still running by the time you want to interact with the program. Press the q key to halt the current process. On fast running computers the button controls require a longer press to activate than what you might expect.  
-* Execution time is pure luck for the lengthy tasks. For example the solution for the 8 x 8 x 2 shown above occurred after 10.14 minutes. This same task might take 5 minutes or an hour when rerun.
+* The application window is re-sizable at any time. It also starts up running a default assignment that may be still running by the time you want to interact with the program. Press the q key to halt the current process. On fast running computers the button controls require a longer press to activate than what you might expect.
+* Control options indicated in Red color are not available for use while a process is running or are not applicable in context with how other selected control options.
+* Execution time is pure luck for the lengthy tasks.
 * The **Chk:** values are row and column checksum values that are the sum of the assigned student id numbers. Properly assigned row and columns will have the same checksum. The **Chk:** values play no role in the process. They were originally provided during development for quickly spotting solution errors, then subsequently found to be a useful visual confirmation.
 * This program continuously makes random lab group selections for each matrix value from an ever decreasing pool of remaining possible lab group candidates. It records the most filled assignment matrix and tracks the least unfilled number score. Matrix build attempts are abandoned when it develops an unfilled score equal to the best and therefore cannot be a displayed improvement. The displayed matrix is the last best assignment matrix build. Selection trials stop when the matrix is totally filled or when the attempt number reaches a maximum limit. That limit is arbitrarily set to 1 trillion attempts.
 * Matrix values like --,--,-- indicate there was no valid lab group combination possible for that matrix position for the trial run.
