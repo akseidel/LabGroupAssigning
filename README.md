@@ -71,3 +71,11 @@
 ## Console Output
 
 * This application continuously writes to the console as it runs. The console output is similar to GUI output but captures more information in certain circumstances because the GUI writes over itself faster than what you can notice. The console scrolls instead. The proportion estimate improvement over sample trials is observable in the console. Console output is shown when running the application from a Terminal session. In Linux you run the application from a Terminal session, so you get to see it automatically. Starting the application from a Terminal session in Mac OSX is accomplished by running the LabGroupsAssigning file within a Terminal session. This file is at the folder Contents/MacOS within the MacOSX LabGroupAssigning application package.
+
+## File Est. Prop. Progress
+  
+   - The following images are graphs created from a tsv text file listing the estimated proportion information associated with each found solution in the basis for proportion estimate.
+
+![Graphed Est. Proportion tsv File](./readme-images/LGM_EstProp_20_4_5x5-B.png)
+
+![Partial Graphed Est. Proportion tsv File](./readme-images/LGM_EstProp_20_4_5x5-partial.png)
